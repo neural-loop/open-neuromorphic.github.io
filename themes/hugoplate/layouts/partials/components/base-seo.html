@@ -62,7 +62,9 @@
 {{ end }}
 
 {{ if or (hasPrefix $imagePath "http") (fileExists (add `static/` (string $imagePath))) }}
-<meta name="twitter:image" content="{{ $imagePath | absURL }}" />
-<meta property="og:image" content="{{ $imagePath | absURL }}" />
+<meta name="twitter:image" content="{{ $imagePath }}" />
+<meta property="og:image" content="{{ $imagePath }}" />
 {{ else }}
+<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
+<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
 {{ end }}
