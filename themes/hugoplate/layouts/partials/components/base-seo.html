@@ -43,10 +43,28 @@
 <meta property="og:url" content="{{ .Permalink }}" />
 <meta property="og:title" content="{{ if .Params.title }}{{ .Params.title }}{{ else }}Open Neuromorphic{{ end }}" />
 <meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
-<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:domain" content="open-neuromorphic.org" />
 <meta property="twitter:url" content="{{ .Permalink }}" />
 <meta name="twitter:title" content="{{ if .Params.title }}{{ .Params.title }}{{ else }}Open Neuromorphic{{ end }}" />
 <meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
+
+{{ $imagePath := site.Params.metadata.image }}
+{{ if .Params.meta_image }}
+{{ $imagePath = .Params.meta_image }}
+{{ else if .Params.images }}
+{{ range first 1 .Params.images }}
+{{ $imagePath = . }}
+{{ end }}
+{{ else if .Params.image }}
+{{ $imagePath = .Params.image }}
+{{ end }}
+
+{{ if or (hasPrefix $imagePath "http") (fileExists (add `static/` (string $imagePath))) }}
+<meta property="twitter:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
+<meta name="twitter:image" content="{{ $imagePath | absURL }}" />
+<meta property="og:image" content="{{ $imagePath | absURL }}" />
+{{ else }}
+<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
+{{ end }}
