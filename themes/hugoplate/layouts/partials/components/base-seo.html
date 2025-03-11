@@ -41,16 +41,16 @@
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ .Permalink }}" />
-<meta property="og:title" content="{{ if .Params.og_title }}{{ .Params.og_title }}{{ else }}Open Neuromorphic{{ end }}" />
-<meta property="og:description" content="{{ if .Params.og_description }}{{ .Params.og_description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
-<meta property="og:image" content="{{ if .Params.og_image }}{{ .Params.og_image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
+<meta property="og:title" content="{{ if .Params.title }}{{ .Params.title }}{{ else }}Open Neuromorphic{{ end }}" />
+<meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
+<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:domain" content="open-neuromorphic.org" />
 <meta property="twitter:url" content="{{ .Permalink }}" />
-<meta name="twitter:title" content="{{ if .Params.twitter_title }}{{ .Params.twitter_title }}{{ else }}Open Neuromorphic{{ end }}" />
-<meta name="twitter:description" content="{{ if .Params.twitter_description }}{{ .Params.twitter_description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
-<meta name="twitter:image" content="{{ if .Params.twitter_image }}{{ .Params.twitter_image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
+<meta name="twitter:title" content="{{ if .Params.title }}{{ .Params.title }}{{ else }}Open Neuromorphic{{ end }}" />
+<meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}Explore the world of Neuromorphic Computing, AI, and Devices in an open-source community. Join us for educational content, and collaborative innovation{{ end }}" />
+<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image }}{{ else }}https://open-neuromorphic.org/images/og-image.png{{ end }}" />
 
 {{ $imagePath := site.Params.metadata.image }}
 {{ if .Params.meta_image }}
