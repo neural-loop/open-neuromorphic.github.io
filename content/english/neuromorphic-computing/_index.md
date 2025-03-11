@@ -2,7 +2,7 @@
 title: Neuromorphic Computing
 description: Dive into neuromorphic hardware and software guides, and more. Explore the convergence of biology-inspired principles and cutting-edge technology.
 draft: false
-image: "neuromorphic-computing.jpeg"
+image: "image.jpeg"
 sections:
   - title: "Neuromorphic Hardware Guide"
     url: "hardware/"
