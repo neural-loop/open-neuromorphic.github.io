@@ -1,0 +1,60 @@
+{{ define "main" }}
+
+<!-- About Section -->
+<section class="section">
+  <div class="container">
+    {{/* --- Row 1: Image Left, Text Right --- */}}
+    {{ with .Params.image1 }}
+    {{ $image := . }}
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <figure class="content-image-figure">
+          <img src="{{ $image.src | absURL }}" class="img-fluid rounded shadow-sm w-100" alt="{{ $image.alt }}">
+          {{ with $image.caption }}
+          <figcaption class="figure-caption text-center small mt-2">{{ . | markdownify }}</figcaption>
+          {{ end }}
+        </figure>
+      </div>
+      <div class="col-lg-8">
+        <div class="content">
+          {{ $.Params.text_block_1 | markdownify }}
+        </div>
+      </div>
+    </div>
+    {{ end }} {{/* End check image1 */}}
+
+    {{/* --- Row 2: Full Width Text Block --- */}}
+    {{ with .Params.text_block_2 }}
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-10"> {{/* Match intro column width */}}
+        <div class="content">
+          {{ . | markdownify }}
+        </div>
+      </div>
+    </div>
+    {{ end }} {{/* End check text_block_2 */}}
+
+    {{/* --- Row 3: Text Left, Image Right --- */}}
+    {{ with .Params.image2 }}
+    {{ $image := . }}
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-8 order-lg-1 order-2"> {{/* Text first visually on mobile */}}
+        <div class="content">
+          {{ $.Params.text_block_3 | markdownify }}
+        </div>
+      </div>
+      <div class="col-lg-4 order-lg-2 order-1 mb-4 mb-lg-0"> {{/* Image first visually on mobile */}}
+        <figure class="content-image-figure">
+          <img src="{{ $image.src | absURL }}" class="img-fluid rounded shadow-sm w-100" alt="{{ $image.alt }}">
+          {{ with $image.caption }}
+          <figcaption class="figure-caption text-center small mt-2">{{ . | markdownify }}</figcaption>
+          {{ end }}
+        </figure>
+      </div>
+    </div>
+    {{ end }} {{/* End check image2 */}}
+  </div> {{/* End container */}}
+</section>
+<!-- /About Section -->
+
+{{ end }} {{/* End define main */}}

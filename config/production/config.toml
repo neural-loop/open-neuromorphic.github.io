@@ -1,0 +1,8 @@
+baseURL = "https://visioninit.dev/"
+enableRobotsTXT = true
+
+URL = "visioninit.dev"
+
+[services]
+[services.googleAnalytics]
+ID = "G-JNVVVFY1DH"

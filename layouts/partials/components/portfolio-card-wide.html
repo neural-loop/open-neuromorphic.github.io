@@ -1,0 +1,182 @@
+{{/* themes/visioninit/layouts/partials/components/portfolio-card-wide.html */}}
+{{/*
+Expects a dictionary context with:
+- projectData: The portfolio item data object from data/portfolio.yml
+- currentServiceTag: The string tag of the service being viewed
+*/}}
+{{ $projectData := .projectData }}
+{{ $currentServiceTag := .currentServiceTag | default "" }}
+
+{{/* --- Image Handling --- */}}
+{{ $placeholder_dimensions := "300x200" }}
+{{ $placeholder_bg := "eee" }}
+{{ $placeholder_text_color := "aaa" }}
+{{ $placeholder_text := $projectData.title | truncate 15 }}
+
+{{ $image_filename := $projectData.image | default "" }}
+{{ $image_path := "" }}
+{{ $image_alt := $projectData.title | default "Portfolio item image" }}
+
+{{ if $image_filename }}
+{{ $image_path = printf "images/portfolio/%s" $image_filename }} {{/* Path relative to assets directory */}}
+{{ else }}
+{{ $image_path = printf "https://via.placeholder.com/%s/%s/%s?text=%s" $placeholder_dimensions $placeholder_bg $placeholder_text_color (urlquery $placeholder_text) }}
+{{ end }}
+
+<div class="card portfolio-card-wide overflow-hidden rounded-0 h-100"> {{/* Removed 'border' class */}}
+  <div class="row g-0 h-100">
+
+    {{/* --- Image Column - Flexbox for alignment --- */}}
+    <div class="col-md-4 portfolio-card-wide-image-col d-flex flex-column justify-content-start align-items-center p-3">
+      {{ partial "components/image.html" (dict "Src" $image_path "Alt" $image_alt "Class" "img-fluid portfolio-card-wide-image" "Context" . "Loading" "lazy" "OmitDimensions" true) }}
+    </div>
+
+    {{/* --- Content Column --- */}}
+    <div class="col-md-8 portfolio-card-wide-content-col">
+      <div class="card-body d-flex flex-column h-100 p-4">
+
+        <h5 class="card-title mb-3 portfolio-card-title text-dark">
+          {{ $projectData.title }}
+        </h5>
+
+        {{/* --- Contributions Wrapper --- */}}
+        <div class="contributions-wrapper flex-grow-1 mb-3">
+          {{ $contributionsMap := $projectData.service_contributions }}
+          {{ $otherContributionsExist := false }}
+          {{ $otherServiceTitles := slice }} {{/* Initialize slice to hold other service titles */}}
+
+          {{ if $contributionsMap }}
+          {{/* 1. Display contribution for the CURRENT service first */}}
+          {{ if and $currentServiceTag (isset $contributionsMap $currentServiceTag) }}
+          {{ $contribution := index $contributionsMap $currentServiceTag }}
+          {{ $servicePage := site.GetPage (printf "services/%s" $currentServiceTag) }}
+          {{ $serviceTitle := "" }}
+          {{ if $servicePage }}
+            {{ $serviceTitle = $servicePage.Title }}
+          {{ else if eq (lower $currentServiceTag) "ai-data-integration-services" }} {{/* Handle specific tags */}}
+            {{ $serviceTitle = "AI Data Integration Services" }} {{/* Or just "AI" if preferred for brevity */}}
+          {{ else if eq (lower $currentServiceTag) "seo-content-strategy-optimization" }}
+            {{ $serviceTitle = "SEO Content Strategy Optimization" }} {{/* Or just "SEO" */}}
+          {{ else }}
+            {{ $serviceTitle = $currentServiceTag | humanize | title }}
+          {{ end }}
+
+          <div class="mb-3 current-service-contribution">
+            <h6 class="text-dark small text-uppercase font-weight-bold" style="font-size: 0.8rem;">Contribution to {{ $serviceTitle }}:</h6>
+            {{ with $contribution.summary }}
+            <p class="portfolio-contribution-summary small text-muted mb-4" style="font-size: 0.85rem;"><em>{{ . | markdownify }}</em></p>
+            {{ end }}
+            {{ with $contribution.points }}
+            <ul class="portfolio-contribution-points list-unstyled small mb-2" style="font-size: 0.85rem;">
+              {{ range . }}
+              <li style="line-height: 1.7em" class="pb-1 icon-list-item">{{ partial "components/icon.html" (dict "style" "solid" "name" "check" "class" "text-success fa-fw me-1") }}{{ . | markdownify }}</li>
+              {{ end }}
+            </ul>
+            {{ end }}
+          </div>
+          {{ end }}
+
+          {{/* Collect other service titles and check if other contributions exist */}}
+          {{ range $serviceTagKey, $contribution := $contributionsMap }}
+          {{ if ne $serviceTagKey $currentServiceTag }}
+          {{ $otherContributionsExist = true }}
+          {{ $sPage := site.GetPage (printf "services/%s" $serviceTagKey) }}
+          {{ $sTitle := "" }}
+          {{ if $sPage }}
+            {{ $sTitle = $sPage.Title }}
+          {{ else if eq (lower $serviceTagKey) "ai-data-integration-services" }}
+            {{ $sTitle = "AI" }} {{/* Using short form for button label */}}
+          {{ else if eq (lower $serviceTagKey) "seo-content-strategy-optimization" }}
+            {{ $sTitle = "SEO" }} {{/* Using short form for button label */}}
+          {{ else }}
+            {{ $sTitle = $serviceTagKey | humanize | title }}
+          {{ end }}
+          {{ $otherServiceTitles = $otherServiceTitles | append $sTitle }}
+          {{ end }}
+          {{ end }}
+
+          {{/* --- START: MODIFIED Additional Contributions Toggle (Bootstrap 4) --- */}}
+          {{ if $otherContributionsExist }}
+          {{/* Construct the button text dynamically */}}
+          {{ $buttonBaseText := "Additional Contributions in" }}
+          {{ $numOtherServices := len $otherServiceTitles }}
+          {{ $buttonLabel := "" }}
+
+          {{ if eq $numOtherServices 1 }}
+          {{ $buttonLabel = printf "%s: %s" $buttonBaseText (index $otherServiceTitles 0) }}
+          {{ else if eq $numOtherServices 2 }}
+          {{ $buttonLabel = printf "%s: %s & %s" $buttonBaseText (index $otherServiceTitles 0) (index $otherServiceTitles 1) }}
+          {{ else if gt $numOtherServices 2 }}
+          {{ $firstTwoTitles := delimit (first 2 $otherServiceTitles) ", " }}
+          {{ $remainingCount := sub $numOtherServices 2 }}
+          {{ $buttonLabel = printf "%s: %s & %d other area(s)" $buttonBaseText $firstTwoTitles $remainingCount }}
+          {{ else }}
+          {{/* Fallback, though $otherContributionsExist should prevent this */}}
+          {{ $buttonLabel = "View Other Contributions" }}
+          {{ end }}
+
+          <div class="accordion mt-3 additional-contributions-toggle-wrapper"> {{/* Removed pt-2 and border-top */}}
+            <button class="accordion-header additional-contributions-toggle-btn" {{/* Keep additional-contributions-toggle-btn for now, but be aware it might have conflicting padding */}}
+                    type="button"
+                    data-accordion
+                    aria-expanded="false"
+                    aria-controls="additionalContributions-{{ $projectData.id | urlize }}">
+              {{ $buttonLabel }}
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "chevron-down" "class" "accordion-icon" "aria_hidden" true) }}
+            </button>
+            <div class="accordion-content" id="additionalContributions-{{ $projectData.id | urlize }}"> {{/* Removed .collapse */}}
+              <div class="content-inner additional-contributions-content"> {{/* Removed pt-2 */}}
+                {{ range $serviceTagKey, $contribution := $contributionsMap }}
+                {{ if ne $serviceTagKey $currentServiceTag }}
+                {{ $servicePage := site.GetPage (printf "services/%s" $serviceTagKey) }}
+                {{ $serviceTitle := "" }}
+                {{ if $servicePage }}
+                  {{ $serviceTitle = $servicePage.Title }}
+                {{ else if eq (lower $serviceTagKey) "ai-data-integration-services" }}
+                  {{ $serviceTitle = "AI Data Integration Services" }}
+                {{ else if eq (lower $serviceTagKey) "seo-content-strategy-optimization" }}
+                  {{ $serviceTitle = "SEO Content Strategy Optimization" }}
+                {{ else }}
+                  {{ $serviceTitle = $serviceTagKey | humanize | title }}
+                {{ end }}
+
+                <div class="mb-3 other-service-contribution">
+                  <h6 class="text-muted small font-weight-bold mb-1" style="font-size: 0.75rem;">{{ $serviceTitle }}:</h6> {{/* Changed p to h6 */}}
+                  {{ with $contribution.summary }}
+                  <p class="portfolio-contribution-summary small text-muted mb-3" style="font-size: 0.85rem;"><em>{{ . | markdownify }}</em></p> {{/* Increased mb-1 to mb-3 */}}
+                  {{ end }}
+                  {{ with $contribution.points }}
+                  <ul class="portfolio-contribution-points list-unstyled small mb-2" style="font-size: 0.85rem;">
+                    {{ range . }}
+                    <li style="line-height: 1.7em" class="pb-1 icon-list-item">{{ partial "components/icon.html" (dict "style" "solid" "name" "check" "class" "text-success fa-fw me-1") }}{{ . | markdownify }}</li>
+                    {{ end }}
+                  </ul>
+                  {{ end }}
+                </div>
+                {{ end }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ end }}
+          {{/* --- END: MODIFIED Additional Contributions Toggle --- */}}
+
+          {{ else }}
+          <p class="card-text portfolio-card-description small text-muted">
+            {{ $projectData.description | default ($projectData.role_overview | default "Project details available upon request.") | truncate 150 }}
+          </p>
+          {{ end }}
+        </div>
+
+        {{ with $projectData.tags }}
+        <div class="portfolio-card-tags mt-auto">
+          {{ range first 20 . }}
+          <span class="badge badge-light me-1 mb-1 p-2 border">{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ end }}
+
+      </div>
+    </div>
+  </div>
+</div>

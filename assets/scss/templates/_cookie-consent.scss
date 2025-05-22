@@ -1,0 +1,38 @@
+/* assets/scss/templates/_cookie-consent.scss */
+
+.cookie-box {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 9999;
+  padding: 1rem 2rem;
+  background: rgb(71, 71, 71); // Dark background
+  transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+  color: #fdfdfd; // Light text for the main message (Good contrast)
+
+  .btn {
+    margin-left: 10px;
+  }
+
+  // --- START: Contrast Fix for Button ---
+  // Target the specific outline button within the cookie box
+  #js-cookie-button.btn.btn-outline-primary {
+    color: $white;         // Make text white
+    border-color: $white;  // Make border white
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $white;     // Fill with white on hover/focus
+      color: rgb(71, 71, 71);     // Change text to the dark background color for contrast
+      border-color: $white;         // Keep border white
+    }
+  }
+  // --- END: Contrast Fix for Button ---
+}
+
+.cookie-box-hide {
+  display: none;
+}

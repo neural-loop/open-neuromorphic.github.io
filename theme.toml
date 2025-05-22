@@ -1,38 +1,22 @@
-name = "Hugoplate"
-license = "MIT"
-licenselink = "https://github.com/zeon-studio/hugoplate/blob/main/LICENSE"
-description = "Hugoplate is a free starter template built with Hugo, and TailwindCSS, providing everything you need to jumpstart your Hugo project and save valuable time."
-homepage = "https://github.com/zeon-studio/hugoplate"
-demosite = "https://hugoplate.netlify.app/"
-min_version = "0.118.2"
+# Theme metadata for the VisionInit Consultancy Website Hugo setup
+name = "VisionInit Theme" # <<< CHANGED
+license = "MIT" # The code derived from Educenter retains its MIT license
+licenselink = "https://github.com/themefisher/educenter-hugo/blob/master/LICENSE" # Link to the original theme's license for attribution
+description = "A Hugo theme powering the VisionInit IT Services Consultancy website, based on the Educenter theme structure." # <<< CHANGED
+homepage = "https://visioninit.dev/" # <<< CHANGED
+tags = ["consultancy", "portfolio", "business", "services", "security", "development", "hugo", "bootstrap", "responsive", "lead generation"] # <<< CHANGED
+features = ["responsive", "services section", "contact form", "consultancy focused"] # <<< CHANGED
+min_version = "0.115.1" # Keep unless you need newer Hugo features
 
-tags = [
-  "blog",
-  "responsive",
-  "minimal",
-  "personal",
-  "light",
-  "dark",
-  "multilingual",
-  "landing",
-  "contact",
-  "dark mode",
-  "tailwindcss",
-]
-
-features = [
-  "Multi-Authors",
-  "Search",
-  "Multilingual",
-  "Dark Mode",
-  "Taxonomies",
-]
-
+# Information about the modifier/current project maintainer
 [author]
-name = "Zeon Studio"
-homepage = "https://zeon.studio"
+name = "Justin Riddiough / VisionInit" # <<< CHANGED
+homepage = "https://visioninit.dev/" # <<< CHANGED
 
+# Information about the original theme for attribution purposes
 [original]
-author = "Zeon Studio"
-homepage = "https://zeon.studio"
-repo = "https://github.com/zeon-studio/themeplate"
+name = "Educenter Hugo Theme"
+homepage = "https://gethugothemes.com/products/educenter-hugo/"
+repo = "https://github.com/themefisher/educenter-hugo"
+author = "Themefisher / Gethugothemes"
+author_homepage = "https://themefisher.com/"

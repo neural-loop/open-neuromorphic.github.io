@@ -1,0 +1,25 @@
+{{/* layouts/partials/components/icon.html */}}
+{{/*
+Expects a dictionary context with:
+- style: solid | regular | brands (default: solid)
+- name: icon-name (e.g., 'check', 'user', 'github')
+- class: (optional) additional classes for the <svg> element
+- aria_hidden: (optional) boolean, defaults to true. Set to false if it's a meaningful icon.
+- label: (optional) if provided, adds an aria-label to the svg for accessibility.
+*/}}
+
+{{ $style := .style | default "solid" }}
+{{ $name := .name }}
+{{ $customClass := .class }}
+{{ $ariaHidden := .aria_hidden | default true }}
+{{ $label := .label }}
+
+{{ if $name }}
+  <svg class="icon icon-{{ $style }}-{{ $name }}{{ with $customClass }} {{ . }}{{ end }}"
+       role="img"
+       {{ if $label }}aria-label="{{ $label }}"{{ else if $ariaHidden }}aria-hidden="true"{{ end }}>
+    <use xlink:href="#icon-{{ $style }}-{{ $name }}"></use>
+  </svg>
+{{ else }}
+  {{ warnf "[Icon Partial] Icon name not provided." }}
+{{ end }}

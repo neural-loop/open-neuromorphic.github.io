@@ -1,0 +1,172 @@
+// assets/scss/templates/_portfolio.scss
+
+// --- Portfolio Wide Card Styles ---
+.portfolio-card-wide {
+  overflow: hidden;
+  border-radius: 0;
+  transition: box-shadow 0.2s ease-in-out;
+
+  // --- Style the Image Column (Container) ---
+  .portfolio-card-wide-image-col {
+    // display: flex; // REMOVE - Handled by Bootstrap d-flex flex-column etc.
+    // align-items: center; // REMOVE
+    // justify-content: center; // REMOVE
+    // Background color is set by bg-light class in HTML
+    // Padding is set by p-3 class in HTML (default 1rem)
+    // You can set a fallback padding here if needed, e.g., padding: 1rem;
+  }
+
+  // --- Style the Image Itself ---
+  .portfolio-card-wide-image {
+    object-fit: contain;
+    object-position: center center; // Centers the image *content* within this element's box
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .portfolio-card-wide-content-col {
+    display: flex;
+  }
+
+  .portfolio-card-tags {
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 500;
+      background-color: lighten($light, 1%);
+      color: $text-color-light;
+      border: 1px solid $border-color;
+    }
+  }
+
+  // --- START: Styles for Additional Contributions Toggle ---
+  .additional-contributions-toggle-wrapper {
+    .additional-contributions-toggle-btn {
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      color: $text-color-dark;
+      font-size: 0.8rem; // Matches original H6 style
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s ease;
+
+      &:hover,
+      &:focus,
+      &[aria-expanded="true"] { // Style when active/expanded
+        color: $primary-color;
+        outline: none;
+      }
+
+      .toggle-icon {
+        transition: transform 0.3s ease-in-out;
+        font-size: 0.9em;
+      }
+
+      &[aria-expanded="true"] .toggle-icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    .additional-contributions-content {
+      // This div holds the content revealed by the collapse
+      // Bootstrap's .collapse class handles the hide/show.
+      // Add a separator line when content is open.
+      margin-bottom: 1rem;
+    }
+  }
+  // ... (keep existing styles for content column, card-body, tags etc.) ...
+  .portfolio-card-wide-content-col {
+    display: flex;
+  }
+
+  .portfolio-card-tags {
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 500;
+      background-color: lighten($light, 1%);
+      color: $text-color-light;
+      border: 1px solid $border-color;
+    }
+  }
+}
+
+.portfolio-card-wide {
+  // ... (any existing specific styles for portfolio-card-wide) ...
+
+  // assets/scss/templates/_portfolio.scss
+
+  // ... (existing styles for .portfolio-card-wide, etc.) ...
+
+  .portfolio-card-wide {
+    // ... (any existing specific styles for portfolio-card-wide) ...
+
+    .additional-contributions-toggle {
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: $primary-color;
+      font-weight: 500;
+      white-space: normal; // Allow text to wrap
+      text-align: left;    // Align text to the left if button takes full width
+      display: inline-block; // Or block, depending on how you want it to flow
+      width: 100%; // Make it take full width to assist with wrapping
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+        color: darken($primary-color, 10%);
+      }
+
+      .toggle-icon {
+        margin-left: 0.35rem;
+        display: inline-block; // Ensure icons behave as expected
+        transition: transform 0.2s ease-in-out; // Smooth icon transition
+      }
+
+      .icon-expanded {
+        display: none;
+      }
+      .icon-collapsed {
+        display: inline-block;
+      }
+
+      // When the button's associated content is expanded
+      &[aria-expanded="true"] {
+        .icon-collapsed {
+          display: none;
+        }
+        .icon-expanded {
+          display: inline-block;
+        }
+        // Optional: if you want the icon itself to rotate
+        // .toggle-icon .fa-chevron-down {
+        //   transform: rotate(180deg);
+        // }
+      }
+    }
+
+    .additional-contributions-content {
+      // Styles for the content area when it's expanded
+      // For example, to add a separator:
+      // border-top: 1px solid $border-color;
+      // margin-top: 0.5rem;
+      // padding-top: 0.5rem;
+    }
+    .additional-contributions-content {
+      // Styles for the content area when it's expanded
+      // For example, to add a separator:
+      // border-top: 1px solid $border-color;
+      // margin-top: 0.5rem;
+      // padding-top: 0.5rem;
+    }
+  }
+  .additional-contributions-content {
+    // Add a little padding or margin if needed when expanded
+    // For example:
+    // padding-top: 0.5rem;
+    // border-top: 1px solid $border-color; // Example if you want a separator line above content
+  }
+}

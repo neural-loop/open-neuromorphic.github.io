@@ -1,0 +1,18 @@
+{{/* layouts/partials/sidebar/tags.html */}}
+{{/* Expects the page context '.' */}}
+<div class="offset-shadow-box bg-white p-4 mb-5">  <h4 class="mb-4">{{ i18n "tags" }}</h4>
+  {{- $tags := site.Taxonomies.tags }}
+  {{- if and (isset site.Taxonomies "tags") (not (eq (len $tags) 0)) }}
+  <ul class="list-inline tag-list">
+    {{- range $name, $items := $tags }}
+    <li class="list-inline-item mb-2">
+      <a href="{{ `tags/` | relLangURL }}{{ $name | urlize | lower }}/">
+        {{ $name | humanize }} {{/* Optional: ({{ len $items }}) */}}
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+  {{- else }}
+  <p class="text-muted small">No tags found.</p>
+  {{- end }}
+</div>

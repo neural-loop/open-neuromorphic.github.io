@@ -1,0 +1,17 @@
+{{/* layouts/partials/page-header.html */}}
+<section class="page-title-section overlay">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left Column - Title and Description -->
+      <div class="col-lg-8 col-md-7 px-4 pt-4">
+        <h1 class="text-dark font-secondary mb-3 h2 page-header-title">{{ .Title }}</h1>
+        <p class="page-header-description">{{ .Params.Description | markdownify }}</p>
+      </div>
+
+      <!-- Right Column - OG Image Preview Partial -->
+      <div class="col-lg-4 col-md-5 mt-md-0 mt-4">
+        {{ partial "og-preview.html" . }}
+      </div>
+    </div>
+  </div>
+</section>

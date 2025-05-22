@@ -1,0 +1,99 @@
+/* !------------------------------------------------------------------
+[MAIN STYLESHEET]
+
+PROJECT:	Project Name
+VERSION:	Versoin Number
+------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------
+[TABLE OF CONTENTS]
+------------------------------------------------------------------- */
+
+// Import Bootstrap SCSS
+// 1. Include functions first (optional, but often needed for BS vars)
+@import "bootstrap/scss/functions"; // Path relative to your node_modules or Hugo module path
+
+// 2. Include any default variable overrides here if you have them
+// For example:
+// $primary: #yourCustomColor;
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps"; // If using BS5.3+ color modes
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities"; // For .d-none, .text-center etc.
+
+// 4. Include layout and components (Import ONLY what you use for better initial compile times)
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+// @import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables"; // If you use tables
+@import "bootstrap/scss/forms"; // Note: You also have @import 'forms'; later, review for conflicts or redundancy
+@import "bootstrap/scss/buttons"; // Note: You also have @import 'buttons'; later, review for conflicts or redundancy
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+// @import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar"; // If using Bootstrap navbar
+@import "bootstrap/scss/card";
+// @import "bootstrap/scss/accordion"; // BS accordion (you have custom @import 'templates/accordion'; later)
+@import "bootstrap/scss/breadcrumb"; // Note: You also have @import 'breadcrumbs'; later, review
+@import "bootstrap/scss/pagination"; // Note: You also have @import 'pagination'; later, review
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert"; // For your AJAX form feedback
+// @import "bootstrap/scss/progress";
+// @import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+// @import "bootstrap/scss/toasts";
+// @import "bootstrap/scss/modal";
+// @import "bootstrap/scss/tooltip";
+// @import "bootstrap/scss/popover";
+// @import "bootstrap/scss/carousel";
+// @import "bootstrap/scss/spinners";
+@import "bootstrap/scss/offcanvas"; // If using mobile nav offcanvas
+
+// 5. Include utilities API last
+@import "bootstrap/scss/utilities/api";
+@import 'variables';
+@import 'mixins';
+// Base and Resets
+@import 'base';         // Moved up to ensure base styles apply first
+@import 'typography';   // Typography rules after base
+@import 'links';
+@import 'lists';
+@import 'forms';
+@import 'buttons';      // Buttons after general element styling and typography
+
+// Layout & Utilities
+@import 'utilities';
+@import 'overlay';
+@import 'effects';
+
+// Components & Sections
+// @import 'buttons'; // Already imported above
+@import 'page-title';
+@import 'breadcrumbs';
+@import 'pagination';
+@import 'content';
+@import 'icons';
+
+@import 'cards';
+@import 'templates/single';
+@import 'components/portfolio-card';
+// Template Specific or Component Styles
+@import 'templates/accordion';
+@import 'templates/navigation';
+@import 'templates/slider';
+@import 'templates/homepage';
+@import 'templates/og-preview';
+@import 'templates/cookie-consent';
+@import 'templates/toc';
+@import 'templates/portfolio';
+@import 'templates/cta';
+@import 'templates/subscription';
+@import 'templates/sticky_header';
+@import 'templates/footer';
+@import 'templates/page-header';

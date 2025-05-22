@@ -1,0 +1,63 @@
+{{ define "main" }}
+<section class="section pt-6 pb-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <article class="lg:col-10"> {{/* Centered and slightly narrower for intro content */}}
+        <div class="content text-lg pb-5 text-center"> {{/* Center intro text */}}
+          {{ .Content }}
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container">
+    <div class="row justify-content-center gy-4"> {{/* Use gy-4 for vertical gap, justify-content-center for overall centering */}}
+      {{ range .Params.sections }}
+      <div class="col-md-6 col-lg-5 d-flex align-items-stretch"> {{/* Adjust col-lg-5 for a bit more space if only two items */}}
+        <a href="{{ .url | relLangURL }}" class="card text-decoration-none hover-shadow w-100 d-flex flex-column">
+          <div class="card-body p-4 text-center d-flex flex-column">
+            {{/* Icon (Optional - if you add icon_name/icon_style to your _index.md sections) */}}
+            {{ if and .icon_name .icon_style }}
+            <div class="mb-3">
+              {{ partial "components/icon.html" (dict "style" .icon_style "name" .icon_name "class" "feature-icon" "label" (printf "%s icon" .title)) }}
+            </div>
+            {{ else }}
+            {{/* Fallback Icon if no specific icon is defined */}}
+            <div class="mb-3">
+              {{ if eq .url "hardware/" }}
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "microchip" "class" "feature-icon" "label" (printf "%s icon" .title)) }}
+              {{ else if eq .url "software/" }}
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "code" "class" "feature-icon" "label" (printf "%s icon" .title)) }}
+              {{ else }}
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "cubes" "class" "feature-icon" "label" (printf "%s icon" .title)) }}
+              {{ end }}
+            </div>
+            {{ end }}
+            <h2 class="h5 card-title mb-2 text-dark">{{ .title }}</h2>
+            <p class="card-text small text-muted flex-grow-1">{{ .description }}</p>
+            {{/* Subsections can be listed here if desired, or keep it clean */}}
+            {{/*
+            {{ with .subsections }}
+            <ul class="list-unstyled small mt-2 mb-0 text-start">
+              {{ range . }}
+              <li class="mb-1 icon-list-item">
+                {{ partial "components/icon.html" (dict "style" "solid" "name" "angle-right" "class" "me-1 text-primary" "aria_hidden" true) }}
+                <strong>{{ .title }}:</strong> {{ .description }}
+              </li>
+              {{ end }}
+            </ul>
+            {{ end }}
+            */}}
+            <div class="mt-auto pt-3">
+              <span class="btn btn-sm btn-outline-primary">Explore {{ .title }}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

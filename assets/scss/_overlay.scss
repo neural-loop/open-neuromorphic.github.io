@@ -1,0 +1,59 @@
+/* overlay */
+
+.overlay {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    // --- The Original Gradient (Adjusted to extend higher) ---
+    $overlay-base-color: $primary-contrast-color;
+    $overlay-second-color: #8889ae;
+    background: linear-gradient(
+        to top, // Direction: from bottom to top
+        rgba($overlay-second-color, 1) 0%,      // Bottom, fully opaque
+        rgba($overlay-base-color, 0.4) 30%,     // Lower mid, 40% opaque $primary-contrast-color
+        rgba($overlay-base-color, 0.2) 60%,     // Upper mid, 20% opaque $primary-contrast-color
+        rgba($overlay-base-color, 0.1) 80%,     // Higher up, 10% opaque $primary-contrast-color
+        rgba($overlay-base-color, 0) 100%       // Top, fully transparent $primary-contrast-color
+    );
+
+    // --- ADD MASKING (Using SVG) ---
+    // Define the mask image path (UPDATED)
+    $mask-image-url: '/images/inference.svg'; // <<< CHANGED PATH
+
+    // Apply the mask
+    -webkit-mask-image: url($mask-image-url);
+    mask-image: url($mask-image-url);
+
+    // --- Control how the mask behaves ---
+    // Size: 'auto' uses the SVG's intrinsic size (1440x560).
+    // Keep this or change to 'cover'/'contain' if needed.
+    -webkit-mask-size: auto;
+    mask-size: auto;
+
+    // Repeat: Keep 'repeat' to tile the SVG pattern.
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+
+    // Position: Keep positioning the start of the pattern.
+    -webkit-mask-position: bottom center;
+    mask-position: bottom center;
+
+    // Mode: Keep 'luminance' initially to match the JPEG behavior.
+    // The browser will use the brightness of the SVG's rendered pixels.
+    // You could experiment with 'alpha' if luminance doesn't give the desired effect.
+    -webkit-mask-mode: luminance;
+    mask-mode: luminance;
+
+    // Blend mode for the mask layer itself (usually not needed)
+    // -webkit-mask-composite: source-over;
+    // mask-composite: source-over;
+  }
+}

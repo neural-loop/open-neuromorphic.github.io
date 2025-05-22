@@ -1,0 +1,119 @@
+// assets/scss/templates/_sticky_header.scss
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030; // Ensure it's above the breadcrumbs
+}
+
+.sticky-breadcrumbs-wrapper {
+  position: sticky; // Make it sticky
+  top: 78px; // Position it below the main navigation - adjusted based on user feedback
+  z-index: 1020; // Below main nav (1030), above content
+  background-color: $light;
+  box-shadow: 0 2px 4px rgba($black, 0.08);
+  width: 100%;
+  font-size: 0.85rem; // Base font size for the bar
+  display: flex;
+  align-items: center;
+  min-height: $sticky-breadcrumb-height; // Target height
+
+  > .container {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    width: 100%;
+  }
+
+  .custom-breadcrumb {
+    margin-bottom: 0 !important;
+    line-height: 1.5; // Ensure consistent line height for alignment
+
+    li {
+      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+      margin-right: 0.25rem;
+
+      // Reset inherited heading styles JUST IN CASE
+      &.h2,
+      &.h3,
+      &.h5 {
+        font-size: inherit !important;
+        margin-bottom: 0 !important;
+      }
+
+      // General Link Styling (Ancestors)
+      a:not(.breadcrumb-home-link) {
+        color: $text-color-light;
+        font-weight: 400;
+        font-family: $primary-font;
+        font-size: inherit; // Inherit from wrapper
+        text-decoration: none !important;
+        border-bottom: 1px solid transparent;
+        padding-bottom: 1px;
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+        span {
+          font-size: inherit;
+        } // Ensure span inherits
+        &:hover {
+          color: $primary-color;
+          border-bottom-color: $primary-color;
+        }
+      }
+
+      // Home Icon Link
+      a.breadcrumb-home-link {
+        background-color: rgba($primary-color, 0.08);
+        color: $primary-color !important;
+        border-radius: 50em;
+        padding: 0.3em 0.6em;
+        line-height: 1;
+        font-size: inherit; // <<< Inherit size like others
+        margin: 0;
+        border-bottom: none !important;
+        i {
+          color: $primary-color !important;
+          font-size: 0.9em; // Icon slightly smaller than text
+          line-height: 1;
+        }
+        &:hover {
+          background-color: rgba($primary-color, 0.15);
+          border-color: transparent !important;
+          color: darken($primary-color, 5%) !important;
+          i {
+            color: darken($primary-color, 5%) !important;
+          }
+        }
+      }
+
+      // Separator Icons
+      i.fa-angle-right {
+        color: $text-color-light;
+        font-size: 0.8em;
+        margin: 0 0.3rem; // Increased margin slightly
+        line-height: 1.5;
+      }
+
+      // Current Page Text (Span)
+      &.breadcrumb-current-page span {
+        color: $text-color-dark;
+        font-family: $primary-font;
+        font-weight: 600;
+        font-size: inherit; // <<< Make sure this inherits the wrapper's font-size
+        padding-bottom: 1px;
+        line-height: 1.5;
+        white-space: nowrap;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// --- Page Title Section Padding Reset ---
+.page-title-section {
+  padding-top: 90px;
+  padding-bottom: 80px;
+}

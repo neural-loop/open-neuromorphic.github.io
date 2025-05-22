@@ -1,0 +1,7 @@
+{{/* layouts/shortcodes/colorswatch.html */}}
+{{ $color := .Get "color" | default "#ccc" }}
+{{ $border := .Get "border" | default "1px solid #ccc" }}
+{{ $width := .Get "width" | default "80px" }}
+{{ $height := .Get "height" | default "20px" }}
+
+<span style="display:inline-block; width: {{ $width }}; height: {{ $height }}; background-color: {{ $color }}; border: {{ $border }}; vertical-align: middle;"></span>

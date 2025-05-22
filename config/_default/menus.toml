@@ -1,0 +1,62 @@
+################### VisionInit Navigation (English) ####################
+
+[[main]]
+name = "Neuromorphic Hub"
+url = "/neuromorphic-computing/"
+weight = 2
+
+[[main]]
+parent = "Neuromorphic Hub"
+name = "Neuromorphic Computing"
+url = "/neuromorphic-computing/"
+weight = 1
+
+[[main]]
+parent = "Neuromorphic Hub"
+name = "Neuromorphic Hardware"
+url = "/neuromorphic-computing/hardware/"
+weight = 2
+
+[[main]]
+parent = "Neuromorphic Hub"
+name = "Neuromorphic Software"
+url = "/neuromorphic-computing/software/"
+weight = 3
+
+[[main]]
+parent = "Neuromorphic Hub"
+name = "Journal Club"
+url = "/journalclub/"
+weight = 4
+
+[[main]]
+parent = "Neuromorphic Hub"
+name = "Workshops"
+url = "/workshops/"
+weight = 5
+
+[[main]]
+name = "About"
+url = "/about/"
+weight = 6
+
+[[footer]]
+name = "Privacy Policy"
+url = "/privacy/"
+weight = 1
+[[footer]]
+name = "Terms of Service"
+url = "/terms/"
+weight = 2
+[[footer]]
+name = "Contact"
+url = "#schedule-consultation"
+weight = 3
+# --- Add this block ---
+[[footer]]
+name = "Style Guide (Dev)"
+url = "/dev/"
+weight = 99 # Place it last
+identifier = "styleguide" # Unique identifier
+[footer.params]
+developmentOnly = true # Custom parameter

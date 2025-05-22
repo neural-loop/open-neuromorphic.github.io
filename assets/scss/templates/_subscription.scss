@@ -1,0 +1,41 @@
+// Add to themes/visioninit/assets/scss/_common.scss or new _subscription.scss
+
+.subscription-section {
+  // Section styling already handled by .section and .bg-light
+}
+
+.subscription-card {
+  // Using .offset-shadow-box now for border/shadow
+
+  .subscription-features {
+    li {
+      i {
+        // Adjust icon size and spacing if needed
+        font-size: 1.1em;
+        position: relative;
+        top: -0.05em; // Minor adjustment for visual alignment
+      }
+
+      span {
+        // Ensure text aligns well next to icon
+      }
+    }
+  
+    // Reduce horizontal padding on buttons within subscription cards to give more space for text
+    .btn {
+      padding-left: 0.75rem; // Default is often 1rem or 1.25rem
+      padding-right: 0.75rem;
+    }
+  }
+
+  h3.h4 {
+    // Targeting the price display
+    font-size: 2.5rem; // Make price large
+    margin-bottom: 1.5rem;
+
+    small {
+      font-size: 1rem; // Adjust suffix size
+      margin-left: 5px;
+    }
+  }
+}

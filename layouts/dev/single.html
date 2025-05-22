@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+<!-- Style Guide Section - Wider Container -->
+<section class="section-sm">
+  {{/* Use container-fluid for full width, or keep container for standard width */}}
+  <div class="container-fluid px-lg-5"> {{/* Added padding for fluid */}}
+    <div class="row justify-content-center">
+
+      {{ if .TableOfContents }} {{/* Only show ToC if it has some content (adjust len 15 as needed) */}}
+      <div class="col-lg-3 order-lg-2 mb-4 mb-lg-0">
+        <nav id="toc" class="toc-sidebar card rounded-0 border-0 bg-light p-3">
+          <h4 class="mb-3 toc-title">On This Page</h4>
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+      {{ end }}
+      <div class="col-lg-7"> {{/* Allow content to be wider */}}
+        {{/* Page Description */}}
+        {{ with .Description }}
+        <p class="lead text-muted mb-5">{{ . }}</p>
+        {{ end }}
+
+        <!-- Main Content -->
+        <div class="content">
+          {{ .Content | safeHTML }}  {{/* <<< MODIFIED HERE: Added | safeHTML filter */}}
+        </div>
+
+      </div> {{/* End Content Col */}}
+    </div> {{/* End row */}}
+  </div> {{/* End container */}}
+</section>
+
+{{ end }} {{/* End define main */}}

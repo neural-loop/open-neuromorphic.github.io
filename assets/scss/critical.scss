@@ -1,0 +1,37 @@
+// Critical SCSS - For inlining
+
+// Bootstrap Core (subset)
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables"; // Bootstrap's default variables
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities"; // For .d-none, .text-center etc.
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/nav"; // Added for .nav class dependencies
+@import "bootstrap/scss/navbar"; // Added for .navbar-expand-* classes
+@import "bootstrap/scss/transitions"; // Added for .collapse styles
+@import "bootstrap/scss/breadcrumb"; // Added for Bootstrap breadcrumbs
+
+// Site-specific variables and base styles
+@import 'variables'; // Your site's custom variables
+@import 'mixins';    // Your site's custom mixins
+@import 'base';
+@import 'typography';
+@import 'links';
+@import 'icons'; // Added for .icon and .feature-icon styles
+
+// Essential above-the-fold template styles
+@import 'templates/navigation';
+@import 'templates/sticky_header';
+@import 'templates/page-header'; // If this is consistently above the fold
+@import 'breadcrumbs'; // Added for site-specific breadcrumb styles
+@import 'templates/homepage'; // Added for homepage hero styles
+@import 'templates/slider'; // Added for slider/banner styles (if hero uses this)
+@import 'templates/og-preview'; // Added for OG image area styles
+
+// Minimal utilities API
+@import "bootstrap/scss/utilities/api";

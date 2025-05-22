@@ -1,0 +1,110 @@
+/* typography */
+
+/* --- Inter Variable Font Rules (Keep as is) --- */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src:
+    url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations'), /* Modern variable WOFF2 */
+    url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2'),             /* Standard WOFF2 */
+    url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'), /* Variable TTF */
+    url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');            /* Standard TTF */
+}
+
+@font-face {
+  font-family: 'IBMPlexSerif-Bold';
+  font-style: normal;
+  font-weight: 400; // Assuming Gabriela-Regular is normal weight
+  font-display: swap;
+  src:
+    url('/fonts/IBMPlexSerif-Bold.woff2') format('woff2'), /* Use WOFF2 first if available */
+    url('/fonts/IBMPlexSerif-Bold.ttf') format('truetype');
+}
+
+
+
+/* --- Body and Heading styles --- */
+body {
+  line-height: 1.2;
+  font-family: $primary-font; /* Uses Inter */
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  color: $text-color;
+}
+
+p,
+.paragraph {
+  font-weight: 400;
+  color: $text-color;
+  font-size: 15px;
+  line-height: 1.9;
+  font-family: $primary-font; /* Uses Inter */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $text-color-dark;
+  font-family: $secondary-font; /* <<< Now uses Gabriela (via variable) */
+  font-weight: 700; // Note: Gabriela might not have a 700 weight, browser will approximate or use 400. Adjust if Gabriela has specific weights.
+  line-height: 1.2;
+}
+/* ... rest of the typography styles (h1-h6 specific sizes) remain unchanged ... */
+h1,
+.h1 {
+  font-size: 60px;
+
+  @include mobile {
+    font-size: 45px;
+  }
+}
+
+h2,
+.h2 {
+  font-size: 40px;
+
+  @include mobile {
+    font-size: 30px;
+  }
+}
+
+h3,
+.h3 {
+  font-size: 25px;
+
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+h4,
+.h4 {
+  font-size: 20px;
+
+  @include mobile {
+    font-size: 18px;
+  }
+}
+
+h5,
+.h5 {
+  font-size: 18px;
+
+  @include mobile {
+    font-size: 16px;
+  }
+}
+
+h6,
+.h6 {
+  font-size: 16px;
+
+  @include mobile {
+    font-size: 14px;
+  }
+}

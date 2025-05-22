@@ -1,0 +1,30 @@
+// Styling for SVG icons used via the sprite system
+
+.icon {
+  display: inline-block; // Ensures proper alignment and sizing
+  width: 1em;           // Default width, scales with font-size
+  height: 1em;          // Default height, scales with font-size
+  fill: currentColor;   // Inherit color from parent by default
+  vertical-align: middle; // Or adjust as needed for your typography
+}
+
+// Specific styling for feature icons in service cards
+.feature-icon {
+  font-size: 50px;
+  color: $primary-color; // Use your SCSS variable for primary color
+}
+
+// Example for other icon contexts if needed:
+// .nav-icon {
+//   font-size: 1.2rem;
+//   color: $text-color-light;
+// }
+
+// Styling for icons within .icon-list-item
+.icon-list-item > .icon {
+    // The .text-success class passed to the partial should handle color.
+    // If specific alignment or size adjustments are needed for these list icons, add them here.
+    // For example, to ensure it aligns well with text if vertical-align on .icon isn't enough:
+    // position: relative;
+    // top: -0.1em;
+}

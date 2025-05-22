@@ -1,0 +1,67 @@
+# List of Font Awesome SVG icons used on the site.
+# This will be used to generate an SVG sprite.
+#
+# Structure for each icon:
+# - style: solid | regular | brands (corresponds to the subfolder in static/plugins/font-awesome/svgs/)
+#   name: icon-name (without the 'fa-' prefix, e.g., 'check', 'user', 'github')
+
+fontawesome_svgs:
+  - style: solid
+    name: check
+  - style: solid
+    name: house # Example, if you use a home icon
+  - style: regular
+    name: user # Example
+  - style: brands
+    name: github # Example
+  - style: solid
+    name: chevron-down # Used in navigation dropdowns
+  - style: solid
+    name: chevron-right # Used in breadcrumbs (if that's the icon)
+  - style: solid # Default for service cards
+    name: gear
+  - style: solid # For AI Data Integration service
+    name: brain
+  - style: solid # For Web Security service
+    name: shield-halved
+  - style: solid # For Custom Web App
+    name: code
+  - style: solid # For SEO
+    name: magnifying-glass-chart
+  - style: solid # For Cloud Infra
+    name: cloud-arrow-up
+  - style: solid # For newsletter paper airplane
+    name: paper-plane
+  - style: solid # For newsletter calendar
+    name: calendar-check
+  - style: solid # For footer email
+    name: envelope
+  - style: brands # For footer social
+    name: linkedin
+  - style: brands # For footer social (X/Twitter)
+    name: x-twitter
+  - style: brands # For OG Preview
+    name: bluesky
+  - style: brands # For OG Preview (check SVG filename, could be facebook-f)
+    name: facebook
+  - style: solid # For portfolio list item temporary test
+    name: circle
+  - style: solid # For .content ul li ::before (service_points)
+    name: angle-right
+  - style: solid
+    name: lightbulb
+  - style: brands
+    name: discord
+  - style: solid
+    name: microchip
+  # Add other icons used in breadcrumbs, features lists, social links, etc.
+  # Examples from your subscription card:
+  # - style: solid
+  #   name: check # Already listed, but good to confirm
+  # Examples from your header social links (based on common usage):
+  # - style: brands
+  #   name: twitter # This would be for the old twitter bird, x-twitter is the X logo
+  # - style: brands
+  #   name: facebook-f
+  # - style: brands
+  #   name: linkedin-in # Note: Font Awesome often uses -in for LinkedIn, check your SVG filename

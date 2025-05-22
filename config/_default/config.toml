@@ -1,0 +1,124 @@
+######################## VisionInit Configuration ####################
+# Base URL MUST end with a slash
+title = "Justin Riddiough - Expert Digital Solutions & Web Development"
+# Default time zone for time stamps
+timeZone = "America/New_York" # Adjust if needed
+# Pagination (can adjust later if needed)
+paginate = 6
+# Summary length for auto-generated excerpts
+summaryLength = 20
+
+disableKinds = ["taxonomy", "term"]
+
+hasCJKLanguage = false # Keep false unless you use CJK languages
+
+#################### Parameters (site-wide variables) ##################
+[params]
+logo = "/logo.png" # <<< NEW: Path to your consultancy logo (relative to static/)
+favicon = "/favicon.ico" # Path to your favicon (relative to static/)
+# Meta data
+description = "Justin Riddiough offers expert digital solutions: full-stack web development, cloud infrastructure, web security assessments, and strategic technical partnership."
+author = "Justin Riddiough"
+
+home = "Home" # Added from languages.toml
+copyright = "Copyright © 2025 Justin Riddiough (VisionInit Solutions)" # Added from languages.toml
+
+# Contact Info (Optional, used in theme potentially)
+address = "" # Add if relevant
+# Contact form action (Update if you use a form service like Formspree, Netlify Forms, etc.)
+contact_form_action = "/contact/" # Example: point to a contact page
+scheduling_link = "https://cal.com/visioninit/30min"
+
+# Social Links (Used in header/footer - Update links)
+[[params.social]]
+title = "LinkedIn"
+icon = "fa-brands fa-linkedin" # Font Awesome icon class
+icon_style = "brands"
+icon_name = "linkedin"
+link = "https://www.linkedin.com/in/riddiough"
+[[params.social]]
+title = "GitHub"
+icon = "fa-brands fa-github"
+icon_style = "brands"
+icon_name = "github"
+link = "https://github.com/neural-loop" # Your GitHub
+
+# Consultancy Specific Params (Optional, can be used in layouts)
+tagline = "Elevating Digital Communication Through Technology"
+# Example Call to Action params
+[params.cta]
+enable = true # Used in index.html potentially
+title = "Ready to Elevate Your Technology?"
+subtitle = "Let's Discuss Your Project"
+button_label = "Schedule a Consultation"
+button_link = "/contact/" # Link to contact page or scheduling tool
+
+# Top Header (Disable for cleaner look, was enabled in original)
+top_header = false
+
+# Cookie Consent (Keep settings from original if desired)
+[params.cookies]
+enable = true
+expire_days = 30 # Or adjust as needed
+
+# CSS Plugins
+# [[params.plugins.css]]
+# link = "plugins/bootstrap-5/css/bootstrap.min.css"
+
+# JS Plugins
+[[params.plugins.js]]
+link = "plugins/bootstrap-5/js/bootstrap.bundle.min.js" # Bootstrap 5 bundle includes Popper
+[[params.plugins.js]]
+link = "plugins/js-cookie/js.cookie.min.js" # For cookie consent
+
+[[params.plugins.js]]
+link = "plugins/youtube-lite.js"
+
+############################# Build Configuration ##############################
+# Keep build settings from output.txt for now
+[build]
+noJSConfigInAssets = false
+useResourceCacheWhen = 'fallback'
+[build.buildStats]
+enable = true # Can disable stats locally if not needed
+[[build.cachebusters]]
+source = 'assets/.*\.(js|ts|jsx|tsx)'
+target = '(js|scripts|javascript)'
+[[build.cachebusters]]
+source = 'assets/.*\.(css|sass|scss)$'
+target = '(css|styles|scss|sass)'
+[[build.cachebusters]]
+source = 'assets/.*\.(.*)$'
+target = '$1'
+
+############################# Outputs ##############################
+[outputs]
+home = ["HTML", "Sitemap"]
+page = ["HTML", "Sitemap"]
+section = ["HTML", "Sitemap"]
+
+############################# Imaging ##############################
+[imaging]
+quality = 90
+resampleFilter = "Lanczos"
+
+############################# Caches ###############################
+# Keep cache settings from output.txt
+[caches]
+[caches.images]
+dir = ":resourceDir/_gen"
+maxAge = "720h"
+[caches.assets]
+dir = ":resourceDir/_gen"
+maxAge = "720h"
+
+[sitemap]
+changefreq = "weekly" # How frequently the content is likely to change (e.g., "always", "hourly", "daily", "weekly", "monthly", "yearly", "never")
+priority = 0.5        # Priority of this URL relative to other URLs on your site (0.0 to 1.0)
+filename = "sitemap.xml" # Default filename (usually no need to change)
+disableKinds = ['homepage']
+
+[markup]
+[markup.goldmark]
+  [markup.goldmark.renderer]
+    unsafe = true # Allow raw HTML in Markdown, needed for some render hooks

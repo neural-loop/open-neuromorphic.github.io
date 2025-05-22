@@ -1,33 +1,32 @@
 {
-  "name": "hugoplate",
-  "description": "hugo tailwindcss boilerplate",
-  "version": "1.7.7",
+  "name": "visioninit-website",
+  "version": "1.0.0",
   "license": "MIT",
-  "author": "zeon.studio",
   "scripts": {
-    "dev": "hugo serve --buildFuture",
-    "build": "rm public -fr && hugo --gc --minify --buildFuture --templateMetrics --templateMetricsHints --forceSyncStatic",
-    "build-preview": "hugo server --disableFastRender --buildFuture --navigateToChanged --templateMetrics --templateMetricsHints  --forceSyncStatic -e production --minify",
-    "update-modules": "node ./scripts/clearModules.js && hugo mod clean --all && hugo mod get -u ./... && hugo mod tidy",
-    "remove-darkmode": "node ./scripts/removeDarkmode.js && yarn format",
+    "dev": "hugo server --buildFuture --disableFastRender --navigateToChanged --verbose",
+    "dev:verbose": "hugo server --disableFastRender --navigateToChanged --templateMetrics --templateMetricsHints --buildDrafts --buildExpired --buildFuture --watch --forceSyncStatic -e production --minify",
+    "build": "npm run clean && npm run generate-favicons && npm run og-images && hugo --gc --minify --templateMetrics --templateMetricsHints --buildExpired --buildFuture --forceSyncStatic",
+    "clean": "rm -rf public/ resources/ tmp/ static/favicon* static/apple-touch-icon.png static/logo.png static/og.jpg static/og.png content/**/og.jpg content/**/og.png content/**/temp-og.html temp-homepage-og.html",
+    "lint:scss": "stylelint \"assets/scss/**/*.scss\"",
+    "lint:scss:fix": "stylelint \"assets/scss/**/*.scss\" --fix",
     "project-setup": "node ./scripts/projectSetup.js",
     "theme-setup": "node ./scripts/themeSetup.js",
-    "format": "prettier -w ."
+    "og-images": "node scripts/collectOgData.js && node scripts/generateImagesFromData.js",
+    "generate-favicons": "node scripts/generateFavicons.js",
+    "format": "prettier --write ."
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0",
-    "@tailwindcss/forms": "^0.5.6",
-    "@tailwindcss/typography": "^0.5.10",
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.29",
-    "postcss-cli": "^10.1.0",
-    "prettier": "^3.0.3",
-    "prettier-plugin-go-template": "0.0.15",
-    "prettier-plugin-tailwindcss": "^0.5.4",
-    "tailwind-bootstrap-grid": "^5.0.1",
-    "tailwindcss": "^3.3.3"
-  },
-  "dependencies": {
-    "hugo": "^0.0.3"
+    "@fullhuman/postcss-purgecss": "^7.0.2",
+    "bootstrap": "^5.3.6",
+    "mime-types": "^3.0.1",
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.1",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.5.3",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-toml": "^2.0.4",
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "toml": "^3.0.0"
   }
 }

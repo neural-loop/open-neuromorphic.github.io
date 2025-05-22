@@ -1,0 +1,120 @@
+<!-- ./themes/visioninit/layouts/partials/header.html -->
+
+<!-- header -->
+<header class="fixed-top header">
+  <!-- top header -->
+  {{ if site.Params.top_header }}
+  <div class="top-header py-2 bg-white">
+    <div class="container">
+      <div class="row g-0 align-items-center">
+        <div class="col-lg-4 text-center text-lg-left">
+        </div>
+        <div class="col-lg-8 text-center text-lg-right">
+          <ul class="list-inline">
+            {{ range site.Params.social }}
+            <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="{{ .link | safeURL }}"><i class="{{ .icon }}"></i></a></li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ end }}
+  <!-- navbar -->
+  <div class="navigation w-100 {{ if site.Params.top_header }} top-hider {{ end }}">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0">
+        <a class="navbar-brand" href="{{ site.BaseURL | relLangURL }}">
+          {{ $logoSrc := resources.Get "images/logo-source.png" }}
+          {{ if $logoSrc }}
+            {{ $logoBaseWidth := 79 }} {{/* Approximate display width based on original 79x80 */}}
+            {{ $logoSmall := $logoSrc.Resize (printf "%dx webp q85" $logoBaseWidth) }}
+            {{ $logoMedium := $logoSrc.Resize (printf "%dx webp q85" (int (mul $logoBaseWidth 1.5))) }}
+            {{ $logoLarge := $logoSrc.Resize (printf "%dx webp q85" (int (mul $logoBaseWidth 2))) }}
+            <img src="{{ $logoSmall.RelPermalink }}"
+                 srcset="{{ $logoSmall.RelPermalink }} {{ $logoSmall.Width }}w, {{ $logoMedium.RelPermalink }} {{ $logoMedium.Width }}w, {{ $logoLarge.RelPermalink }} {{ $logoLarge.Width }}w"
+                 sizes="{{ $logoBaseWidth }}px"
+                 alt="{{ site.Title }}"
+                 class="img-fluid header-logo"
+                 width="{{ $logoSmall.Width }}"
+                 height="{{ $logoSmall.Height }}">
+          {{ else }}
+            <img src="/logo.png" alt="{{ site.Title }}" class="img-fluid header-logo" width="79" height="80"> <!-- Fallback -->
+          {{ end }}
+        </a>
+        <button class="navbar-toggler rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#navigation"
+                aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {{/* --- Collapsible Navbar Content --- */}}
+        <div class="collapse navbar-collapse text-center" id="navigation">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ site.BaseURL | relLangURL }}">{{ site.Params.Home }}</a>
+            </li>
+            {{ range site.Menus.main }}
+            {{ if .HasChildren }}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button">
+                {{ .Name }}
+                {{ partial "components/icon.html" (dict "style" "solid" "name" "chevron-down" "class" "ms-1 dropdown-arrow-svg" "aria_hidden" true) }}
+              </a>
+              <div class="dropdown-menu{{ if or (eq .Name "Services") (eq .Identifier "services") }} dropdown-menu-end{{ end }}">
+                {{ range .Children }}
+                {{ $childURL := .URL }}
+                {{ $processedChildURL := "" }}
+                {{/* --- START CHANGE: Check if URL is an anchor link --- */}}
+                {{ if strings.HasPrefix $childURL "#" }}
+                {{ $processedChildURL = $childURL | safeURL }} {{/* Output directly if anchor */}}
+                {{ else }}
+                {{ $processedChildURL = $childURL | absLangURL }} {{/* Process normally otherwise */}}
+                {{ end }}
+                {{/* --- END CHANGE --- */}}
+                <a class="dropdown-item" href="{{ $processedChildURL }}">{{ .Name }}</a>
+                {{ end }}
+              </div>
+            </li>
+            {{ else }}
+            <li class="nav-item">
+              {{ $topLevelURL := .URL }}
+              {{ $processedTopLevelURL := "" }}
+              {{/* --- START CHANGE: Check if URL is an anchor link --- */}}
+              {{ if strings.HasPrefix $topLevelURL "#" }}
+              {{ $processedTopLevelURL = $topLevelURL | safeURL }} {{/* Output directly if anchor */}}
+              {{ else }}
+              {{ $processedTopLevelURL = $topLevelURL | absLangURL }} {{/* Process normally otherwise */}}
+              {{ end }}
+              {{/* --- END CHANGE --- */}}
+              <a class="nav-link" href="{{ $processedTopLevelURL }}">{{ .Name }}</a>
+            </li>
+            {{ end }}
+            {{ end }}
+          </ul>
+
+          <!-- Language List -->
+          {{ if .IsTranslated }}
+          <select class="m-2 border-0 mb-5 mb-lg-2" id="select-language" onchange="location = this.value;">
+            {{ $siteLanguages := site.Languages}}
+            {{ $pageLang := .Page.Lang}}
+            {{ range .Page.AllTranslations }}
+            {{ $translation := .}}
+            {{ range $siteLanguages }}
+            {{ if eq $translation.Lang .Lang }}
+            {{ $selected := false }}
+            {{ if eq $pageLang .Lang}}
+            <option id="{{ $translation.Language }}" value="{{ $translation.Permalink }}" selected>{{ .LanguageName }}</option>
+            {{ else }}
+            <option id="{{ $translation.Language }}" value="{{ $translation.Permalink }}">{{ .LanguageName }}</option>
+            {{ end }}
+            {{ end }}
+            {{ end }}
+            {{ end }}
+          </select>
+          {{ end }}
+        </div> {{/* End collapse */}}
+      </nav> {{/* End nav */}}
+    </div> {{/* End container */}}
+  </div> {{/* End navigation */}}
+</header>
+<!-- /header -->

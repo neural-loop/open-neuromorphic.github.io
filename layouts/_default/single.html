@@ -1,0 +1,84 @@
+{{ define "main" }}
+
+<!-- Details Section -->
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+
+      {{ if .TableOfContents }} {{/* Only show ToC if it has some content (adjust len 15 as needed) */}}
+      <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0">
+        <nav id="toc" class="toc-sidebar card rounded-0 border-0 bg-light p-3">
+          <h4 class="mb-3 toc-title">On This Page</h4>
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+      {{ end }}
+
+      {{/* Main Content Area - Adjusted Column Width */}}
+      {{ $contentColumnClass := "col-lg-12" }} {{/* Default: full width if no ToC */}}
+      {{ if len .TableOfContents }}
+      {{ $contentColumnClass = "col-lg-8 order-lg-1" }} {{/* Use 9 cols if ToC is present */}}
+      {{ end }}
+      <div class="{{ $contentColumnClass }}">
+        <div class="row">
+          {{/* Meta Information */}}
+          <div class="col-12">
+            <ul class="list-inline text-muted small mb-4">
+              {{ with .Params.Author }}
+              <li class="list-inline-item me-3">
+                <i class="fas fa-user fa-fw me-1"></i>
+                {{/* Link author(s) if author pages exist, otherwise just display name(s) */}}
+                {{ if reflect.IsSlice . }}
+                  {{ range $index, $element := . }}
+                    {{ $authorPage := site.GetPage (printf "author/%s" ($element | urlize)) }}
+                    {{ if ne $index 0 }}, {{ end }}
+                    {{ if $authorPage }}
+                      <a href="{{ $authorPage.RelPermalink }}">{{ $element | title }}</a>
+                    {{ else }}
+                      {{ $element | title }}
+                    {{ end }}
+                  {{ end }}
+                {{ else }}
+                  {{ $authorPage := site.GetPage (printf "author/%s" (. | urlize)) }}
+                  {{ if $authorPage }}
+                    <a href="{{ $authorPage.RelPermalink }}">{{ . | title }}</a>
+                  {{ else }}
+                    {{ . | title }}
+                  {{ end }}
+                {{ end }}
+              </li>
+            {{ end }}
+              {{ with .Params.Categories }}
+              <li class="list-inline-item me-3">
+                <i class="fas fa-folder-open fa-fw me-1"></i>
+                {{ range $index, $element := . }}
+                <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}">{{ if ne $index 0 }}, {{ end }}{{ . | title }}</a>
+                {{ end }}
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+
+          <!-- border -->
+
+          <!-- Main Content -->
+          {{/* Main Content - col-12 mb-5 wrapper removed, mb-5 added to content div */}}
+          <div id="main-content" class="content mb-5">
+            {{ .Content }}
+          </div>
+
+          <!-- Disqus comments -->
+          {{ if site.Config.Services.Disqus.Shortname }}
+          <div class="col-12 mt-4">
+            {{ template "_internal/disqus.html" . }}
+          </div>
+          {{ end }}
+        </div>
+      </div> {{/* End Main Content Col */}}
+
+    </div> {{/* End row */}}
+  </div> {{/* End container */}}
+</section>
+<!-- /Details Section -->
+
+{{ end }} {{/* End define main */}}

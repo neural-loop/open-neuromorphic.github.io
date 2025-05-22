@@ -1,0 +1,55 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {{/* Main Content Area (Full Blog Post) */}}
+      <div class="col-lg-8 order-2 order-lg-1">
+        <article class="mb-5">
+          {{ if .Params.image }}
+          {{/* Pass page context here */}}
+          {{ partial "components/image.html" (dict "Src" .Params.image "Alt" .Title "Class" "img-fluid rounded-0 mb-4" "Context" . ) }}
+          {{ end }}
+          <h1 class="h4 mb-3">{{ .Title }}</h1>
+          <ul class="list-inline mb-4 small text-muted">
+            <li class="list-inline-item"><i class="fas fa-calendar-alt fa-fw me-1"></i> {{ .PublishDate.Format "January 2, 2006" }}</li>
+            {{ with .Params.Author }}
+            <li class="list-inline-item"><i class="fas fa-user fa-fw me-1"></i> {{ . }}</li>
+            {{ end }}
+            {{ with .Params.categories }}
+            <li class="list-inline-item"><i class="fas fa-folder-open fa-fw me-1"></i>
+              {{ range $index, $category := . }}
+              <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}">{{ if gt $index 0 }}, {{ end }}{{ . | title }}</a>
+              {{ end }}
+            </li>
+            {{ end }}
+            {{ with .Params.tags }}
+            <li class="list-inline-item"><i class="fas fa-tags fa-fw me-1"></i>
+              {{ range $index, $tag := . }}
+              <a href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}">{{ if gt $index 0 }}, {{ end }}{{ . | humanize }}</a>
+              {{ end }}
+            </li>
+            {{ end }}
+          </ul>
+          <hr class="mb-4">
+          <div class="content">
+            {{ .Content }}
+          </div>
+        </article>
+
+        <!-- Disqus comments -->
+        {{ if site.Config.Services.Disqus.Shortname }}
+        <div class="mt-5">
+          {{ template "_internal/disqus.html" . }}
+        </div>
+        {{ end }}
+      </div>
+
+      {{/* Sidebar Area */}}
+      <div class="col-lg-4 order-1 order-lg-2">
+        {{ partial "blog-sidebar.html" . }}
+      </div>
+
+    </div> {{/* End row */}}
+  </div> {{/* End container */}}
+</section>
+{{ end }}

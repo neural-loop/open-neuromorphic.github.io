@@ -1,0 +1,39 @@
+{{/* layouts/partials/sticky-breadcrumbs.html */}}
+{{ if not .IsHome }} {{/* Only show on non-home pages */}}
+{{ $data := newScratch }}
+<div class="sticky-breadcrumbs-wrapper">
+  <div class="container"> {{/* Maintain container width */}}
+    <ul class="list-inline custom-breadcrumb mb-0 py-1" itemscope itemtype="https://schema.org/BreadcrumbList"> {{/* Added py-1 for vertical spacing */}}
+      {{/* Home Link */}}
+      <li class="list-inline-item h2 breadcrumb-home-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        {{- $data.Set "counter" 0 }}{{- $data.Add "counter" 1 }}
+        <a class="breadcrumb-home-link" itemprop="item" href="{{ site.BaseURL | relLangURL }}" aria-label="Home"> {{/* Removed font-secondary */}}
+          {{ partial "components/icon.html" (dict "style" "solid" "name" "house" "aria_hidden" true) }}<span itemprop="name" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;">Home</span>
+        </a>
+        <meta itemprop="position" content='{{ $data.Get "counter" }}' />
+      </li>
+      {{/* Ancestor Links */}}
+      {{- range $index, $value := .Ancestors.Reverse }}
+      {{- if not .IsHome }}
+      <li class="list-inline-item h5">{{ partial "components/icon.html" (dict "style" "solid" "name" "chevron-right" "class" "text-muted" "aria_hidden" true) }}</li>
+      <li class="list-inline-item h3" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        {{- $data.Add "counter" 1 }}
+        <a class="text-primary" itemprop="item" href="{{ .Permalink }}">
+          <span itemprop="name">{{ .Title }}</span>
+        </a>
+        <meta itemprop="position" content='{{ $data.Get "counter" }}' />
+      </li>
+      {{- end }}
+      {{- end }}
+      {{/* Current Page Link */}}
+      <li class="list-inline-item h5">{{ partial "components/icon.html" (dict "style" "solid" "name" "chevron-right" "class" "text-muted" "aria_hidden" true) }}</li>
+      <li class="list-inline-item breadcrumb-current-page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        {{- $data.Add "counter" 1 }}
+        {{/* <<< REMOVED text-dark, font-secondary and inline style >>> */}}
+        <span itemprop="name">{{ .Title }}</span>
+        <meta itemprop="position" content='{{ $data.Get "counter" }}' />
+      </li>
+    </ul>
+  </div>
+</div>
+{{ end }}

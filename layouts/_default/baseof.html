@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="{{ site.LanguageCode | default "en-us" }}">
+{{- partial "head.html" . -}}
+
+<body>
+{{ partial "components/svg-sprite.html" . }} {{/* Include the SVG sprite */}}
+
+{{/* SVG Filters etc. */}}
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="og-warble-filter">
+      {{/* ... filter content ... */}}
+    </filter>
+  </defs>
+</svg>
+
+{{- partial "header.html" . -}} {{/* Renders the <header> and fixed .navigation */}}
+
+  {{- partial "components/sticky-breadcrumbs.html" . -}} {{/* Renders the sticky wrapper */}}
+
+  {{ if not .IsHome }}
+  {{ partial "page-header.html" . }} {{/* Renders the visual title/desc section */}}
+  {{ end }}
+
+  {{/* <<< Make sure your main content block is wrapped in <main> >>> */}}
+    <main>
+      {{- block "main" . }}{{- end }}
+    </main>
+    {{/* <<< End <main> wrapper >>> */}}
+
+      {{- partial "footer.html" . -}}
+
+  {{/* Lightbox Structure */}}
+  <div id="imageLightbox" class="lightbox-overlay" style="display: none;">
+    <span class="lightbox-close-button">&times;</span>
+    <img class="lightbox-content" id="lightboxImage" src="#" alt="Full-size image">
+  </div>
+
+</body>
+</html>

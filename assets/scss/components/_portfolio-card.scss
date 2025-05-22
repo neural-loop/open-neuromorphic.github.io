@@ -1,0 +1,27 @@
+.card.portfolio-card-wide {
+  border: none; // Override Bootstrap's default card border
+}
+
+.portfolio-card-wide-image-col {
+  position: relative; // Needed for the ::before pseudo-element
+  // background-size: cover; // Parent doesn't need this if ::before handles it
+  // background-position: center; // Parent doesn't need this
+  overflow: hidden; // Keep the blur contained
+
+  // ::before pseudo-element for blurred background removed.
+
+  // Ensure the actual image content (img tag) is above any potential (now removed) pseudo-element
+  > * { // This targets the img tag directly inside .portfolio-card-wide-image-col
+    position: relative;
+    z-index: 2;
+  }
+
+  // .portfolio-card-wide-image specific styles (if different from direct child selector)
+  // This class is on the img tag itself.
+  .portfolio-card-wide-image {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    max-width: 85%; // Reduced to give more space for shadow within overflow:hidden parent
+    margin: 0 auto;
+  }
+}

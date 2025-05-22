@@ -1,0 +1,351 @@
+/* ./themes/boycott-beacon/assets/scss/templates/_og-preview.scss */
+
+/* SCSS for OG Preview Component (_og-preview.scss) */
+
+// Assumed variables (replace with your actual variables if different)
+$black: #000;
+$white: #ffffff;
+$border-radius: 0px; // Example global variable
+$transition-duration: 0.3s; // Example global variable
+$font-weight-medium: 500; // Example global variable
+$social-icon-height: 36px; // Define icon height for calculation
+$social-icon-height-tablet: 32px; // Define icon height for calculation
+
+// Assumed mixins (replace with your actual mixins)
+@mixin desktop {
+  @media (min-width: 992px) {
+    // Example: Adjust breakpoint as needed for "large+"
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 991.98px) {
+    // Example: Adjust breakpoint as needed for "medium and smaller"
+    @content;
+  }
+}
+
+.og-preview-wrapper {
+  position: relative;
+  max-width: 280px;
+  margin-left: auto;
+  padding: 8px; /* Creates space for glow and potential scaling overflow */
+}
+
+.og-preview-container {
+  position: relative;
+  width: 100%;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow:
+    0 4px 12px rgba($black, 0.3),
+    0 0 0 1px rgba($white, 0.3),
+    0 0 20px rgba($white, 0.6);
+  transition:
+    transform $transition-duration ease,
+    box-shadow $transition-duration ease;
+  aspect-ratio: 1.91/1; // <<< Keep the original aspect ratio globally
+
+  &:hover {
+    box-shadow:
+      0 4px 20px rgba($black, 0.15),
+      0 0 0 1px rgba($white, 0.2),
+      0 0 30px rgba($white, 0.4);
+
+    .social-share-overlay {
+      opacity: 1; // Show icons
+    }
+    .sharing-runner {
+      transform: translateY(100%); // Move runner down completely
+    }
+  }
+}
+
+.og-preview-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover; // Default: Cover the container
+  background-position: center;
+  background-repeat: no-repeat; // Add no-repeat globally
+  background-color: $light; // Add a background color for letterboxing
+  position: relative; // Positioning context for overlay
+}
+
+.image-dark-overlay {
+  position: absolute;
+  inset: 0; // shorthand for top/left/right/bottom = 0
+  background: rgba($black, 0); // Keep transparent
+  z-index: 1;
+  pointer-events: none;
+}
+
+.social-share-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  opacity: 0; // Start hidden
+  transition: opacity $transition-duration ease;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.social-icons-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+  position: relative;
+  transform: translateY(-50%);
+}
+
+.social-icon {
+  color: $white;
+  font-size: 20px;
+  width: $social-icon-height;
+  height: $social-icon-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    box-shadow $transition-duration ease,
+    border-color 0.2s ease; // <<< ADD border-color transition
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: -3px 3px 0px 0px $border-color;
+  border: 2px solid transparent; // <<< ADD: Initial transparent border
+
+  &.twitter {
+    background: rgba($secondary-color, 0.8);
+  }
+  &.bluesky {
+    background: rgba($secondary-color, 0.8);
+  } // <<< ADDED BLUESKY
+  &.facebook {
+    background: rgba($secondary-color, 0.8);
+  }
+  &.linkedin {
+    background: rgba($secondary-color, 0.8);
+  }
+
+  &:hover {
+    // Slightly larger offset and slightly darker shadow color on hover
+    box-shadow: -3px 3px 0px 0px darken($border-color, 10%); // <<< CHANGED COLOR & darkened
+  }
+}
+.sharing-runner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba($black, 0.85);
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  transition: transform $transition-duration ease;
+  z-index: 3; // Above social overlay
+
+  span {
+    font-size: 14px;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.runner-icons {
+  display: flex;
+  gap: 12px;
+  i {
+    font-size: 16px;
+    color: $white;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.og-preview-image {
+  // ... (existing styles) ...
+  position: relative; // Ensure it's a positioning context
+  overflow: hidden; // Hide effect overflows if necessary
+}
+
+// --- ADDED: Effect Overlay and Styles ---
+.og-effect-overlay {
+  position: absolute;
+  inset: 0; // Cover the parent
+  background: transparent; // Start transparent
+  opacity: 0;
+  pointer-events: none; // Don't interfere with clicks
+  z-index: 2; // Above image overlay, below social icons
+  will-change:
+    opacity, transform, background, filter; // Hint browser for animation optimization
+
+  // Shared animation properties (applied by JS)
+  &.animate-effect {
+    animation-name: effect-sweep;
+    animation-timing-function: linear; // Or ease-in-out
+    animation-fill-mode: forwards; // Stay at the end state (opacity 0)
+    // animation-duration is set by JS
+  }
+}
+
+// --- Effect Definitions ---
+
+// 1. Static Effect
+.og-effect-overlay.effect-static {
+  // Simple static: Use a repeating noise background image (create one or find one online)
+  // background-image: url('/images/static-noise.png'); // <<< Replace with your noise pattern path
+  // Or simulate with a gradient:
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+    radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size:
+    1px 1px,
+    3px 3px;
+}
+
+// 2. Glitch Effect (using pseudo-elements)
+.og-effect-overlay.effect-glitch {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit; // Inherit the parent's background-image (the OG image)
+    background-color: rgba($primary-color, 0.2); // Tint
+    animation: glitch-anim 150ms infinite linear alternate-reverse;
+    opacity: 0.8;
+    transform: translate3d(0, 0, 0); // Promote to own layer
+  }
+
+  &::after {
+    background-color: rgba($secondary-color, 0.1); // Different tint
+    animation-delay: -50ms; // Offset animation
+    animation-direction: alternate;
+  }
+}
+
+// 3. Warble Effect (using SVG filter)
+.og-effect-overlay.effect-warble {
+  // We apply the filter to the *image* element itself when this effect is active,
+  // as SVG filters work best on the source element.
+  // The overlay itself might just control the timing/sweep via its animation.
+  // Or, for simplicity, we apply filter to the overlay and give it a background.
+  background: inherit; // Inherit the actual OG image background
+  filter: url(#og-warble-filter); // Apply the SVG filter
+}
+
+// --- Keyframe Animations ---
+
+// Sweep animation (controls opacity mainly)
+@keyframes effect-sweep {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  } // Quickly fade in effect
+  85% {
+    opacity: 0.6;
+  } // Hold effect
+  100% {
+    opacity: 0;
+  } // Fade out
+}
+
+// Glitch animation parts
+@keyframes glitch-anim {
+  $steps: 10;
+  @for $i from 0 through $steps {
+    #{percentage($i * (1 / $steps))} {
+      clip-path: inset(random(80) * 1% 0 random(80) * 1% 0);
+      transform: translate(random(5) - 2.5 + px, random(5) - 2.5 + px);
+    }
+  }
+  // Ensure reset at end if needed, though sweep handles fade out
+  100% {
+    clip-path: inset(0);
+    transform: translate(0, 0);
+  }
+}
+
+/* --- Responsive Adjustments --- */
+
+@include desktop {
+  .og-preview-wrapper {
+    max-width: 100%;
+    margin: 20px auto 0;
+    padding: 6px;
+  }
+  .og-preview-container {
+    max-width: 280px;
+    margin: 0 auto;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+@include tablet {
+  // Styles for tablet and smaller
+  .og-preview-container {
+    box-shadow:
+      0 4px 20px rgba($black, 0.15),
+      0 0 0 1px rgba($white, 0.2),
+      0 0 30px rgba($white, 0.4);
+    &:hover {
+      transform: none;
+    } // Keep hover disabled
+  }
+
+  .og-preview-image {
+    background-size: contain; // <<< CHANGE: Ensure whole image fits
+  }
+
+  .image-dark-overlay {
+    background: rgba($black, 0);
+    transition: none;
+  }
+
+  .social-share-overlay {
+    opacity: 1;
+    transition: none;
+  }
+
+  .social-icons-container {
+    transform: translateY(-50%); // Keep vertical positioning
+  }
+
+  .sharing-runner {
+    transform: translateY(100%);
+    transition: none;
+  } // Keep hidden
+
+  .social-icons-container {
+    gap: 8px;
+  }
+  .social-icon {
+    width: $social-icon-height-tablet;
+    height: $social-icon-height-tablet;
+    font-size: 18px;
+    border-width: 1px; // <<< Optional: thinner border on smaller screens
+    box-shadow: -3px 3px 0px 0px rgba($border-color, 1);
+  }
+  .runner-icons i {
+    font-size: 14px;
+  }
+  .sharing-runner span {
+    font-size: 13px;
+  }
+}

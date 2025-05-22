@@ -1,0 +1,331 @@
+.top-header {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+  transform-origin: top;
+  font-weight: 600;
+  will-change: transform;
+
+  &.hide {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+}
+
+.navigation {
+  background-color: #301934; // Dark purple background for the entire navigation
+  transition: background-color 0.2s ease, box-shadow 0.2s ease; // More specific transitions
+  z-index: 1030; // Ensure nav is above breadcrumbs even when not sticky
+  will-change: background-color, box-shadow;
+
+  @include desktop {
+    // background is set on the parent .navigation
+
+    .navbar-brand {
+      padding: 6px 0; // Reduced padding for half height
+    }
+  }
+}
+
+.navbar-collapse {
+  @include desktop {
+    background: $primary-color;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid darken($primary-color, 5%);
+  }
+}
+@media (max-width: 991px) {
+  .navigation {
+    // background is set on the parent .navigation
+  }
+}
+
+.navbar-nav {
+  // background is set on the parent .navigation, or can be transparent for collapsed menu
+  background: transparent;
+  margin-top: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  @include desktop {
+    padding-left: 0;
+    background: $secondary-color;
+  }
+  box-shadow: 0 2px 5px rgba($black, 0.15); // Slightly increased shadow for better contrast
+
+}
+
+// Remove background from collapsed nav menu *only* when sticky
+.navigation.nav-bg { // Target when the main navigation is sticky
+  @include desktop { // Apply only below the desktop breakpoint (when menu is typically collapsed)
+    .navbar-nav {
+      background: none; // Remove the background
+      // or you could use: background-color: transparent;
+    }
+  }
+}
+
+.nav-bg {
+  // Use RGBA for transparency - adjust alpha (0.85) as needed
+  background-color: rgba(115, 127, 144, 0.85); // RGBA equivalent of #737f90
+
+  // Add the blur effect - adjust blur amount (8px) as needed
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); // Vendor prefix for Safari
+
+  // Keep existing sticky positioning and shadow
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1030; // Ensure it's above breadcrumbs
+  box-shadow: 0 2px 5px rgba($black, 0.15); // Slightly increased shadow for better contrast
+  transition: background-color 0.2s ease, backdrop-filter 0.2s ease, box-shadow 0.2s ease;
+}
+.nav-item {
+  .nav-link {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  margin: 0 15px;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 6px;
+    width: 100%;
+    content: '';
+    background: $white;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover,
+  &.active {
+    &::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+  }
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: $white;
+}
+
+link:focus,
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: $white;
+}
+
+.navbar-dark .navbar-nav .active > .nav-link,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .show > .nav-link {
+  color: $white;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding: 20px 0px; // Reduced padding for half height
+  // Add transition for padding change on sticky
+  transition: padding 0.2s ease;
+  will-change: padding;
+
+  @include desktop {
+    padding: 10px; // Reduced padding for half height
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  background: $white;
+  box-shadow: 0 2px 5px #0000000d;
+}
+
+.navbar {
+  .dropdown {
+    &:hover {
+      .dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    &-menu {
+      box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.12);
+      border-bottom: 5px solid $primary-color;
+      padding: 15px;
+      top: 98px; // Original top position
+      border-radius: 0;
+      display: block;
+      visibility: hidden;
+      transition: 0.3s ease; // Keep existing transition
+      opacity: 0;
+      transform: translateY(20px);
+      background: $white;
+      z-index: 1035; // Ensure dropdown is above other elements
+
+      @include tablet { // Styles for when navbar is collapsed
+        // For non-sticky collapsed state
+        &:not(.nav-bg .navbar .dropdown-menu) { // More specific to avoid conflict if .nav-bg is on a parent
+           top: 100%; // Position dropdown right below the parent nav item
+        }
+        left: 0; // Align to the left of the parent
+        width: 100%; // Make dropdown full width of parent or screen as needed
+        position: absolute; // Ensure it's positioned relative to the .nav-item
+
+        // Specifically for STICKY and COLLAPSED state, as per your feedback
+        .navigation.nav-bg & { // More direct targeting: if .navigation.nav-bg is an ancestor
+          top: 48px !important; // Using !important to ensure override if specificity is tricky
+        }
+      }
+
+      @include desktop {
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transform-origin: unset;
+        // top: 96px; // This is already set above, keep it there for non-sticky desktop
+        position: absolute; // Ensure absolute positioning for desktop too
+        left: auto; // Reset left for desktop
+        right: 0; // Align to the right edge of the parent nav-item
+        width: auto; // Reset width for desktop
+      }
+
+      &.show {
+        visibility: visible; // Corrected: should be visible when .show is active
+        opacity: 1; // Ensure opacity is 1 when .show is active
+        transform: translateY(0); // Ensure transform is reset when .show is active
+
+        @include desktop {
+          // Bootstrap 5 typically handles display via .show,
+          // but ensure it's block if specific desktop styling requires it.
+          display: block;
+        }
+      }
+    }
+    // Ensure .nav-item has position: relative for dropdown positioning
+    .nav-item {
+      position: relative; // This might already be set, but ensure it for context
+    }
+
+    &-item {
+      position: relative;
+      color: $text-color-dark;
+      transition: 0.2s ease;
+      text-transform: capitalize;
+      font-family: $primary-font;
+
+      @include desktop {
+        text-align: center;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      &:hover {
+        color: $primary-color;
+        background: transparent;
+      }
+    }
+  }
+}
+
+.navbar-toggler {
+  border-color: rgba($white, 0.5) !important;
+  border-width: 3px;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+// --- START: Added rules for sticky header height reduction ---
+
+// Reduce padding on nav links when sticky
+.navigation.nav-bg .navbar-expand-lg .navbar-nav .nav-link {
+  padding-top: 15px; // Reduced top padding
+  padding-bottom: 15px; // Reduced bottom padding
+}
+
+// Reduce logo size when sticky
+.navigation.nav-bg .navbar-brand img.header-logo {
+  max-height: 40px; // Target height
+  width: auto; // Allow width to adjust
+  transition: max-height 0.2s ease; // Add transition for logo height
+  will-change: max-height;
+}
+
+.navbar-brand img.header-logo {
+  max-height: 68px; // Set logo height
+  width: auto; // Allow width to adjust
+}
+
+// Adjust dropdown menu position when sticky
+.navigation.nav-bg .navbar .dropdown-menu {
+  // New height ~50px + buffer. Adjust this value if needed after testing.
+  top: 48px; // Set to a fixed value, adjust if $sticky-nav-height was defined and different
+  transition:
+    top 0.2s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0.3s ease; // Combine transitions
+}
+
+// Custom dropdown toggle arrow using Font Awesome
+.navbar-nav {
+  .nav-item.dropdown {
+    .nav-link.dropdown-toggle {
+      display: inline-flex; // Helps align text and custom arrow
+      align-items: center;
+
+      // Remove Bootstrap's default ::after chevron
+      &::after {
+        display: none !important; // Or content: none !important;
+      }
+
+      /* &::after { // Removed CSS ::after chevron
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        border: none;
+        vertical-align: middle;
+        font-size: 0.65em;
+        margin-left: 0.4em;
+        transition: transform 0.2s ease-in-out;
+        display: inline-block;
+      } */
+    }
+
+    // Styling for the new SVG dropdown arrow
+    .dropdown-arrow-svg {
+      font-size: 0.65em; // Match previous ::after style's relative size
+      transition: transform 0.2s ease-in-out;
+      // .icon class from partial handles display: inline-block and vertical-align: middle
+      // .ms-1 class passed to partial handles margin-left
+    }
+
+    // Rotate SVG arrow on hover of the parent .dropdown or when .nav-link is active/expanded
+    &:hover > .nav-link.dropdown-toggle .dropdown-arrow-svg,
+    .nav-link.dropdown-toggle[aria-expanded="true"] .dropdown-arrow-svg {
+      transform: rotate(-180deg);
+    }
+  }
+}

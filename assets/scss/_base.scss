@@ -1,0 +1,48 @@
+body {
+  background-color: $body-color;
+  overflow-x: hidden;
+}
+
+html {
+  // Smooth scrolling when clicking anchors (optional but nice)
+  scroll-behavior: smooth;
+
+  // Offset for the sticky header height + some buffer
+  // ADJUST THIS VALUE based on your actual header height
+  scroll-padding-top: 120px;
+}
+
+::selection {
+  background: lighten($color: $primary-color, $amount: 10);
+  color: $white;
+}
+
+ol,
+ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+img {
+  vertical-align: middle;
+  border: 0;
+}
+
+a {
+  color: inherit;
+}
+
+a,
+button,
+select {
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+main {
+  padding-top: 90px; // Offset for the sticky header and breadcrumb bar
+}

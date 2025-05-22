@@ -1,0 +1,58 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {{/* Main Content Area (Blog Post Summaries) */}}
+      <div class="col-lg-8 order-2 order-lg-1">
+        <div class="row">
+          {{ $paginator := .Paginate (where .Site.RegularPages "Type" "blog") }}
+          {{ range $paginator.Pages }}
+          <div class="col-12 mb-5">
+            <article class="card border-0 rounded-0">
+              {{ if .Params.image }}
+              <a href="{{ .RelPermalink }}">
+                {{/* Pass page context here */}}
+                {{ partial "components/image.html" (dict "Src" .Params.image "Alt" .Title "Class" "card-img-top rounded-0" "Context" . ) }}
+              </a>
+              {{ end }}
+              <div class="card-body">
+                <ul class="list-inline mb-3 small text-muted">
+                  <li class="list-inline-item"><i class="fas fa-calendar-alt fa-fw me-1"></i> {{ .PublishDate.Format "January 2, 2006" }}</li>
+                  {{ with .Params.Author }}
+                  <li class="list-inline-item"><i class="fas fa-user fa-fw me-1"></i> {{ . }}</li>
+                  {{ end }}
+                  {{ with .Params.categories }}
+                  <li class="list-inline-item"><i class="fas fa-folder-open fa-fw me-1"></i>
+                    {{ range $index, $category := . }}
+                    <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}">{{ if gt $index 0 }}, {{ end }}{{ . | title }}</a>
+                    {{ end }}
+                  </li>
+                  {{ end }}
+                </ul>
+                <h3 class="card-title mb-3"><a href="{{ .Permalink }}" class="text-dark">{{ .Title }}</a></h3>
+                <p class="card-text">{{ .Summary }}</p>
+                <a href="{{ .Permalink }}" class="btn btn-sm btn-outline-primary">{{ i18n "read_more" }} <i class="fas fa-arrow-right ms-1"></i></a>
+              </div>
+            </article>
+          </div>
+          {{ else }}
+          <div class="col-12 text-center"><p class="text-muted">No blog posts found yet.</p></div>
+          {{ end }} {{/* End range pages */}}
+        </div>
+        {{/* Pagination */}}
+        <div class="row mt-4">
+          <div class="col-12">
+            {{ template "_internal/pagination.html" . }}
+          </div>
+        </div>
+      </div>
+
+      {{/* Sidebar Area */}}
+      <div class="col-lg-4 order-1 order-lg-2">
+        {{ partial "blog-sidebar.html" . }}
+      </div>
+
+    </div> {{/* End outer row */}}
+  </div> {{/* End container */}}
+</section>
+{{ end }}

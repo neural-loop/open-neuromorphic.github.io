@@ -1,0 +1,159 @@
+// themes/visioninit/assets/scss/templates/_toc.scss
+
+.toc-sidebar {
+  position: sticky;
+
+  // Adjust top offset to clear your sticky header + some padding
+  // Inspect your header height or use a variable if available.
+  top: 120px;
+  max-height: calc(
+    100vh - 140px
+  ); // Example: viewport height minus top offset and some bottom space
+  overflow-y: auto;
+  font-size: 0.85rem; // Slightly smaller font size
+
+  .toc-title {
+    font-size: 0.7rem; // Adjust title size
+    font-weight: 600;
+    color: $text-color-dark;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 0.5rem;
+  }
+
+  // Hugo's ToC generates nested <ul>
+  ul {
+    list-style: none;
+    padding-left: 0; // Remove default padding
+
+    ul {
+      // Nested lists (h3, h4, etc.)
+      padding-left: 1rem; // Indent nested levels
+      margin-top: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  a {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    color: $text-color-light; // Default link color
+    text-decoration: none;
+    border-left: 3px solid transparent; // Space for active indicator
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: $primary-color;
+      background-color: lighten(
+        $light,
+        2%
+      ); // Slight background highlight on hover
+      border-left-color: lighten($primary-color, 30%);
+    }
+
+    &.active {
+      color: $primary-color;
+      font-weight: 600;
+      background-color: lighten($primary-color, 45%); // Active background color
+      border-left-color: $primary-color; // Active indicator color
+    }
+  }
+}
+/* --- Heading Highlight on Target (for ToC clicks) --- */
+
+// Ensure headings can be positioned relative to
+h1[id],
+h2[id],
+h3[id],
+h4[id],
+h5[id],
+h6[id] {
+  position: relative; // Needed for the absolute positioning of ::after
+  // Optional: Add a small bottom padding if underline feels too close
+  // padding-bottom: 5px;
+}
+
+// Define the underline style using ::after
+h1[id]::after,
+h2[id]::after,
+h3[id]::after,
+h4[id]::after,
+h5[id]::after,
+h6[id]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px; // Adjust vertical position of the underline (negative value goes below)
+  width: 0; // Start with no width
+  height: 2px; // Thickness of the underline
+  background-color: $primary-color; // Use your theme's primary color
+  opacity: 0; // Start invisible
+  // Optional: add a transition for smoother effect if not using keyframes for width/opacity directly
+  // transition: width 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+// themes/visioninit/assets/scss/templates/_toc.scss
+
+/* --- Heading Highlight on Target (for ToC clicks) --- */
+
+// Ensure headings can be positioned relative to
+h1[id],
+h2[id],
+h3[id],
+h4[id],
+h5[id],
+h6[id] {
+  position: relative; // Needed for the absolute positioning of ::after
+  // Optional: Add a small bottom padding if underline feels too close
+  // padding-bottom: 5px;
+}
+
+// Define the underline style using ::after
+h1[id]::after,
+h2[id]::after,
+h3[id]::after,
+h4[id]::after,
+h5[id]::after,
+h6[id]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px; // Adjust vertical position
+  width: 0;
+  height: 2px;
+  background-color: $primary-color;
+  opacity: 0;
+}
+
+// Apply the animation when the heading is targeted
+h1[id]:target::after,
+h2[id]:target::after,
+h3[id]:target::after,
+h4[id]:target::after,
+h5[id]:target::after,
+h6[id]:target::after {
+  /* Apply animation with a delay */
+  animation: underline-flash 1s ease-out; /* Shortened duration */
+  animation-delay: 0.5s; /* Delay start */
+}
+
+// Define the keyframe animation (no changes needed here unless you adjust timing)
+@keyframes underline-flash {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+
+  10% {
+    width: 100%;
+    opacity: 1;
+  }
+
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}

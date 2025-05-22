@@ -1,0 +1,12 @@
+// Ensure images used as .card-img-top (especially in blog lists) maintain their aspect ratio
+.card {
+  .card-img-top {
+    &.img { // The image.html partial adds the 'img' class
+      height: auto;   // Crucial for maintaining aspect ratio when width is 100%
+      object-fit: cover; // Ensures the image covers the area, might crop if card height is constrained by text
+                         // If you prefer to see the whole image even if it means letterboxing, use 'contain'.
+                         // If the card's height is flexible, 'cover' or 'contain' might not be strictly necessary
+                         // when height is auto, but 'cover' is a common default for card images.
+    }
+  }
+}

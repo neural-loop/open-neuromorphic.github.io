@@ -1,0 +1,7 @@
+baseURL = "http://localhost:1313/"
+publishDir = "tmp/public"
+resourceDir = "tmp/resources"
+enableRobotsTXT = true
+
+URL = 'localhost'
+title = "Dev VisionInit - Professional IT Services & Solutions"

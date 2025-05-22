@@ -1,0 +1,29 @@
+// Color Variables
+$primary-color: #636c7a;
+$primary-contrast-color: #d69bb6;
+$secondary-color: #000000;
+$footer-color: #6f52ff0d;
+$text-color: #5c5c77;
+$text-muted: #1717e8;
+$text-color-light: #8585a4;
+$dark-accent: #211344;
+$text-color-dark: #1e1e4b;
+$body-color: #ffffff;
+$border-color: #ededf1;
+$black: #000;
+$white: #fff;
+$light: #f8f9fe;
+$gray: #f8f8f8;
+$text-lighten: #d6d6e0;
+
+// Font Variables
+$primary-font: 'Inter', sans-serif;
+$display-font: 'IBMPlexSerif-Bold', serif;
+$secondary-font: $display-font;
+$icon-font: 'Font Awesome 6 Free'; // Corrected to Font Awesome
+
+// Sticky Header Variables (Keep as is)
+$sticky-nav-height: 46px;
+$sticky-nav-height-onload: 118px;
+$sticky-breadcrumb-height: 40px;
+$total-sticky-height: $sticky-nav-height + $sticky-breadcrumb-height;

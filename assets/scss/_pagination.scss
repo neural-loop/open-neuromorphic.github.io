@@ -1,0 +1,25 @@
+/* pagination */
+.pagination {
+  justify-content: center;
+
+  .page-item {
+    margin: 0 10px;
+
+    &.active {
+      .page-link {
+        background: $primary-color;
+        color: $white;
+        border-color: $primary-color;
+      }
+    }
+
+    &:first-child .page-link,
+    &:last-child .page-link {
+      border-radius: 0;
+    }
+
+    .page-link {
+      color: $text-color;
+    }
+  }
+}

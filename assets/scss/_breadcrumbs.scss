@@ -1,0 +1,105 @@
+.sticky-breadcrumbs-wrapper {
+  // top: is set by JS (sticky-header.js)
+  z-index: 1020; // Below Bootstrap's default navbar z-index (1030) but above most content
+  background-color: $light; // Changed to $light to match final intended style
+  // Add a subtle shadow or border if needed for separation
+  // box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.custom-breadcrumb {
+  li {
+    a {
+      // <<< Target links within list items
+      text-decoration: none !important; // Ensure no default underline
+      color: $white; // Explicitly set default link color to white
+      border-bottom: 2px solid transparent; // Reserve space
+      padding-bottom: 1px; // Gap
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease; // Transition for color and border
+
+      &:hover {
+        // Keep existing hover colors if defined by specific classes like text-primary
+        // We just need to show the border
+        border-bottom-color: $white; // Use white for the underline on the dark overlay bg
+      }
+    }
+
+    &.nasted {
+      // Keep nasted styles as they were
+      position: relative;
+      padding-left: 25px;
+
+      &::before {
+        position: absolute;
+        font-family: $icon-font;
+        content: '\e649';
+        font-size: 20px;
+        top: 50%;
+        left: -5px;
+        color: $white;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  li.breadcrumb-home-item {
+    // Adjust vertical alignment if needed to match text separators better
+    vertical-align: middle;
+
+    // Potentially adjust margin if spacing looks off
+    // margin-right: 5px;
+  }
+
+  li a.breadcrumb-home-link {
+    display: inline-flex; // Use flex for easier centering of the icon
+    align-items: center;
+    justify-content: center;
+    padding: 0.3em 0.7em; // Adjust vertical/horizontal padding for shape/size
+    border-radius: 50em; // High value creates a pill/oval shape
+    background-color: rgba($white, 0.1); // Subtle background fill
+    color: $white !important; // Ensure icon is white
+    font-size: 0.4em; // Make the shape/icon slightly smaller than H2 text size
+    line-height: 1; // Prevent extra line height issues
+    text-decoration: none !important; // Override default link styles
+    border-bottom: none !important; // Explicitly remove underline
+    margin-bottom: 18px;
+
+    // Ensure icon inside is styled correctly (redundant if color is on <a>, but safe)
+    i {
+      color: $white;
+      line-height: inherit; // Ensure icon inherits line height
+    }
+
+    &:hover {
+      background-color: rgba(
+        $white,
+        0.25
+      ); // Slightly more visible background on hover
+      border-color: rgba($white, 0.9); // Stronger border on hover
+      color: $white !important; // Keep icon white
+      text-decoration: none !important; // Ensure no underline on hover
+      border-bottom: none !important;
+    }
+  }
+
+  // Adjust separator alignment if necessary
+  li.h5 {
+    // The list item containing the separator icon
+    vertical-align: middle; // Match alignment with the home icon item
+  }
+}
+
+li.breadcrumb-current-page h1 {
+  // Override default H1 styles to match H3 visual appearance
+  font-size: 25px; // Explicitly set H3 font size (or use $h3-font-size variable if available)
+  line-height: 1.2; // Match default heading line-height
+  font-weight: 700; // Match default heading font-weight
+  margin: 0; // Remove any default H1 margins
+  color: $white; // Ensure color is white (redundant with class, but safe)
+  font-family: $secondary-font; // Ensure font is correct (redundant with class, but safe)
+
+  // Important: Prevent inheriting other styles that might make it look like a link
+  text-decoration: none !important;
+  border-bottom: none !important;
+}

@@ -1,0 +1,25 @@
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  color: $primary-color;
+}
+
+a.text-primary:hover {
+  color: $primary-color !important;
+}
+
+a.text-light:hover {
+  color: $primary-color !important;
+}
+
+a h4 {
+  &:hover {
+    color: $primary-color;
+  }
+}

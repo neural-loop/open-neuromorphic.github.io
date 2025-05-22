@@ -1,0 +1,125 @@
+{{ define "main" }}
+
+<!-- Hardware Detail Section -->
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+
+      {{/* --- Table of Contents Sidebar (if content exists) --- */}}
+      {{ if and .TableOfContents (gt (len .TableOfContents) 80) }} {{/* Only show ToC if it has significant content */}}
+      <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0">
+        <nav id="toc" class="toc-sidebar card rounded-0 border-0 bg-light p-3">
+          <h4 class="mb-3 toc-title">On This Page</h4>
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+      {{ end }}
+
+      {{/* --- Main Content Area --- */}}
+      {{ $contentColumnClass := "col-lg-12" }} {{/* Default: full width if no ToC or ToC is short */}}
+      {{ if and .TableOfContents (gt (len .TableOfContents) 80) }}
+        {{ $contentColumnClass = "col-lg-8 order-lg-1" }} {{/* Use 8 cols if ToC is present and long */}}
+      {{ end }}
+      <div class="{{ $contentColumnClass }}">
+        <article class="mb-5">
+          {{/* --- START: Hardware Specific Info Partials --- */}}
+          <div class="mb-5"> {{/* Add some bottom margin to separate from main content */}}
+            <div class="bg-theme-light dark:bg-darkmode-theme-light rounded p-4 p-md-5 mb-4">
+              {{ partial "hardware/product-info.html" . }}
+            </div>
+            <div class="bg-theme-light dark:bg-darkmode-theme-light rounded p-4 p-md-5">
+              {{ partial "hardware/company-info.html" . }}
+            </div>
+          </div>
+          {{/* --- END: Hardware Specific Info Partials --- */}}
+
+          {{/* Page Title (if not already in page-header.html, or if you want it repeated) */}}
+          {{/* Usually, the title is prominent in page-header.html.
+               If you want it directly above the content here, uncomment:
+          <h1 class="h2 mb-4">{{ .Title }}</h1>
+          */}}
+
+          {{/* Meta Information (like _default/single.html) */}}
+          {{/* This assumes you might add Author/Categories/Tags to hardware front matter if desired */}}
+          {{ if or .Params.Author .Params.Categories .Params.Date }}
+          <ul class="list-inline text-muted small mb-4">
+            {{ with .Date }}
+            <li class="list-inline-item me-3">
+              <i class="fas fa-calendar-alt fa-fw me-1"></i>
+              {{ .Format (site.Params.dateFormat | default "January 2, 2006") }}
+              {{ with $.Params.product.release_year }} (Release: {{.}}){{end}}
+            </li>
+            {{ end }}
+            {{ with .Params.author }}
+            <li class="list-inline-item me-3">
+              <i class="fas fa-user fa-fw me-1"></i>
+              {{ if reflect.IsSlice . }}
+                {{ range $index, $element := . }}
+                  {{ $authorPage := site.GetPage (printf "author/%s" ($element | urlize)) }}
+                  {{ if ne $index 0 }}, {{ end }}
+                  {{ if $authorPage }}<a href="{{ $authorPage.RelPermalink }}">{{ $element | title }}</a>{{ else }}{{ $element | title }}{{ end }}
+                {{ end }}
+              {{ else }}
+                {{ $authorPage := site.GetPage (printf "author/%s" (. | urlize)) }}
+                {{ if $authorPage }}<a href="{{ $authorPage.RelPermalink }}">{{ . | title }}</a>{{ else }}{{ . | title }}{{ end }}
+              {{ end }}
+            </li>
+            {{ end }}
+            {{ with .Params.categories }}
+            <li class="list-inline-item me-3">
+              <i class="fas fa-folder-open fa-fw me-1"></i>
+              {{ range $index, $element := . }}
+              <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}">{{ if ne $index 0 }}, {{ end }}{{ . | title }}</a>
+              {{ end }}
+            </li>
+            {{ end }}
+             {{ with .Params.tags }}
+            <li class="list-inline-item"><i class="fas fa-tags fa-fw me-1"></i>
+              {{ range $index, $tag := . }}
+              <a href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}">{{ if gt $index 0 }}, {{ end }}{{ . | humanize }}</a>
+              {{ end }}
+            </li>
+            {{ end }}
+          </ul>
+          <hr class="mb-4">
+          {{ end }}
+
+
+          {{/* Main Markdown Content */}}
+          <div class="content">
+            {{ .Content }}
+          </div>
+        </article>
+
+        {{/* --- Related Blog Posts (Optional) --- */}}
+        {{/* This section can be adapted or removed if not relevant for hardware pages */}}
+        {{ $related := where (where site.RegularPages "Section" "blog") "Params.tags" "intersect" .Params.tags | shuffle | first 3 }}
+        {{ if $related }}
+        <div class="mt-5 pt-4 border-top">
+          <h3 class="h5 mb-4">Related Articles:</h3>
+          <div class="row">
+            {{ range $related }}
+              {{ if ne .Permalink $.Permalink }} {{/* Don't link to self */}}
+              <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                {{ partial "components/item-card.html" (dict "context" . "class" "related-item-card") }}
+              </div>
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* Disqus comments (Optional) */}}
+        {{ if site.Config.Services.Disqus.Shortname }}
+        <div class="mt-5">
+          {{ template "_internal/disqus.html" . }}
+        </div>
+        {{ end }}
+      </div> {{/* End Main Content Col */}}
+
+    </div> {{/* End row */}}
+  </div> {{/* End container */}}
+</section>
+<!-- /Hardware Detail Section -->
+
+{{ end }}

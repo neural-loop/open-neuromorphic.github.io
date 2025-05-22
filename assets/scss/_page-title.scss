@@ -1,0 +1,8 @@
+/* page title */
+.page-title-section {
+  padding: 200px 0 80px; // Keep existing styles
+  h1.page-header-title{ // Target the specific h1
+    // Ensure dark text color remains dominant
+    color: $text-color-dark !important;
+  }
+}

@@ -1,0 +1,26 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <div class="row">
+      {{ $paginator := .Paginate .Pages }}
+
+      {{ range $paginator.Pages }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{/* Call the reusable item card partial */}}
+        {{ partial "components/item-card.html" (dict "context" . "class" "") }}
+      </div>
+      {{ else }}
+      <div class="col-12 text-center"><p class="text-muted">No items found in this section.</p></div>
+      {{ end }} {{/* End range */}}
+    </div> {{/* End row */}}
+
+    {{/* Pagination */}}
+    <div class="row mt-4">
+      <div class="col-12">
+        {{ template "_internal/pagination.html" . }}
+      </div>
+    </div>
+
+  </div> {{/* End container */}}
+</section>
+{{ end }} {{/* End define main */}}

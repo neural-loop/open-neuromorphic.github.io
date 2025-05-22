@@ -1,0 +1,304 @@
+// === START .content SECTION - WITH LINK & LIST FIXES ===
+.content {
+  // WARNING: This global rule applies margin to ALL descendants.
+  // <<< REMOVE THIS RULE >>>
+  // * {
+  //   margin-bottom: 20px;
+  // }
+  // <<< END REMOVE >>>
+
+  // <<< ADD THESE RULES INSTEAD >>>
+  // Apply margin specifically to common block-level elements
+  p,
+  h1, h2, h3, h4, h5, h6,
+  ul, ol, // The list itself, not list items
+  table,
+  blockquote,
+  pre,
+  hr,
+  figure, // Common wrapper for images/code with captions
+  dl, // Description lists
+  form,
+  fieldset {
+    margin-bottom: 1.5rem; // Use a relative unit like rem, adjust value as needed (1.5rem is often ~24px)
+  }
+
+  // <<< END ADD >>>
+
+  // Add this for readability on wider screens
+  // Removed max-width and auto margins to allow content to fill columns
+  p,
+  ul,
+  ol {
+    // max-width: 75ch; // Removed
+    // margin-left: auto; // Removed
+    // margin-right: auto; // Removed
+  }
+
+  // --- FIX: LINK STYLES (Excluding Buttons) ---
+  // ... (rest of the .content rules for a, li, table, etc., remain unchanged) ...
+  a:not(.btn) {
+    color: $primary-color; // Default color for non-button content links
+    text-decoration: none !important;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 1px;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      color: darken($primary-color, 10%);
+      border-bottom-color: $primary-color;
+    }
+
+    &[target='_blank'] {
+    } // Inherits general ::after rule
+  }
+
+  // --- FIX: Ensure Buttons Are Unaffected ---
+  a.btn {
+    &:hover {
+      border-bottom-color: transparent !important;
+    }
+
+    // NOTE: If using Option 2, the rule added in Option 1 for `a.btn i` is no longer needed!
+  }
+
+  // --- END LINK FIXES ---
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 1rem; // Specific heading margin (adjust value)
+  }
+
+  // --- LIST STYLES - REVISED FOR CONSISTENCY ---
+  ol {
+    list-style-type: decimal; /* Ensure default numbering */
+    padding-left: 2em; /* Consistent padding for nesting */
+  }
+  ul {
+    /* Default styling for ULs within .content that are NOT .list-styled or using .icon-list-item via render hook */
+    /* (Render hook is currently disabled, so this will apply to all Markdown ULs) */
+    list-style-type: disc; /* Restore default disc bullets */
+    padding-left: 2em;    /* Standard indentation for bullets */
+  }
+
+  /* Styling for nested lists to change bullet/numbering type */
+  ul ul, ul ol,
+  ol ul, ol ol {
+    margin-bottom: 0; /* Remove bottom margin from nested lists if desired */
+    margin-top: 0.5rem; /* Add some top margin for nested lists */
+  }
+  ul ul { list-style-type: circle; }
+  ul ul ul { list-style-type: square; }
+  /* Ordered lists will naturally nest (1., 1.1., 1.1.1.) if supported, or just continue numbering */
+
+
+  li { /* General li styling within .content */
+    margin-bottom: 0.75rem; /* Adjust spacing between list items */
+    p {
+      margin-bottom: 0.5rem;
+    }
+    > *:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  /* The render-list.html hook adds .icon-list-item to <li> elements from Markdown ULs.
+     Styling for .icon-list-item and its > .icon is handled in _lists.scss.
+     So, this specific "ul li" rule for .content is likely not needed anymore for icon placement.
+     We might only need to ensure line-height or other text properties if desired.
+  */
+  ul li {
+    /* This rule is for general LIs inside ULs in .content.
+       If the UL itself has padding-left for bullets, individual LIs usually don't need extra padding-left
+       unless they are icon lists or have custom ::before elements.
+       The .icon-list-item class (from _lists.scss) handles its own padding if applied.
+    */
+    line-height: 1.7;
+    /* position: relative; // Only if using ::before on these generic LIs */
+    /* padding-left: 0; // Reset if UL handles all indent, or if using ::before */
+  }
+
+  // --- Keep other specific styles ---
+  table {
+    // table itself gets margin from block rule above
+    text-align: left;
+    width: 100%;
+    max-width: 100%;
+
+    // margin-bottom: 1rem; // Remove or keep if you want different margin than block rule
+    border: 1px solid #dee2e6;
+
+    th,
+    td {
+      padding: 0.75rem;
+      vertical-align: top;
+      border: 1px solid #dee2e6;
+      margin-bottom: 0; // Ensure cells don't inherit block margin
+    }
+    thead {
+      background: darken($color: $light, $amount: 2);
+    }
+    tbody {
+      background: $light;
+    }
+    tbody td {
+      text-align: left !important;
+    }
+  }
+
+  blockquote {
+    // blockquote itself gets margin from block rule above
+    p {
+      margin-bottom: 0;
+      color: $text-color;
+      font-style: italic !important;
+    }
+  }
+
+  pre {
+    // pre block itself gets margin from block rule above
+    padding: 10px 20px;
+    background: $light;
+
+    // margin-bottom: 20px; // Remove or keep if you want different margin than block rule
+  }
+
+// Styling for images directly within <article> elements (e.g., featured images)
+// This is separate from images inside a .content div (like those from Markdown)
+article {
+  // Target images that are direct children or within a direct child <figure> or <picture>
+  // Also explicitly targets elements with .img-fluid that might be direct children
+  > img,
+  > figure > img,
+  > picture > img,
+  > .img-fluid,                      // Catch if the partial outputs <img> directly with class
+  > figure > .img-fluid,             // Catch if <img> with class is in a figure
+  > picture > .img-fluid {           // Catch if <img> with class is in a picture
+    max-width: 100%;                 // Ensure it doesn't exceed container width
+    height: auto;                    // Maintain aspect ratio
+    display: block;                  // Behaves well with width/height and margins
+    // margin-left: auto;            // Optional: Uncomment if you want non-full-width images centered
+    // margin-right: auto;           // Optional: Uncomment if you want non-full-width images centered
+                                     // .mb-4 class from template handles bottom margin
+  }
+}
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+article img {
+    max-width: 100%;
+    height: auto !important; // Add !important to ensure override
+  }
+article img {
+    max-width: 100%;
+    height: auto !important; // Add !important to ensure override
+  }
+
+  // --- START: Added Heading Size Overrides ---
+  // Add specific size overrides for headings within the content area
+  // Adjust these font-size values to match the desired look from other pages.
+  // You might need to inspect element on a "good" page to find the exact sizes.
+  h1,
+  .h1 {
+    font-size: 2rem; // Example: Adjust as needed (Default was 60px)
+    // Add line-height if needed: line-height: 1.2;
+  }
+
+  h2,
+  .h2 {
+    font-size: 1.7rem; // Example: Adjust as needed (Default was 40px)
+    // line-height: 1.2;
+    padding-bottom: 5px;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.3rem; // Example: Adjust as needed (Default was 25px)
+    // line-height: 1.2;
+  }
+
+  h4,
+  .h4 {
+    font-size: 1rem; // Example: Adjust as needed (Default was 20px)
+    // line-height: 1.2;
+  }
+
+  h5,
+  .h5 {
+    font-size: 1rem; // Example: Adjust as needed (Default was 18px)
+    // line-height: 1.2;
+  }
+
+  h6,
+  .h6 {
+    font-size: 1rem; // Example: Adjust as needed (Default was 16px)
+    // line-height: 1.2;
+  }
+
+  // Ensure headings within cards in the content area also get consistent styling
+  // (This might be slightly redundant if the cards are correctly nested, but safe)
+  .card {
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+      // Re-apply the desired sizes or ensure they inherit correctly
+      // If the sizes above work, you might not need this nested block.
+      // Example: Use the specific sizes again if needed
+      &.h3 {
+        font-size: 1.75rem;
+      }
+
+      &.h4 {
+        font-size: 1.5rem;
+      }
+
+      // etc.
+    }
+  }
+  // --- END: Added Heading Size Overrides ---
+
+} // === END OF .content SECTION ===
+
+// If you have other specific text blocks outside .content:
+.service-description { // Example from layouts/services/single.html
+  p { // Target paragraphs within this specific block
+    max-width: 75ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.communications-cta-block {
+  background-color: #301934;
+  color: #fff; // Ensure text is light on the dark background
+
+  // Style for links within this block if needed
+  a {
+    color: #fff; // Example: make links white
+    text-decoration: underline; // Example: add underline for visibility
+    &:hover {
+      color: lighten(#301934, 20%); // Example: lighten text on hover
+    }
+  }
+
+  // Style for headings within this block if needed
+  h1, h2, h3, h4, h5, h6 {
+    color: #fff; // Ensure headings are white
+  }
+}

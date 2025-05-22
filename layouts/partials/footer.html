@@ -1,0 +1,155 @@
+{{/* layouts/partials/footer.html */}}
+<!-- footer -->
+<footer>
+  {{ partial "components/cta-footer.html" . }}
+  <div class="footer bg-footer section border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mb-lg-0">
+          {{ $logoSrc := resources.Get "images/logo-source.png" }}
+          {{ if $logoSrc }}
+            {{/* Define appropriate sizes for the footer logo, considering max-height: 60px */}}
+            {{ $footerLogoBaseHeight := 60 }}
+            {{/* Assuming logo-source.png aspect ratio is roughly 1:1 for simplicity in Resize.
+                 If not, use "x60" to set height and let width auto, then use that width.
+                 For example, if source is 200w x 100h, Resize "x60" -> 120w x 60h. Base width for sizes would be 120px.
+                 Let's assume source is 158w x 160h. Resizing to height 60px: width = 158 * (60/160) = 59.25px.
+                 So, base display width is approx 59px.
+            */}}
+            {{ $footerLogoBaseDisplayWidth := 59 }}
+            {{ $logoSmallFooter := $logoSrc.Resize (printf "%dx webp q85" $footerLogoBaseDisplayWidth) }}
+            {{ $logoMediumFooter := $logoSrc.Resize (printf "%dx webp q85" (int (mul $footerLogoBaseDisplayWidth 1.5))) }}
+            {{ $logoLargeFooter := $logoSrc.Resize (printf "%dx webp q85" (int (mul $footerLogoBaseDisplayWidth 2))) }}
+            <a class="logo-footer d-inline-block mb-4" href="{{ site.BaseURL | relLangURL }}">
+              <img src="{{ $logoSmallFooter.RelPermalink }}"
+                   srcset="{{ $logoSmallFooter.RelPermalink }} {{ $logoSmallFooter.Width }}w, {{ $logoMediumFooter.RelPermalink }} {{ $logoMediumFooter.Width }}w, {{ $logoLargeFooter.RelPermalink }} {{ $logoLargeFooter.Width }}w"
+                   sizes="{{ $footerLogoBaseDisplayWidth }}px"
+                   alt="{{ site.Title }}"
+                   class="img-fluid"
+                   style="max-height: {{ $footerLogoBaseHeight }}px; width: auto;"
+                   width="{{ $logoSmallFooter.Width }}"
+                   height="{{ $logoSmallFooter.Height }}">
+            </a>
+          {{ else }}
+            <a class="logo-footer d-inline-block mb-4" href="{{ site.BaseURL | relLangURL }}">
+              <img src="/logo.png" alt="{{ site.Title }}" class="img-fluid" style="max-height: 60px;"> <!-- Fallback -->
+            </a>
+          {{ end }}
+          <ul class="list-unstyled">
+            {{ with site.Params.email }}<li class="mb-3">{{ partial "components/icon.html" (dict "style" "solid" "name" "envelope" "class" "me-2" "aria_hidden" true) }} <a href="mailto:{{ . }}" class="text-color">{{ . }}</a></li>{{ end }}
+            {{ with site.Params.github_repo }}<li class="mb-3">{{ partial "components/icon.html" (dict "style" "brands" "name" "github" "class" "me-2" "aria_hidden" true) }} <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="text-color">GitHub Repository</a></li>{{ end }}
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-6 col-6 mb-5 mb-lg-0">
+          <h4 class="mb-4 text-uppercase small">Links</h4>
+          <ul class="list-unstyled">
+            {{ range site.Menus.main }}
+            <li class="mb-3">
+              {{ $mainFooterURL := .URL }}
+              {{ $processedMainFooterURL := "" }}
+              {{ if strings.HasPrefix $mainFooterURL "#" }}
+              {{ $processedMainFooterURL = $mainFooterURL | safeURL }}
+              {{ else }}
+              {{ $processedMainFooterURL = $mainFooterURL | absLangURL }}
+              {{ end }}
+              <a class="text-color" href="{{ $processedMainFooterURL }}">{{ .Name }}</a>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-6 text-sm-left text-lg-left">
+          <h4 class="mb-4 text-uppercase small">Legal</h4>
+          <ul class="list-unstyled">
+            {{ range site.Menus.footer }}
+            {{ $isDevOnly := .Params.developmentOnly }}
+            {{ if and $isDevOnly (not hugo.IsProduction) }}
+            <li class="mb-3">
+              {{ $legalFooterURL := .URL }}
+              {{ $processedLegalFooterURL := "" }}
+              {{ if strings.HasPrefix $legalFooterURL "#" }}
+              {{ $processedLegalFooterURL = $legalFooterURL | safeURL }}
+              {{ else }}
+              {{ $processedLegalFooterURL = $legalFooterURL | absLangURL }}
+              {{ end }}
+              <a class="text-warning" href="{{ $processedLegalFooterURL }}">{{ .Name }}</a>
+            </li>
+            {{ else if not $isDevOnly }}
+            <li class="mb-3">
+              {{ $legalFooterURL := .URL }}
+              {{ $processedLegalFooterURL := "" }}
+              {{ if strings.HasPrefix $legalFooterURL "#" }}
+              {{ $processedLegalFooterURL = $legalFooterURL | safeURL }}
+              {{ else }}
+              {{ $processedLegalFooterURL = $legalFooterURL | absLangURL }}
+              {{ end }}
+              <a class="text-color" href="{{ $processedLegalFooterURL }}">{{ .Name }}</a>
+            </li>
+            {{ end }}
+            {{ else }}
+            <li class="mb-3"><a href="{{ "/privacy/" | relLangURL }}" class="text-color">Privacy Policy</a></li>
+            <li class="mb-3"><a href="{{ "/terms/" | relLangURL }}" class="text-color">Terms of Service</a></li>
+            {{ end }}
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-6 text-sm-left text-lg-right">
+          <h4 class="mb-4 text-uppercase small">Connect</h4>
+          <ul class="list-inline footer-socials">
+            {{ range site.Params.social }}
+            <li class="list-inline-item">
+              {{ $socialIconStyle := .icon_style | default "brands" }} {{/* Default to brands for social */}}
+              {{ $socialIconName := .icon_name | default "" }}
+
+              <a class="d-inline-block p-2" href="{{ .link | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .title }}">
+                {{/* Removed debug span */}}
+                {{ partial "components/icon.html" (dict "style" $socialIconStyle "name" $socialIconName "class" "text-color footer-social-icon" "label" .title) }}
+              </a>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright py-4 bg-primary text-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0 small">{{ site.Params.copyright | markdownify }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{{ "<!-- Main Application Script Bundle -->" | safeHTML }}
+{{ $mainJS := resources.Get "js/main.js" }}
+{{ if $mainJS }}
+{{/*
+js.Build options:
+- targetPath: output path for the bundled file (relative to assets dir if not specified with a leading /)
+- minify: boolean, true for production
+- sourceMap: "external" or "inline" for dev, false or unset for production
+- format: "iife", "esm", "cjs" (defaults to "iife" for browser usually, which is good)
+*/}}
+{{ $buildOptions := dict "targetPath" "js/bundle.js" "minify" hugo.IsProduction }}
+{{ if not hugo.IsProduction }}
+{{ $buildOptions = merge $buildOptions (dict "sourceMap" "inline") }}
+{{ end }}
+{{ $jsBundle := $mainJS | js.Build $buildOptions | fingerprint "sha512" }}
+<script src="{{ $jsBundle.Permalink }}" integrity="{{ $jsBundle.Data.Integrity }}" defer></script>
+{{ warnf "Built JS bundle from entry point js/main.js to %s" $jsBundle.RelPermalink }}
+{{ else }}
+{{ warnf "Entry point assets/js/main.js not found. Application script bundle not created." }}
+{{ end }}
+
+{{ if site.Params.cookies.enable }}
+<div id="js-cookie-box"
+     class="cookie-box cookie-box-hide"
+     data-expire-days="{{ site.Params.cookies.expire_days | default 30 }}">
+  This site uses cookies to improve user experience. By continuing to use this website, you agree to their use.
+  <span id="js-cookie-button" class="btn btn-sm btn-outline-primary ms-2">I Accept</span>
+</div>
+{{ end }}

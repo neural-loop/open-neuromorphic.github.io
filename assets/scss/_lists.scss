@@ -1,0 +1,35 @@
+.list-styled {
+  padding-left: 25px; // This was for the ::before pseudo-element, adjust if using icons that align differently
+  list-style-type: none !important; // Ensure no default bullets if we're using icons or custom ::before
+
+  li {
+    position: relative;
+    margin-bottom: 15px;
+
+    /* Remove default CSS bullet for .list-styled if we are adding SVG icons via .icon-list-item */
+    /* &::before {
+      position: absolute;
+      content: '';
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      background: $primary-color;
+      left: -25px;
+      top: 5px;
+    } */
+  }
+}
+
+.icon-list-item {
+  position: relative;
+  padding-left: 2em; // Adjust as needed for icon size + desired gap
+
+  > .icon { /* Target the SVG icon */
+    position: absolute;
+    left: 0;
+    top: 0.35em; /* Adjust for vertical alignment with text (depends on line-height) */
+    /* Color should be handled by classes like .text-success passed to the icon partial */
+    /* Size is handled by .icon (1em) and can be overridden by classes like .fa-fw or specific CSS */
+    /* margin-right: 0.5em; */ /* Not needed with absolute positioning */
+  }
+}

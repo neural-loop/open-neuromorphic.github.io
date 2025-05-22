@@ -1,0 +1,104 @@
+{{- $siteLogo := "" -}}
+{{- if site.Params.logo -}}
+  {{- $siteLogo = site.Params.logo | absURL -}}
+{{- end -}}
+{{- $pageAuthor := "" -}}
+{{- if .Params.author -}}
+  {{- $pageAuthor = .Params.author -}}
+{{- else if site.Params.author -}}
+  {{- $pageAuthor = site.Params.author -}}
+{{- end -}}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ site.BaseURL | absURL }}#organization",
+      "name": "{{ site.Title }}",
+      "url": "{{ site.BaseURL | absURL }}",
+      {{- if $siteLogo }}
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ $siteLogo }}"
+      },
+      {{- end }}
+      {{- if site.Params.description }}
+      "description": "{{ site.Params.description }}"
+      {{- end }}
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.BaseURL | absURL }}#website",
+      "name": "{{ site.Title }}",
+      "url": "{{ site.BaseURL | absURL }}",
+      "publisher": {
+        "@id": "{{ site.BaseURL | absURL }}#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ printf "%ssearch?q={search_term_string}" (site.BaseURL | absURL) }}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    {{- if .IsPage -}}
+    ,{
+      "@type": "{{ if or (eq .Section "blog") (eq .Type "blog") }}Article{{ else }}WebPage{{ end }}",
+      "url": "{{ .Permalink }}",
+      "name": "{{ .Title | plainify }}",
+      "isPartOf": {
+        "@id": "{{ site.BaseURL | absURL }}#website"
+      },
+      "description": "{{ .Description | default (.Summary | plainify | truncate 160) }}",
+      "inLanguage": "{{ site.LanguageCode | default "en-us" }}",
+      "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+      {{- if $pageAuthor }}
+      "author": {
+        "@type": "Person",
+        "name": "{{ $pageAuthor }}"
+        {{- /* Consider adding a URL if author pages exist: "url": "{{ site.BaseURL }}authors/{{ $pageAuthor | urlize }}/" */}}
+      },
+      {{- end }}
+      "publisher": {
+         "@id": "{{ site.BaseURL | absURL }}#organization"
+      }
+      {{- if or (eq .Section "blog") (eq .Type "blog") -}}
+      ,"mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "{{ .Permalink }}"
+       }
+        {{- $ogImage := "" -}}
+        {{- /* Attempt to get an image for the article */}}
+        {{- if .Params.images -}}
+          {{- $ogImage = index .Params.images 0 | absURL -}}
+        {{- else if .Resources.GetMatch "og.jpg" -}}
+          {{- $ogImage = (.Resources.GetMatch "og.jpg").Permalink -}}
+        {{- else if .Resources.GetMatch "og.png" -}}
+          {{- $ogImage = (.Resources.GetMatch "og.png").Permalink -}}
+        {{- else if site.Params.og_image -}}
+          {{- $ogImage = site.Params.og_image | absURL -}}
+        {{- else if $siteLogo -}}
+          {{- $ogImage = $siteLogo -}}
+        {{- end -}}
+
+        {{- if $ogImage }}
+        ,"image": {
+          "@type": "ImageObject",
+          "url": "{{ $ogImage }}"
+          {{- /* Ideally, provide width and height if known, e.g., for OG images:
+          "width": "1200",
+          "height": "630"
+          */}}
+        }
+        {{- end }}
+      {{- end }}
+    }
+    {{- end }}
+  ]
+}
+</script>

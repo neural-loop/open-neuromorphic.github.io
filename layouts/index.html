@@ -1,0 +1,183 @@
+{{ define "main" }}
+<section class="section-sm xl:pb-5 hero page-title-section overlay">
+  <div class="container">
+    <div class="row justify-content-center">
+      {{ $getInvolvedData := site.Data.homepage.get_involved_features }}
+      {{ $workshops := where (where .Site.RegularPages "Section" "workshops") "Params.upcoming" true }}
+      {{ $journalClubEvents := where (where .Site.RegularPages "Section" "journalclub") "Params.upcoming" true }}
+      {{ $allUpcomingEvents := $workshops | append $journalClubEvents }}
+      {{ $sortedUpcomingEvents := sort $allUpcomingEvents "Params.date" "asc" }}
+      {{ $nextEvent := "" }}
+      {{ if gt (len $sortedUpcomingEvents) 0 }}{{ $nextEvent = index $sortedUpcomingEvents 0 }}{{ end }}
+
+      {{/* Column for Main Intro Text - Takes up more space if no right-hand content */}}
+      {{ $leftColClass := "col-lg-12 pt-10" }}
+      {{ if or (and $getInvolvedData $getInvolvedData.enable) $nextEvent }}
+        {{ $leftColClass = "col-lg-7 pt-10" }}
+      {{ end }}
+      <div class="{{ $leftColClass }}">
+        <h1 class="mb-4 text-dark font-secondary mb-3 h2 page-header-title">
+          {{ site.Params.homepageTitle | default "Explore Neuromorphic Computing: Community, Education, and Research" }}
+        </h1>
+        <p class="text-lg mb-4">Open Neuromorphic (ONM) is a collaborative, open-source initiative dedicated to advancing the field of neuromorphic computing.</p>
+      </div>
+
+      {{/* Right Column - OG Image Preview Partial */}}
+      <div class="col-lg-4 col-md-5 mt-md-0 mt-4">
+        {{ partial "og-preview.html" . }}
+      </div>
+
+      {{/* Column for Right-Hand Side Content (Get Involved Block & Next Event) */}}
+      {{ if or (and $getInvolvedData $getInvolvedData.enable) $nextEvent }}
+      <div class="col-lg-5 pt-10 d-flex flex-column align-items-center align-items-lg-end">
+
+        {{ if $nextEvent }}
+        <div class="bg-theme-light dark:bg-darkmode-theme-light rounded p-4 p-md-5 shadow-lg mt-4 w-100" style="max-width: 450px;">
+          <h3 class="pb-4 text-xl font-semibold">Next Event</h3>
+          <div class="mb-0">
+            {{ partial "components/session-card" $nextEvent }}
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }} {{/* End check for right-hand content */}}
+    </div>
+
+    {{ if and $nextEvent (gt (len $sortedUpcomingEvents) 1) }}
+    <div class="row">
+      <div class="pt-6 pb-0 col-12">
+        <div class="bg-theme-light dark:bg-darkmode-theme-light rounded mt-3 p-5 shadow">
+          {{ partial "components/upcoming-wide" (dict "events" (after 1 $sortedUpcomingEvents) "title" "More Upcoming Events") }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+{{ $getInvolvedData := site.Data.homepage.get_involved_features }}
+{{ if and $getInvolvedData $getInvolvedData.enable }}
+<section class="section-sm"> {{/* Adjust section padding as needed */}}
+  <div class="container-fluid"> {{/* Use container-fluid for full width */}}
+    <div class="row justify-content-end"> {{/* Align content to the right */}}
+      <div class="col-lg-6 p-0"> {{/* Adjust column width as needed, p-0 to remove padding */}}
+        <div class="get-involved-feature-block w-100"> {{/* Removed max-width style */}}
+          <h3 class="get-involved-title h4">{{ $getInvolvedData.title | default "Ways to Get Involved" }}</h3>
+          <div class="row g-3"> {{/* Bootstrap row with g-3 for gutters */}}
+            {{ range $getInvolvedData.items }}
+              <div class="col-6 d-flex align-items-stretch"> {{/* Each item takes half width (col-6) */}}
+                <a href="{{ if .is_external }}{{ .link | safeURL }}{{ else }}{{ .link | relLangURL }}{{ end }}"
+                   class="get-involved-item-card w-100 d-flex flex-column"
+                   {{ if .is_external }}target="_blank" rel="noopener noreferrer"{{ end }}>
+                  <div class="get-involved-item-icon-wrapper text-center">
+                    {{/* Adjust icon size here if needed, e.g., by adding another class or using a different base class */}}
+                    {{ partial "components/icon.html" (dict "style" .icon_style "name" .icon_name "class" "display-6" "label" (printf "%s icon" .name)) }}
+                  </div>
+                  <h4 class="get-involved-item-name text-center">{{ .name }}</h4>
+                  <p class="get-involved-item-content text-center flex-grow-1">{{ .content }}</p>
+                </a>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{/* ... rest of your index.html ... */}}
+<section class="section-sm bg-theme-light dark:bg-darkmode-theme-light text-white" style="background-color: #301934;"> {{/* Added background color class and inline style */}}
+  <div class="container-fluid"> {{/* Changed to container-fluid for full width */}}
+    <div class="row mb-10">
+      <div class="col-12 text-center">
+        <h2 class="text-3xl font-bold mb-3 text-white">Discover Open Neuromorphic</h2>
+        <p class="text-lg text-white">Dive into our core areas of focus and find the resources you need.</p>
+      </div>
+    </div>
+    <div class="row justify-center gap-y-6">
+      <div class="col-3">
+        <a href="{{ `/neuromorphic-computing/` | relLangURL }}" class="block get-involved-item-card bg-light p-6 rounded-lg shadow hover:shadow-xl transition-shadow text-center h-full">
+          <h3 class="text-2xl font-semibold mb-2 text-white">Resources</h3>
+          <p class="text-sm text-white">Guides to neuromorphic hardware, software, and foundational concepts.</p>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="{{ `/workshops/` | relLangURL }}" class="block get-involved-item-card bg-light p-6 rounded-lg shadow hover:shadow-xl transition-shadow text-center h-full">
+          <h3 class="text-2xl font-semibold mb-2 text-white">Workshops</h3>
+          <p class="text-sm text-white">Explore past recordings and learn about upcoming live sessions from experts.</p>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="{{ `/blog/` | relLangURL }}" class="block get-involved-item-card bg-light p-6 rounded-lg shadow hover:shadow-xl transition-shadow text-center h-full">
+          <h3 class="text-2xl font-semibold mb-2 text-white">Blog</h3>
+          <p class="text-sm text-white">Read articles, benchmarks, and insights from the community.</p>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="{{ `/journalclub/` | relLangURL }}" class="block get-involved-item-card bg-light p-6 rounded-lg shadow hover:shadow-xl transition-shadow text-center h-full">
+          <h3 class="text-2xl font-semibold mb-2 text-white">Journal Club</h3>
+          <p class="text-sm text-white">Join academic discussions on cutting-edge neuromorphic research.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm bg-gray-100 dark:bg-gray-800">
+  <div class="container">
+    <div class="row mb-6">
+      <div class="col-12 text-center">
+        <h2 class="text-3xl font-bold mb-2">Latest Activity</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Workshops</h3>
+          <a href="{{ `/workshops/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Workshops</a>
+        </div>
+      </div>
+      {{ $pastWorkshops := where (where .Site.RegularPages "Section" "workshops") "Params.upcoming" "!=" true }}
+      {{ $sortedPastWorkshops := sort $pastWorkshops "Params.date" "desc" }}
+      {{ range first 3 $sortedPastWorkshops }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="row mt-8">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Journal Club Sessions</h3>
+          <a href="{{ `/journalclub/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Sessions</a>
+        </div>
+      </div>
+      {{ $pastJournalClub := where (where .Site.RegularPages "Section" "journalclub") "Params.upcoming" "!=" true }}
+      {{ $sortedPastJournalClub := sort $pastJournalClub "Params.date" "desc" }}
+      {{ range first 3 $sortedPastJournalClub }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="row mt-8">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Blog Posts</h3>
+          <a href="{{ `/blog/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Posts</a>
+        </div>
+      </div>
+      {{ $blogPosts := where .Site.RegularPages "Section" "blog" }}
+      {{ $sortedBlogPosts := sort $blogPosts "Params.date" "desc" }}
+      {{ range first 3 $sortedBlogPosts }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,15 @@
+############################# Markup ###############################
+[markup]
+[markup.goldmark.renderer]
+unsafe = true # Allows raw HTML in markdown, needed by some themes/shortcodes
+[markup.highlight]
+# Optional: configure code highlighting if you plan a blog/docs
+# codeFences = true
+# guessSyntax = false
+# hl_Lines = ""
+# lineNoStart = 1
+# lineNos = false
+# lineNumbersInTable = true
+# noClasses = true
+# style = "github" # Choose a style: https://xyproto.github.io/splash/docs/all.html
+# tabWidth = 4

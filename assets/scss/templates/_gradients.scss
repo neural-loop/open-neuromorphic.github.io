@@ -1,0 +1,19 @@
+// Fallback color for browsers that might struggle with complex gradients
+$primary-color-fallback: $primary-color; // Uses your existing primary color: rgb(23, 151, 179)
+
+// Define the iridescent gradient
+// Adjust angle (135deg), colors (rgba values), and stops (%) as desired
+// Using rgba allows controlling transparency for a layered/flare effect
+$iridescent-gradient: linear-gradient(
+  135deg,
+  // Angle of the gradient
+  rgba(#9c27b0, 0.35) 0%,
+  // Start flare: Semi-transparent Purple/Magenta
+  rgba($primary-color, 0.7) 25%,
+  // Fading into primary color
+  $primary-color 50%,
+  // Core primary color in the middle
+  rgba($primary-color, 0.7) 75%,
+  // Fading out of primary color
+  rgba(#00bcd4, 0.35) 100% // End flare: Semi-transparent Cyan/Teal
+);

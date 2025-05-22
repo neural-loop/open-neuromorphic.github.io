@@ -1,0 +1,219 @@
+/* Button style */
+.btn {
+  font-size: 16px;
+  font-family: $primary-font;
+  text-transform: capitalize;
+
+  // Adjusted padding slightly to accommodate potential thicker borders
+  padding: 14px 38px;
+  border-radius: 0; // Keep blocky corners
+  font-weight: 500;
+  border: 1px solid transparent; // Base border, transparent initially for solid buttons
+  position: relative;
+  z-index: 1;
+
+  // Use standard CSS transitions for background, color, border
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+  overflow: hidden; // Keep this if needed for other effects, but ::before is gone
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; // Prevent mobile tap highlight
+
+  // REMOVED the ::before pseudo-element and its hover logic
+
+  &:active,
+  &:hover,
+  &.focus,
+  &:focus,
+  &.active {
+    outline: 0;
+    box-shadow: none !important;
+
+    // General hover state - specific button types will override
+  }
+  // Explicit base active state to ensure outline/shadow removal
+  &:active {
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-sm {
+  font-size: 14px;
+
+  // Adjust padding for sm buttons too
+  padding: 8px 33px; // Original: 10px 35px -> 10-2, 35-2
+}
+
+.btn-xs {
+  font-size: 12px;
+  padding: 5px 15px; // Keep xs padding as is or adjust slightly if needed
+}
+
+// --- Solid Primary Button ---
+.btn-primary {
+  color: $white;
+  background-color: $primary-color;
+  border-color: $primary-color; // Ensure border matches bg
+
+  &:hover,
+  &.focus,
+  &:focus,
+  &.active {
+    // Simple darken on hover/focus
+    background-color: darken($primary-color, 10%);
+    border-color: darken($primary-color, 10%);
+    color: $white; // Keep text white
+  }
+  &:active {
+    // Slightly darker for active state
+    background-color: darken($primary-color, 15%) !important;
+    border-color: darken($primary-color, 15%) !important;
+    color: $white;
+    outline: 0 !important; // Add explicit outline removal for active
+    box-shadow: none !important; // Add explicit box-shadow removal for active
+  }
+}
+
+// --- Outline Primary Button (Blocky) ---
+.btn-outline-primary {
+  color: $primary-color;
+  background-color: transparent;
+  border: 3px solid $primary-color; // <<< Increased border width
+  // Adjust padding specifically for this thicker border
+  padding: 12px 35px; // 14px - 2px (diff from 1px base), 38px - 3px
+
+  // Specific padding adjustments for btn-sm.btn-outline-primary
+  &.btn-sm {
+    padding: 6px 30px; // 8px - 2px, 33px - 3px
+  }
+
+  // Add for btn-xs if you use it with outline
+  // &.btn-xs {
+  //   padding: 3px 12px; // 5px - 2px, 15px - 3px
+  // }
+
+  &:hover,
+  &.focus,
+  &:focus,
+  &.active {
+    // Fill with primary color on hover/focus
+    background-color: $primary-color;
+    border-color: $primary-color; // Keep border color consistent
+    color: $white; // Change text to white
+  }
+  &:active {
+    // Slightly darker for active state
+    background-color: darken($primary-color, 8%) !important;
+    border-color: darken($primary-color, 8%) !important;
+    color: $white;
+    outline: 0 !important; // Add explicit outline removal for active
+    box-shadow: none !important; // Add explicit box-shadow removal for active
+  }
+
+}
+
+// --- Styling for .btn-outline-primary specifically within .hero-section ---
+.hero-section .btn-outline-primary {
+  // Resting state on hero
+  background-color: $white;
+  color: $primary-color; // Explicitly set for resting state on hero
+  border-color: $primary-color; // Explicitly set for resting state on hero
+
+  &:hover,
+  &.focus,
+  // &:focus, // :focus pseudo-class is covered by .focus in Bootstrap typically
+  &.active { // This covers the .active class often used by JS, and :active pseudo-class for click
+    background-color: $primary-color; // Standard hover/focus/active fill
+    border-color: $primary-color;   // Standard hover/focus/active border
+    color: $white;                  // Standard hover/focus/active text
+  }
+
+  &:active { // Specific :active pseudo-class for the "pushed down" effect
+    background-color: darken($primary-color, 8%) !important; // Match default .btn-outline-primary:active
+    border-color: darken($primary-color, 8%) !important;   // Match default .btn-outline-primary:active
+    color: $white;                                          // Match default .btn-outline-primary:active
+  }
+}
+
+// --- Light Button ---
+.btn-light {
+  color: $primary-color;
+  background-color: $white;
+  border-color: $white;
+
+  &:hover,
+  &.focus,
+  &:focus,
+  &.active {
+    // Simple darken on hover/focus
+    background-color: darken($white, 8%);
+    border-color: darken($white, 8%);
+    color: $primary-color; // Keep text primary
+  }
+  &:active {
+    // Slightly darker for active state
+    background-color: darken($white, 12%) !important;
+    border-color: darken($white, 12%) !important;
+    color: $primary-color;
+    outline: 0 !important; // Add explicit outline removal for active
+    box-shadow: none !important; // Add explicit box-shadow removal for active
+  }
+}
+
+// --- Animation Keyframes for Button Background Pulse ---
+@keyframes pulse-light-primary-tint {
+  0%     { background-color: $white; }                             // Initial Off
+  2.5%   { background-color: $white; }                             // End of initial delay
+
+  // Pulse 1
+  5%     { background-color: mix($white, $primary-color, 70%); }  // P1 ON (30% primary)
+  10%    { background-color: mix($white, $primary-color, 70%); }  // P1 Hold ON (30% primary)
+  12.5%  { background-color: $white; }                             // P1 OFF (Pause starts)
+
+  // Pause (Reduced: 12.5% to 20% = 7.5% duration)
+  // The state remains $white from 12.5% until P2 starts.
+  // At 20%, P2 will start, changing the color. So 20% marks the end of the $white pause.
+
+  // Pulse 2
+  20%    { background-color: mix($white, $primary-color, 70%); }  // P2 ON (30% primary)
+  25%    { background-color: mix($white, $primary-color, 70%); }  // P2 Hold ON (30% primary)
+  27.5%  { background-color: $white; }                             // P2 OFF
+
+  100%   { background-color: $white; }                             // Remainder of cycle: Off
+}
+
+// --- Apply Animation & Styles to the Schedule Button (#show-calendar-btn) in Newsletter ---
+// Assuming the button is .btn-outline-primary as suspected
+.communications-cta-block #show-calendar-btn.btn-outline-primary {
+  // Button base style for animation: white background, dark text, primary border
+  color: #4d535b !important; // Using specified dark grey for better contrast, ensure override
+  border-color: $primary-color; // Keep border primary
+  background-color: $white;     // Start with a white background for the pulse
+  transition: none; // Disable transition to allow animation pulse
+
+  // Apply the animation
+  animation-name: pulse-light-primary-tint;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+
+  // Define hover/active states explicitly to override animation
+  // These should match the standard .btn-outline-primary hover/active states
+  &:hover,
+  &.focus,
+  &.active {
+    animation-name: none; // Pause animation
+    background-color: $primary-color !important; // Fill with primary color
+    border-color: $primary-color !important;   // Keep border color consistent
+    color: $white !important;                  // Change text to white
+  }
+  &:active { // Pushed state, match .btn-outline-primary:active
+    animation-name: none; // Pause animation
+    background-color: darken($primary-color, 8%) !important;
+    border-color: darken($primary-color, 8%) !important;
+    color: $white !important;
+  }
+}

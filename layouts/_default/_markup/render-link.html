@@ -1,0 +1,8 @@
+{{- $isExternal := or (strings.HasPrefix .Destination "http://") (strings.HasPrefix .Destination "https://") -}}
+<a href="{{ .Destination | safeURL }}"
+   {{- if $isExternal }} target="_blank" rel="noopener noreferrer"{{ end -}}
+   {{- with .Title}} title="{{ . }}"{{ end -}}
+>
+  {{- .Text | safeHTML -}}
+  {{/* The ::after pseudo-element from _common.scss will apply if $isExternal is true */}}
+</a>

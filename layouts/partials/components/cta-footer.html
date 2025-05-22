@@ -1,0 +1,44 @@
+{{ $data := index site.Data }}
+{{ if $data.homepage.cta.enable }}
+{{ with $data.homepage.cta }}
+<div class="communications-cta" id="schedule-consultation">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-1 col-lg-7 offset-lg-2 col-xl-6 offset-xl-3 py-5 communications-cta-block">
+        <h3 class="text-white mb-3">{{ .title | default "Missing CTA Title" }}</h3>
+        {{ with .subtitle }}<h4 class="text-white font-secondary mb-3 h6">{{ . }}</h4>{{ end }}
+        <p class="text-white mb-4">{{ .content | markdownify }}</p>
+
+        {{/* --- START: Placeholder Text --- */}}
+        <div class="text-center text-white py-4">
+          <p class="h5">Future communication options will be available here.</p>
+          <p class="small">(This section is currently under development)</p>
+        </div>
+        {{/* --- END: Placeholder Text --- */}}
+
+        {{/*
+        REMOVED: Button toggle container
+        <div class="button-toggle-container mb-4">
+            ... buttons ...
+        </div>
+        */}}
+
+        {{/*
+        REMOVED: Contact Form Container
+        <div id="contact-form-container">
+          ... form ...
+        </div>
+        */}}
+
+        {{/*
+        REMOVED: Calendar Container
+        <div id="calendar-container" class="d-none">
+          ... cal.com embed ...
+        </div>
+        */}}
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
+{{ end }}

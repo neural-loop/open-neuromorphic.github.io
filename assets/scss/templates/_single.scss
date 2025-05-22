@@ -1,0 +1,11 @@
+// assets/scss/templates/_single.scss
+
+// Specifically target the featured image in blog single view
+.col-lg-8 > article > img.img-fluid,
+.col-lg-8 > article > picture > img.img-fluid {
+  display: block; // Ensure it's a block element
+  max-width: 100%; // Constrain to the width of the parent column
+  height: auto;    // Maintain aspect ratio
+  margin-left: auto; // Center if it's narrower than the column (unlikely for featured)
+  margin-right: auto;
+}

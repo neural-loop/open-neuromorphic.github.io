@@ -1,0 +1,206 @@
+// assets/scss/templates/_footer.scss
+
+/* footer */
+.communications-cta {
+  background-image: linear-gradient(
+      to right,
+      transparent 50%,
+      $primary-color 50%
+  );
+  margin-bottom: -170px;
+  position: relative;
+  z-index: 1;
+  .communications-cta-block {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    box-shadow: 10px 20px 50px rgba(0, 0, 0, 0.36);
+  }
+  .submit-button {
+    border-bottom-left-radius: 20px;
+  }
+  .communications-cta-block { // Updated from &-block to be more explicit after renaming parent
+    padding-left: 30px;
+    padding-right: 30px;
+
+    @include mobile {
+      padding-left: 15px;
+    }
+
+    // Apply Display font (e.g., Arbutus Slab) to titles/labels
+    h3, h4 {
+      font-family: $display-font;
+      font-weight: 400; // Use appropriate weight for the display font
+    }
+
+    // Style form labels if they become visible
+    label {
+      font-family: $display-font;
+      font-weight: 400;
+      // color: $white; // Example if labels were white on dark bg
+    }
+    textarea.form-control {
+      height: 80px;
+    }
+    // Specific form control override for communications cta block
+    .form-control {
+      height: 50px;
+      padding-right: 160px;
+
+
+      @include mobile {
+        padding-right: 25px;
+      }
+    }
+  }
+}
+
+.input-wrapper {
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    @include mobile {
+      position: static;
+      transform: translateY(-10px);
+      width: 100%;
+      outline: 5px solid #fff;
+      outline-offset: -5px;
+    }
+  }
+}
+
+// General form control styling might belong elsewhere (_common.scss or _forms.scss)
+// but keeping it here if it was part of the original footer section in _homepage.scss
+// If a general rule exists elsewhere, remove this one.
+// .form-control {
+//   height: 60px;
+//   background: $white;
+//   border-radius: 0;
+//   padding-left: 25px;
+//   font-family: $primary-font; // Ensure inputs use primary font (Inter)
+//
+//   &:focus {
+//     border-color: $primary-color;
+//     box-shadow: none;
+//   }
+// }
+
+
+/* -- Footer Styling for Light Background -- */
+.bg-footer {
+  background-color: $footer-color; // Assumes $footer-color is defined
+}
+
+.logo-footer {
+  margin-top: -20px;
+  display: inline-block;
+}
+
+.footer {
+  border-color: darken($footer-color, 10%) !important; // Use border visible on light bg
+  padding-top: 275px;
+  color: $text-color; // Use standard text color
+
+  h4 { // Target "Links", "Legal", "Connect" headings
+    color: $text-color-dark; // Use dark heading color
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: $secondary-font; // Ensure correct display font
+  }
+
+  a {
+    color: $primary-color; // Use primary color for links
+    text-transform: capitalize;
+    text-decoration: none !important;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      color: darken($primary-color, 10%); // Darker hover color
+      border-bottom-color: darken($primary-color, 10%); // Underline on hover
+    }
+  }
+
+  // Ensure social icons also use a readable color
+  .footer-socials a i {
+    color: $primary-color; // Match link color
+    transition: color 0.2s ease;
+    &:hover {
+      color: darken($primary-color, 10%); // Match link hover
+    }
+  }
+}
+
+.copyright {
+  background-color: darken($footer-color, 5%); // Slightly darker than footer bg
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  p {
+    color: white; // Use lighter dark text color
+    text-transform: capitalize;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+
+  .text-primary { // Target the link in copyright
+    color: $primary-color !important; // Use primary color
+    &:hover {
+      color: darken($primary-color, 10%) !important; // Darken on hover
+      border-bottom-color: transparent !important; // No underline hover
+    }
+  }
+}
+/* -- End Footer Styling -- */
+// assets/scss/templates/_footer.scss
+
+// --- Add styles for the new button toggle container ---
+.button-toggle-container {
+  display: inline-flex; // Use flex to keep buttons on one line and allow gap
+  align-items: center; // Vertically align items if heights differ slightly
+  background-color: $white;
+  border-radius: 50em; // Large value for pill shape
+  padding: 5px 6px; // Adjust vertical and horizontal padding as needed
+  box-shadow: 0 2px 5px rgba($black, 0.2); // Optional subtle shadow
+  gap: 5px; // Adds space between the buttons
+
+  .btn {
+    // Override default button margins if they cause issues
+    margin: 0 !important;
+
+    // Ensure buttons have appropriate colors for the white background
+    // The JS will toggle between btn-primary and btn-outline-primary now
+    // You might need minor adjustments here if default btn styles conflict
+    &.btn-primary {
+      // Ensure text is white as defined in _buttons.scss
+      color: $white !important;;
+    }
+    &.btn-outline-primary {
+      // Ensure text is primary color as defined in _buttons.scss
+      color: $primary-color; // Removed !important, as .button-toggle-container is white
+      // Ensure hover state changes text to white
+      &:hover, &:active, &:focus {
+        color: $white !important; // Keep !important here if needed to override default Bootstrap hover
+
+      }
+    }
+  }
+}
+#show-calendar-btn {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+#show-form-btn {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+// --- End button toggle container styles ---

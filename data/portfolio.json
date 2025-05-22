@@ -1,0 +1,444 @@
+[
+  {
+    "id": "maplight",
+    "title": "MapLight - Drupal Development for Political Transparency",
+    "date": "2015-12-31",
+    "description": "Drupal Developer for MapLight, creating data-driven interfaces and Drupal solutions to reveal money's influence on politics, supporting open government initiatives.",
+    "tags": [
+      "Drupal",
+      "PHP",
+      "Data Visualization",
+      "Open Government",
+      "Non-Profit"
+    ],
+    "role": "Drupal Developer (2013 - 2015)",
+    "role_overview": "As Drupal Developer, Justin applied Software Development Lifecycle knowledge to develop and maintain Drupal sites (maplight.org, votersedge.org) for MapLight, a non-profit focused on political transparency. Justin architected data-driven solutions and ensured high performance.",
+    "service_areas": [
+      "custom-web-application-development",
+      "cloud-infrastructure-devops-solutions"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Developed and architected data-centric Drupal sites, including custom modules and theming.",
+        "points": [
+          "Developed Drupal sites (maplight.org, votersedge.org) including custom module development and theming.",
+          "Utilized Drupal modules to architect enterprise solutions for data management, display logic, and information architecture."
+        ]
+      },
+      "cloud-infrastructure-devops-solutions": {
+        "summary": "Ensured site reliability and performance through monitoring and supported DevOps tooling.",
+        "points": [
+          "Spearheaded availability monitoring using synthetic tests (Selenium), identifying performance issues.",
+          "Ensured high performance utilizing tools like New Relic and Blazemeter.",
+          "Supported configuration management of tools like JIRA, Confluence, and Bamboo."
+        ]
+      }
+    },
+    "image": "p-maplight-1.png"
+  },
+  {
+    "id": "stanford-gsb",
+    "title": "Stanford Graduate School of Business - Web Development & Security",
+    "date": "2020-12-31",
+    "description": "Senior Web Developer role involving custom Drupal development, migration support, performance optimization, and significant security contributions via bug bounty program.",
+    "tags": [
+      "Drupal",
+      "PHP",
+      "Security",
+      "Bug Bounty",
+      "Secure Development",
+      "Vulnerability Assessment",
+      "Performance Optimization",
+      "Salesforce"
+    ],
+    "role": "Senior Web Developer (2017 - 2020)",
+    "role_overview": "As Senior Web Developer, Justin contributed significantly to the development, enhancement, and security of the Stanford Graduate School of Business web presence. His work involved full-stack Drupal development, migration support, performance tuning, security testing, and close collaboration with marketing and technical teams.",
+    "service_areas": [
+      "custom-web-application-development",
+      "web-security-ethical-hacking"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Performed extensive custom Drupal development, supported major migrations, and collaborated on feature implementation like 'Voices'.",
+        "points": [
+          "Developed custom Drupal modules, themes, and distributions (PHP, Drupal APIs).",
+          "Supported migration from Drupal 7 to Drupal 9 (Salesforce integration, content type migration).",
+          "Partnered with marketing on site redesign and 'Voices' functionality.",
+          "Refactored code for improved responsiveness and applied caching strategies.",
+          "Worked effectively with release engineers and frontend developers.",
+          "Maintained Linux development build and onboarded colleagues/contractors."
+        ]
+      },
+      "web-security-ethical-hacking": {
+        "summary": "Actively participated in Stanford's Bug Bounty program, identifying and reporting multiple vulnerabilities.",
+        "points": [
+          "Identified and reported several vulnerabilities through the Stanford Bug Bounty program (~$1500 awarded).",
+          "Contributed to enhancing organizational security posture through proactive testing."
+        ]
+      }
+    },
+    "image": "p-stanfordgsb-1.jpg"
+  },
+  {
+    "id": "hackerone-reward",
+    "title": "Business Logic Errors - HackerOne Reward",
+    "date": "2023-10-15",
+    "description": "Identified and responsibly disclosed a security vulnerability via HackerOne, contributing to platform security ($500 bounty awarded).",
+    "tags": [
+      "Security Research",
+      "Vulnerability Disclosure",
+      "Bug Bounty",
+      "HackerOne"
+    ],
+    "role": "Independent Security Researcher",
+    "role_overview": "As an Independent Security Researcher, Justin identified and reported a security vulnerability through the HackerOne platform, collaborating with the affected company's security team for remediation.",
+    "service_areas": ["web-security-ethical-hacking"],
+    "service_contributions": {
+      "web-security-ethical-hacking": {
+        "summary": "Identified and responsibly disclosed a security vulnerability (Flaw In Business Logic) via the HackerOne platform, contributing to improved security posture and receiving a $500 bounty.",
+        "points": [
+          "Conducted responsible disclosure according to HackerOne's security policy.",
+          "Provided detailed steps to reproduce the identified vulnerability.",
+          "Collaborated with the security team during the remediation process.",
+          "Received acknowledgement and a $500 bounty reward for the finding."
+        ]
+      }
+    },
+    "image": "p-hackerzero.png"
+  },
+  {
+    "id": "ai-models",
+    "title": "AI Models Platform (Acquired)",
+    "date": "2024-03-15",
+    "image": "p-aimodels-1.png",
+    "description": "Founder & Lead Developer for aimodels.org, a highly visible platform for open-source AI innovation (acquired). Achieved top SEO rankings for competitive terms and engineered a large-scale audio generation pipeline demonstrating RVC model capabilities.",
+    "tags": [
+      "Hugo",
+      "SEO",
+      "Community Building",
+      "AI",
+      "Cloud",
+      "Google Cloud",
+      "Python",
+      "Founder",
+      "RVC",
+      "Audio Processing",
+      "Data Pipeline",
+      "Automation",
+      "Traffic Growth"
+    ],
+    "role": "Founder & Lead Developer (2021 - 2024)",
+    "role_overview": "As Founder & Lead Developer, Justin architected, developed, and managed aimodels.org, a Hugo-based platform focused on open-source AI models. Justin oversaw all aspects from conception through development, cloud administration (GCP), and community engagement. He implemented successful SEO strategies driving significant organic traffic and developed a novel large-scale audio generation pipeline using RVC models, culminating in a successful acquisition.",
+    "service_areas": [
+      "custom-web-application-development",
+      "seo-content-strategy-optimization",
+      "ai-data-integration-services",
+      "cloud-infrastructure-devops-solutions"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Led the full lifecycle development of the Hugo-based platform, including backend automation pipelines and collaboration on related community sites.",
+        "points": [
+          "Architected and built the scalable Hugo static site.",
+          "Developed the automation pipeline for the RVC audio generation project (Python, scripting).",
+          "Managed full project lifecycle from conception to deployment and maintenance.",
+          "Fostered community collaboration through development of related sites (open-neuromorphic.org, fmcheatsheet.org)."
+        ]
+      },
+      "seo-content-strategy-optimization": {
+        "summary": "Implemented robust SEO strategies resulting in top search rankings for key industry terms and significant organic traffic growth.",
+        "points": [
+          "Achieved top organic search results for competitive terms like 'Download AI Models', 'AI Benchmark Tools', and 'Open Source AI Communities'.",
+          "Executed technical SEO, on-page optimization, and structured content for maximum search engine discoverability.",
+          "These strategies directly contributed to substantial and sustained organic traffic growth for the platform."
+        ]
+      },
+      "ai-data-integration-services": {
+        "summary": "Engineered a large-scale data pipeline to process and generate ~12,000 unique audio samples using ~450 RVC models, showcasing model diversity and driving significant user engagement.",
+        "points": [
+          "Designed and implemented an automated pipeline to showcase ~450 RVC voice models.",
+          "Processed permissively licensed songs (Pixabay) involving vocal splitting, RVC model application, and audio recombination.",
+          "Generated ~12,000 unique song samples (approx. 27 diverse song contexts per model) to demonstrate model capabilities.",
+          "This content initiative proved to be a major driver of site traffic and user engagement.",
+          "Managed associated AI model metadata and data handling processes (implying Cloud SQL use)."
+        ]
+      },
+      "cloud-infrastructure-devops-solutions": {
+        "summary": "Utilized Google Cloud Platform (GCP) for scalable application hosting, CI/CD, and database management.",
+        "points": [
+          "Deployed and managed the application on Google Cloud Run.",
+          "Used Cloud Build for CI/CD and Cloud SQL for database management."
+        ]
+      }
+    }
+  },
+  {
+    "id": "open-neuromorphic",
+    "title": "Open Neuromorphic Community Enablement & Visibility",
+    "date": "2024-03-15",
+    "description": "Provided comprehensive web development, SEO, platform configuration, and branding expertise to Open Neuromorphic, significantly enhancing their online presence, operational efficiency, and community engagement.",
+    "tags": [
+      "Hugo",
+      "SEO",
+      "Community Building",
+      "Open Source",
+      "Platform Configuration",
+      "Branding",
+      "YouTube",
+      "Discord",
+      "Streamyard"
+    ],
+    "role": "Collaborator / Web & Community Platform Specialist (via AI Models initiative)",
+    "role_overview": "As part of his AI Models community effort, Justin contributed broad web and technical expertise to Open Neuromorphic. This involved building their core web platform, optimizing for search visibility, configuring community tools (streaming, communication), and establishing branding guidelines to elevate their presence and support the open-source neuromorphic computing community.",
+    "service_areas": [
+      "custom-web-application-development",
+      "seo-content-strategy-optimization",
+      "cloud-infrastructure-devops-solutions"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Led the development of a new, user-friendly Hugo website and configured key community platforms (streaming, communication) to enhance engagement and professionalism.",
+        "points": [
+          "Developed and launched a new Hugo-based website, providing a robust and scalable platform for the community's content.",
+          "Configured Streamyard streaming platform, including professional branding setup, enabling high-quality workshop delivery.",
+          "Introduced Discord configuration enhancements, such as self-assignable interest/expertise roles, to foster better community organization and contribution.",
+          "Streamlined website content structure and terminology for improved clarity and user experience."
+        ]
+      },
+      "seo-content-strategy-optimization": {
+        "summary": "Implemented SEO and content strategies resulting in top search rankings against industry giants, significant organic growth, and enhanced brand consistency across platforms.",
+        "points": [
+          "Achieved and maintained a top 3 average search position (~2.7) for the core term 'neuromorphic hardware', 'neuromorphic', and 'neuromorphic software', establishing ONM as a key authority.",
+          "The hardware directory became a primary organic traffic driver (>4,600 clicks, >139,000 impressions in 2 years).",
+          "Designed and implemented a consistent thumbnail scheme for YouTube workshops, reinforcing the ONM brand identity and improving content discoverability.",
+          "Boosted overall search visibility through technical SEO, meta tag optimization, and structured content architecture."
+        ]
+      },
+      "cloud-infrastructure-devops-solutions": {
+        "summary": "Configured and optimized essential community tools and platforms to improve operational efficiency and member interaction.",
+        "points": [
+          "Set up and branded the Streamyard platform for professional live workshop sessions.",
+          "Implemented Discord role management features to improve member identification and engagement.",
+          "Provided general technical administration support for key community platforms (YouTube, Discord)."
+        ]
+      }
+    },
+    "image": "p-openneuro-1.png"
+  },
+  {
+    "id": "foundation-model-cheatsheet",
+    "title": "Foundation Models Cheatsheet - Interactive Web Platform",
+    "date": "2024-03-15",
+    "description": "Developed fmcheatsheet.org, an interactive Hugo platform for the *Foundation Models Cheatsheet* paper, collaborating with researchers from leading institutions (Google, MIT, Stanford CRFM, Hugging Face, etc.) to promote responsible AI practices.",
+    "tags": [
+      "Hugo",
+      "SEO",
+      "Responsible AI",
+      "Open Source",
+      "Collaboration",
+      "UI/UX",
+      "Resource Directory",
+      "Academic Outreach"
+    ],
+    "role": "Collaborator / Lead Web Developer (via AI Models initiative)",
+    "role_overview": "Justin built fmcheatsheet.org using Hugo as an interactive online platform for the influential Foundation Model Development Cheatsheet paper. He collaborated closely with the paper's authors from AI2, EleutherAI, Google, Hugging Face, Masakhane, MIT, MLCommons, Princeton, Stanford CRFM, UCSB, UCL, and UW. Justin led an iterative web design process, incorporating multi-channel feedback to translate the academic resource into an accessible, SEO-optimized web format with a clear resource directory, enhancing its reach and promoting responsible AI development.",
+    "service_areas": [
+      "custom-web-application-development",
+      "seo-content-strategy-optimization"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Transformed the Foundation Models Cheatsheet paper into an interactive, user-friendly Hugo website through a collaborative, iterative design process with researchers from multiple leading institutions.",
+        "points": [
+          "Built the Hugo site from scratch, providing a more intuitive and engaging user experience compared to static paper formats.",
+          "Designed and implemented a clear resource directory structure, enhancing navigation and discoverability of specific guidance.",
+          "Managed an iterative design and development process, incorporating feedback from diverse stakeholders across multiple communication channels to achieve a cohesive final product."
+        ]
+      },
+      "seo-content-strategy-optimization": {
+        "summary": "Optimized the website structure and content for search engines to maximize the reach and impact of this key responsible AI resource.",
+        "points": [
+          "Built the website applying SEO best practices to enhance discoverability by practitioners and researchers.",
+          "Structured content logically for both user navigation and effective search engine indexing."
+        ]
+      }
+    },
+    "image": "p-fmcheatsheet-1.png"
+  },
+  {
+    "id": "four-kitchens-cme",
+    "title": "Global Academy CME Project (Four Kitchens)",
+    "date": "2017-12-31",
+    "description": "Contract Drupal Developer contributing to the launch of Global Academy CME, focusing on data migration features, backlog fixes, and Behat testing.",
+    "tags": ["Drupal", "PHP", "Data Migration"],
+    "role": "Drupal Developer (Contract, 2017)",
+    "role_overview": "Justin was engaged by Four Kitchens agency to provide critical development support for the launch of the Global Academy for Continuing Medical Education website (globalacademycme.com), focusing on feature development and stability.",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Provided key Drupal development contributions, including data migration and testing, to ensure a successful site launch.",
+        "points": [
+          "Provided additional development push toward website completion and launch.",
+          "Produced a feature to enable migration of complex 'micro-site' pages into Drupal content with minimal downtime.",
+          "Provided test coverage utilizing Behat.",
+          "Worked with internal teams and clients to translate business requirements into technical solutions.",
+          "Addressed backlog items and implemented fixes."
+        ]
+      }
+    },
+    "image": "p-fourkitchens-4.png"
+  },
+  {
+    "id": "ardentmc-geoconops",
+    "title": "Homeland Security Enterprise - GeoCONOPS Platform (ArdentMC)",
+    "date": "2016-12-31",
+    "description": "Senior CMS Applications Developer building complex Drupal 7 web applications, themes, and plugins for the Homeland Security Enterprise GeoCONOPS platform.",
+    "tags": [
+      "Drupal",
+      "PHP",
+      "Drupal 7",
+      "Government",
+      "GeoPlatform",
+      "Open Data",
+      "Homeland Security"
+    ],
+    "role": "Senior CMS Applications Developer (Consulting, 2015 - 2016)",
+    "role_overview": "As a consultant via ArdentMC, Justin leveraged his deep expertise in Drupal 7 full-stack development to build and enhance the Geospatial Concept of Operations (GeoCONOPS) portal, part of the federal GeoPlatform initiative, focusing on improving geospatial data sharing within the Homeland Security Enterprise (HSE).",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Developed and maintained complex Drupal 7 components for the GeoCONOPS platform, focusing on project delivery and technical communication.",
+        "points": [
+          "Built complex Drupal 7 web applications, themes, and plugins.",
+          "Coordinated efforts using FogBugz issue tracking to streamline delivery within an expedited contract window.",
+          "Transitioned efforts towards a virtual environment, improving response times.",
+          "Translated complex technical challenges for non-developer stakeholders.",
+          "Supported open formats and data standards inherent in the GeoPlatform."
+        ]
+      }
+    },
+    "image": "p-geoconops-1.png"
+  },
+  {
+    "id": "benetech-accessibility-docs",
+    "title": "Benetech - Accessibility Driven Development & Document Integration",
+    "date": "2008-08-31",
+    "description": "Contributed to Benetech's social good mission by enhancing platform accessibility through direct user feedback and enabling OpenOffice document processing.",
+    "tags": [
+      "PHP",
+      "Accessibility",
+      "User Feedback",
+      "Requirements Gathering",
+      "File Processing",
+      "Metadata",
+      "OpenOffice",
+      "Non-Profit",
+      "Social Good"
+    ],
+    "role": "PHP Developer (2007 - 2008)",
+    "role_overview": "As a PHP Developer at Benetech, Justin focused on improving web applications for social good, with key contributions to accessibility testing and document format integration based on user needs and technical exploration.",
+    "service_areas": [
+      "custom-web-application-development"
+    ],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Enhanced application accessibility and functionality by directly engaging with users to refine requirements and by implementing new document processing capabilities.",
+        "points": [
+          "Conducted usability sessions with blind and vision-impaired users to assess bug impacts and gather direct feedback, informing feature requirements for a new platform.",
+          "Engineered functionality to parse metadata from OpenOffice documents, enabling users to submit content in this format and expanding platform inclusivity.",
+          "Developed and maintained PHP-based web applications supporting Benetech's mission to provide technology for social good."
+        ]
+      }
+    },
+    "image": "p-benetech.png"
+  },
+  {
+    "id": "hp-experience-center",
+    "title": "HP Experience Demonstration Center (Design Reactor)",
+    "date": "2013-12-31",
+    "description": "Created backend interfaces for content management powering interactive touch screens at the HP Experience Demonstration Center, facilitating client briefings and tours.",
+    "tags": ["PHP", "Content Management", "Interactive Displays", "Drupal"],
+    "role": "Web Developer (Part of Vision Init Self 2004-2013)",
+    "role_overview": "Justin developed the backend content management interface for the HP Experience Demonstration Center's interactive touch screens, enabling staff to manage dynamic content for client briefings and tours.",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Built the backend PHP/Drupal interface for managing content on interactive displays.",
+        "points": [
+          "Produced the interface allowing staff to manage content for interactive screens.",
+          "Enabled dynamic updates for collaboration rooms, capability demos, and tours.",
+          "Supported HP's goal of showcasing innovation to clients."
+        ]
+      }
+    },
+    "image": "p-hpdvf-4-1.png"
+  },
+  {
+    "id": "hp-dvf-lounge",
+    "title": "HP & DVF Experience Lounge (Design Reactor)",
+    "date": "2013-12-31",
+    "description": "Developed backend systems and content interfaces for a multi-media event collaboration between HP and Diane von Furstenberg, showcasing brand integration and digital experiences.",
+    "tags": [
+      "Backend Development",
+      "PHP",
+      "Content Management",
+      "Event Technology"
+    ],
+    "role": "Web Developer (Part of Vision Init Self 2004-2013)",
+    "role_overview": "Justin developed backend systems and content management interfaces for a high-profile HP & Diane von Furstenberg event, enabling content delivery to interactive touch screens.",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Built configurable backend interfaces for managing event content on interactive displays.",
+        "points": [
+          "Launched backend products/interfaces enabling content entry for interactive touch screens.",
+          "Designed solutions with ease of maintenance and configurability.",
+          "Supported a unique digital experience blending fashion and technology."
+        ]
+      }
+    },
+    "image": "p-hpdvf-2.png"
+  },
+  {
+    "id": "aflorecer",
+    "title": "Aflorecer Art School & Retreat Center Website",
+    "date": "2013-12-31",
+    "description": "Provided technical consultation and website delivery for Aflorecer, an art school and retreat center focused on community and flourishing.",
+    "tags": ["Arts", "Consulting", "Web Development"],
+    "role": "Web Developer / Consultant (Part of Vision Init Self 2004-2013)",
+    "role_overview": "Justin provided web development and technical consulting services for Aflorecer, an art school and retreat center, delivering their online presence.",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Consulted on web technologies and delivered the complete website solution.",
+        "points": [
+          "Advised the client on web technologies and strategies.",
+          "Presented suitable template options for the website build.",
+          "Developed and delivered the complete website solution."
+        ]
+      }
+    },
+    "image": "p-aflorecer.png"
+  },
+  {
+    "id": "digital-sound-factory",
+    "title": "Digital Sound Factory E-commerce Site (KeyFax)",
+    "date": "2007-12-31",
+    "description": "Launched the initial OsCommerce e-commerce site for Digital Sound Factory, providing high-quality, license-free audio sound downloads for software synthesizers.",
+    "tags": ["E-commerce", "OsCommerce", "PHP", "Music Technology"],
+    "role": "Web Developer (Part of Vision Init Self 2004-2013)",
+    "role_overview": "Justin developed and launched the original OsCommerce-based e-commerce website for Digital Sound Factory in 2007, enabling online sales for a new venture focused on high-quality digital audio sounds.",
+    "service_areas": ["custom-web-application-development"],
+    "service_contributions": {
+      "custom-web-application-development": {
+        "summary": "Built and launched the initial e-commerce store using OsCommerce and PHP.",
+        "points": [
+          "Implemented the online store using the OsCommerce platform.",
+          "Successfully delivered the first version of the site, enabling online sales.",
+          "Supported a new venture in the music technology space."
+        ]
+      }
+    },
+    "image": "p-digitalsoundfactory.png"
+  }
+]

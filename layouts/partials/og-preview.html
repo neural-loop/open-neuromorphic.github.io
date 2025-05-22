@@ -1,0 +1,88 @@
+{{/* layouts/partials/og-preview.html */}}
+{{ $ogImageResource := "" }} {{/* Will hold the Hugo Resource object */}}
+{{ $ogImageDisplayPath := "" }} {{/* Will hold the path for CSS background */}}
+
+{{ $baseOgName := "og" }}
+{{ if not .IsHome }}
+{{/* For non-home pages, try to find the title-slug based OG image first */}}
+{{/* Ensure .Page.Title is not nil and is a string before urlizing */}}
+{{ $pageTitle := "" }}
+{{ if .Page.Title }}{{ $pageTitle = .Page.Title }}{{ end }}
+{{ $baseOgName = printf "%s-%s" ($pageTitle | urlize) "og" }}
+{{ end }}
+{{ $specificOgImageName := printf "%s.jpg" $baseOgName }}
+
+{{/* 1. Try to find the specific (e.g., page-title-og.jpg or og.jpg for home) in page resources */}}
+{{ $ogImageResource = .Page.Resources.GetMatch $specificOgImageName }}
+
+{{/* 2. If not found, AND it's NOT the homepage,
+try finding a generic "og.jpg" in the page bundle as a user-provided override. */}}
+{{/* --- MODIFIED PART - START --- */}}
+{{ if not $ogImageResource }}
+{{ if not .IsHome }}
+{{ $ogImageResource = .Page.Resources.GetMatch "og.jpg" }}
+{{ end }}
+{{ end }}
+{{/* --- MODIFIED PART - END --- */}}
+
+
+{{/* Process if a resource was found in the page bundle */}}
+{{ if $ogImageResource }}
+{{ $resizedOg := $ogImageResource.Resize "400x q75" }}
+{{ $ogImageDisplayPath = $resizedOg.RelPermalink }}
+{{ else }}
+{{/* 3. If still no resource from page bundle, fall back to static/og.jpg.
+This covers the homepage (if its content/og.jpg isn't found)
+and other pages if they don't have a bundled OG image. */}}
+{{ $staticOgPath := "/og.jpg" }}
+{{ if fileExists (printf "static%s" $staticOgPath) }}
+{{ $ogImageDisplayPath = $staticOgPath | absURL }}
+{{ else }}
+{{/* Optional: Warn if absolutely no OG image could be found for display */}}
+{{ warnf "OG Preview: No displayable OG image found for %s. Searched for specific '%s' and generic 'og.jpg' in bundle, and fallback '/og.jpg' in static." .Page.Path $specificOgImageName }}
+{{ end }}
+{{ end }}
+
+
+{{/* Only render the preview if we have a display path */}}
+{{ if $ogImageDisplayPath }}
+<div class="og-preview-wrapper"
+     data-effect-probability="{{ if .IsHome }}{{ site.Params.homepage_og_preview_effect_probability | default 100 }}{{ else }}{{ site.Params.og_preview_effect_probability | default 15 }}{{ end }}"
+     data-effect-duration="{{ site.Params.og_preview_effect_duration | default 750 }}">
+  <div class="og-preview-container">
+    <div class="og-preview-image" style="background-image: url('{{ $ogImageDisplayPath }}')">
+      <div class="image-dark-overlay"></div>
+      <div class="og-effect-overlay"></div>
+      <div class="social-share-overlay">
+        <div class="social-icons-container">
+          {{/* Social links remain the same */}}
+          <a href="https://x.com/intent/tweet?text={{ .Title | urlquery }}%20{{ .Permalink | absURL }}"
+             target="_blank" rel="noopener" class="social-icon twitter" title="Share on X/Twitter">
+            {{ partial "components/icon.html" (dict "style" "brands" "name" "x-twitter" "aria_hidden" true "class" "og-social-svg") }}
+          </a>
+          <a href="https://bsky.app/intent/compose?text={{ .Title | urlquery }}%0A{{ .Permalink | absURL }}"
+             target="_blank" rel="noopener" class="social-icon bluesky" title="Share on Bluesky">
+            {{ partial "components/icon.html" (dict "style" "brands" "name" "bluesky" "aria_hidden" true "class" "og-social-svg") }}
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}"
+             target="_blank" rel="noopener" class="social-icon facebook" title="Share on Facebook">
+            {{ partial "components/icon.html" (dict "style" "brands" "name" "facebook" "aria_hidden" true "class" "og-social-svg") }}
+          </a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink | absURL }}&title={{ .Title | urlquery }}"
+             target="_blank" rel="noopener" class="social-icon linkedin" title="Share on LinkedIn">
+            {{ partial "components/icon.html" (dict "style" "brands" "name" "linkedin" "aria_hidden" true "class" "og-social-svg") }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="sharing-runner">
+      <span>. : : Sharing is Support : : .</span>
+      <div class="runner-icons">
+        {{ partial "components/icon.html" (dict "style" "brands" "name" "x-twitter" "aria_hidden" true "class" "og-runner-svg") }}
+        {{ partial "components/icon.html" (dict "style" "brands" "name" "bluesky" "aria_hidden" true "class" "og-runner-svg") }}
+        {{ partial "components/icon.html" (dict "style" "brands" "name" "linkedin" "aria_hidden" true "class" "og-runner-svg") }}
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

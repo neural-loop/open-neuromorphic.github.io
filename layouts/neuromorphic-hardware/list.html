@@ -1,0 +1,62 @@
+{{ define "main" }}
+<section class="section pt-6">
+  <div class="container">
+    {{/* Page Title and Content from _index.md */}}
+    <div class="row mb-5">
+      <div class="col-12">
+        {{/* Title is usually handled by page-header.html, but if you want it here: */}}
+        {{/* <h1 class="mb-4">{{ .Title }}</h1> */}}
+        {{ with .Content }}
+          <div class="content mb-4">{{ . }}</div>
+        {{ end }}
+      </div>
+    </div>
+
+
+    {{/* Active Hardware Products - Paginated Grid */}}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="h3 mb-4">Active Neuromorphic Hardware</h2>
+      </div>
+      {{ $active_hardware_pages := where (where .Site.RegularPages "Type" "neuromorphic-hardware") "Params.active_product" true }}
+      {{ $paginator := .Paginate (sort $active_hardware_pages "Params.product.release_year" "desc") }}
+
+      {{ range $paginator.Pages }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" . "class" "hardware-item-card") }}
+      </div>
+      {{ else }}
+      <div class="col-12 text-center"><p class="text-muted">No active hardware products found.</p></div>
+      {{ end }}
+    </div>
+
+    {{/* Pagination for Active Hardware */}}
+    <div class="row mt-4">
+      <div class="col-12">
+        {{ template "_internal/pagination.html" . }}
+      </div>
+    </div>
+
+    {{/* Inactive/Discontinued Hardware - Simpler List */}}
+    {{ $inactive_hardware_pages := where (where .Site.RegularPages "Type" "neuromorphic-hardware") "Params.active_product" false }}
+    {{ if $inactive_hardware_pages }}
+    <div class="row mt-5 pt-4">
+      <div class="col-12">
+        <h2 class="h3 mb-4">Archived / Discontinued Hardware</h2>
+        <ul class="list-unstyled">
+          {{ range sort $inactive_hardware_pages ".Params.product.release_year" "desc" }}
+          <li class="mb-2 pb-2 border-bottom">
+            <a href="{{ .Permalink }}" class="text-decoration-none">
+              <h4 class="h6 mb-0">{{ .Title }} {{ with .Params.product.release_year }}({{ . }}){{ end }}</h4>
+              {{ with .Params.product.summary }}<p class="small text-muted mb-0">{{ . | truncate 100 }}</p>{{ end }}
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+    {{ end }}
+
+  </div>
+</section>
+{{ end }}

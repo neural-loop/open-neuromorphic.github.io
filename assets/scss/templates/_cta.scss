@@ -1,0 +1,49 @@
+// Add near the end of _common.scss or in a new _cta.scss file
+// themes/visioninit/assets/scss/templates/_cta.scss
+
+// --- Standard CTA Box (Keep as is) ---
+.service-cta-box {
+  // ... (existing styles) ...
+}
+
+// --- Full Width Service CTA Ribbon (Re-themed for bg-light) ---
+.service-cta-ribbon {
+  // Background color handled by .bg-light in HTML
+  // Padding handled by section-sm in HTML
+
+  // Adjust divider border colors for light background
+  .border-md-left {
+    @media (min-width: 768px) {
+      border-left: 3px solid $border-color; // <<< CHANGED border color
+    }
+  }
+  .border-md-right {
+    @media (min-width: 768px) {
+      border-right: 3px solid $border-color; // <<< CHANGED border color
+    }
+  }
+
+  // Style elements within the ribbon (rely more on utility classes now)
+  h4 {
+    // Removed color: $white; - text-dark class is used in HTML
+    font-family: $secondary-font;
+    font-weight: 600;
+  }
+
+  p {
+    // Removed color: $text-lighten; - text-muted class is used in HTML
+  }
+
+  i {
+    // Removed color: $white; - text-primary class is used in HTML
+  }
+
+  // Button styles are now handled by the standard .btn-primary and
+  // .btn-outline-primary classes defined in _buttons.scss,
+  // so specific overrides here are removed.
+
+  // REMOVED specific .btn-light rules within this block
+  // REMOVED specific .btn-outline-light rules within this block (including border-width & padding adjustments)
+  // We now rely on the base .btn-sm and .btn-outline-primary styles from _buttons.scss
+  // which already account for the 3px border and padding.
+}

@@ -1,0 +1,84 @@
+// assets/scss/templates/_homepage.scss
+
+// ... (other existing homepage styles like .feature-icon, .hover-shadow, .card-date etc.) ...
+
+// === START: Get Involved Feature Block Styles (Inspired by Educenter banner_feature) ===
+.get-involved-section-wrapper {
+  // This is the new outer <section> that will be placed AFTER the hero.
+  // It might have a very subtle background like $gray if you want to mimic the Educenter structure,
+  // or it can be transparent if your hero already has a suitable background for the overlap.
+  // background-color: $gray; // Optional: From your _variables.scss if you want a slight contrast
+  overflow-x: hidden; // To prevent horizontal scrollbars if negative margins cause issues
+  // Add padding if needed, e.g., padding-bottom: 3rem;
+}
+
+.get-involved-feature-block {
+  background-color: #301934; // Your VisionInit navigation dark purple
+  color: $white;
+  padding: 2rem 1.5rem; // Adjust padding as needed
+  margin-top: -100px;  // <<< KEY: Negative margin to pull it up over the hero
+                        // Adjust this value based on your hero's height and desired overlap
+  position: relative;   // For z-index stacking context
+  z-index: 10;          // Ensure it's above the hero's background/overlay
+  border-top-left-radius: 50px; // Specific asymmetrical rounding like Educenter
+  box-shadow: 0 0.5rem 1.5rem rgba($black, 0.15); // Optional: A slightly stronger shadow
+
+  // On smaller screens, remove the overlap and special radius
+  @include desktop { // This mixin corresponds to max-width: 991px
+    margin-top: 0;
+    border-top-left-radius: 0.5rem; // More standard rounding for mobile/tablet
+    padding: 1.5rem;
+  }
+
+  .get-involved-title {
+    color: $white;
+    font-family: $secondary-font; // Or $display-font
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem; // Space below title
+  }
+
+  .get-involved-item-card {
+    background-color: lighten(#301934, 7%);
+    color: $white;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    padding: 1rem 0.75rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Center content vertically within the card
+    align-items: center;     // Center content horizontally
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+
+    &:hover {
+      background-color: lighten(#301934, 12%);
+      transform: translateY(-3px);
+      box-shadow: 0 0.25rem 1rem rgba($black, 0.25);
+    }
+
+    .get-involved-item-icon-wrapper {
+      margin-bottom: 0.75rem;
+      .icon.display-6 { // If using Bootstrap display utility class
+        font-size: 2.5rem; // Adjust icon size for these cards
+        color: $white;
+      }
+    }
+
+    .get-involved-item-name {
+      color: $white;
+      font-family: $primary-font; // Or $secondary-font
+      font-weight: 500; // medium
+      font-size: 1rem;   // card title size
+      margin-bottom: 0.5rem;
+    }
+
+    .get-involved-item-content {
+      color: $text-lighten; // Very light text on dark purple
+      font-size: 0.8rem;
+      line-height: 1.4;
+      flex-grow: 1; // Allows text to take up space if cards are stretched
+    }
+  }
+}
+// === END: Get Involved Feature Block Styles ===

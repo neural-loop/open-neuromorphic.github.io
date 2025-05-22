@@ -1,0 +1,141 @@
+// themes/visioninit/assets/scss/_accordion.scss
+
+// --- Accordion Styling for VisionInit Theme (Version 2) ---
+
+.accordion {
+  border-radius: 0; // Blocky corners
+  margin-bottom: 1rem; // Space between items
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); // New box shadow
+  // transition: border-left-color 0.2s ease-in-out; // Transition for hover - remove if no border hover
+  // No hover effect on the main accordion item directly, hover is on header
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 15px 1rem 10px; // top/right/bottom/left as per request
+  font-family: $secondary-font; // Heading font
+  font-size: 1.1rem; // Slightly larger than default
+  font-weight: 600; // Bold
+  color: $text-color-dark; // Dark text for question
+  text-align: left;
+  background-color: $white; // Clean white background
+  border: none; // Remove button default border
+  // border-bottom: 1px solid $border-color; // Separator line when closed - REMOVED
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    background-color: lighten($light, 2%); // Subtle hover background
+    color: $primary-color; // Highlight text on hover
+
+    .accordion-icon {
+      // Ensure icon also highlights on header hover
+      color: $primary-color;
+    }
+  }
+
+  // Accessibility focus
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 1px;
+    z-index: 2; // Ensure focus ring is visible
+  }
+}
+
+.accordion-icon {
+  width: 0.8em; /* Reverted from debug */
+  height: 0.8em; /* Reverted from debug */
+  margin-left: 1rem;
+  color: $text-color-light; /* Reverted from debug */
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(0deg); // Default state: pointing down
+  transform-origin: center center;
+  transition: color 0.2s ease, transform 0.3s ease; // Add transform transition here
+
+  /* Remove i, .toggle-icon as the SVG is the .accordion-icon itself */
+}
+
+.accordion-content {
+  max-height: 0; // Initially hidden (controlled by JS adding .active class to .accordion)
+  overflow: hidden;
+  padding: 0 10px; // Horizontal padding as per request, vertical padding handled by .content-inner
+  background-color: lighten(
+    $light,
+    1%
+  ); // Slightly off-white background for content
+  color: $text-color;
+  font-family: $primary-font; // Body font
+  font-size: 0.95rem;
+  line-height: 1.7;
+
+  // Smooth transition for max-height and padding
+  transition:
+    max-height 0.35s ease-in-out,
+    padding 0.35s ease-in-out;
+
+  // Inner content styling (ensure correct spacing)
+  // .content-inner class is removed from HTML, styles moved here or to .accordion-content.active
+
+  // Styles for direct children of .accordion-content
+  > *:last-child {
+    margin-bottom: 0 !important; // Ensure last element has no bottom margin
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+  ul:not(.list-unstyled), // Exclude .list-unstyled from generic ul padding
+  ol {
+    margin-bottom: 1rem;
+    padding-left: 25px; // Keep standard list indentation
+  }
+  ul:not(.list-unstyled) li, // Exclude .list-unstyled li from generic li margin
+  ol li {
+    margin-bottom: 0.5rem;
+  }
+  h6 {
+    font-family: $secondary-font;
+    // Add any other h6 specific styles if needed, e.g., font-size, margin
+  }
+}
+
+// Styles when the accordion item itself is active
+.accordion.active {
+  // border-left-color: $primary-color; // Keep left border primary when active - REMOVED
+
+  .accordion-header {
+    color: $primary-color; // Keep header text primary
+    // border-bottom-color: transparent; // Hide bottom border of header when open - REMOVED
+    background-color: lighten(
+      $light,
+      2%
+    ); // Keep hover background maybe? Or revert to white? Let's try white.
+    // background-color: $white; // Option: Revert to plain white when open
+  }
+
+  .accordion-icon {
+    color: $primary-color; // Ensure icon is primary
+    transform: rotate(-180deg); // Active state: pointing up
+  }
+
+  .accordion-content {
+    // Use a large enough value to accommodate content; adjust if needed
+    // Using vh ensures it works for potentially very long content.
+    max-height: 100vh; // Allow content to expand
+    // Add vertical padding when active, horizontal is already on .accordion-content
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+// Ensure styles apply correctly if nested within main .content area
+.content .accordion {
+  // Usually no overrides needed unless .content adds conflicting margins/paddings
+}

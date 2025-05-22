@@ -1,0 +1,57 @@
+{{/* layouts/shortcodes/image.html */}}
+{{/*
+Parameters:
+src (required): Path to the image (relative to site root, e.g., "/images/about/my-image.jpg")
+alt (required): Alt text for the image.
+align (optional): "left", "right". Default is block/centered.
+maxWidth (optional): Max width on larger screens (e.g., "40%", "300px"). Default: "45%".
+caption (optional): Caption text below the image.
+class (optional): Additional CSS classes for the <figure> element.
+  */}}
+
+  {{ $src := .Get "src" }}
+  {{ $alt := .Get "alt" | default (.Get "caption") | default $src }}
+  {{ $caption := .Get "caption" }}
+  {{ $align := .Get "align" | default "" }}
+  {{ $maxWidth := .Get "maxWidth" | default "45%" }} {{/* Adjust default max-width as needed */}}
+  {{ $class := .Get "class" | default "" }}
+
+  {{/* --- Error handling for required params --- */}}
+  {{ if not $src }}
+  {{ errorf "Shortcode 'image' requires a 'src' parameter. File: %s" .Position }}
+  {{ end }}
+  {{ if not $alt }}
+  {{ errorf "Shortcode 'image' requires an 'alt' parameter for accessibility. File: %s" .Position }}
+  {{ end }}
+
+  {{/* --- Determine alignment and styling --- */}}
+  {{ $figureClasses := "content-image-figure mb-4" }} {{/* Base class + margin */}}
+  {{ $imgClasses := "img-fluid rounded shadow-sm" }} {{/* Make images fluid, rounded, subtle shadow */}}
+  {{ $style := "" }}
+
+  {{/* Apply alignment using Bootstrap float utilities for large screens and up */}}
+  {{/* Margins add spacing around the floated element */}}
+  {{ if eq $align "left" }}
+  {{ $figureClasses = printf "%s float-lg-start me-lg-4" $figureClasses }} {{/* float left on lg+, margin end */}}
+  {{ $style = printf "max-width: %s;" $maxWidth }}
+  {{ else if eq $align "right" }}
+  {{ $figureClasses = printf "%s float-lg-end ms-lg-4" $figureClasses }} {{/* float right on lg+, margin start */}}
+  {{ $style = printf "max-width: %s;" $maxWidth }}
+  {{ else }}
+  {{/* Default: center block element */}}
+  {{ $figureClasses = printf "%s d-block mx-auto" $figureClasses }}
+  {{ $style = printf "max-width: %s;" $maxWidth }} {{/* Still apply max-width */}}
+  {{ end }}
+
+  {{/* Add user-provided classes */}}
+  {{ $figureClasses = printf "%s %s" $figureClasses $class | chomp }}
+
+  {{/* --- Output the HTML --- */}}
+  <figure class="{{ $figureClasses }}" {{ with $style }}style="{{ . | safeCSS }}"{{ end }}>
+    <img src="{{ $src | absURL }}" class="{{ $imgClasses }}" alt="{{ $alt }}">
+    {{ with $caption }}
+    <figcaption class="figure-caption text-center small mt-2">{{ . | markdownify }}</figcaption>
+    {{ end }}
+  </figure>
+  {{/* Note: On some complex layouts, floats might need a manual <div class="clearfix"></div>
+  added *after* the shortcode in your markdown if content wrapping is incorrect. */}}
