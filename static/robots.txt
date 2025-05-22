@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /*.json
-
-Sitemap: http://open-neuromorphic.org/sitemap.xml

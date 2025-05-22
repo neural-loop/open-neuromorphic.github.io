@@ -1,0 +1,35 @@
+# .prettierignore
+
+# Output directories
+public/
+tmp/
+resources/
+
+# Dependencies
+node_modules/
+
+# Vendor libraries and static assets that shouldn't be reformatted
+static/plugins/
+static/fonts/
+
+# Hugo layout/template files - too risky to format reliably
+layouts/**/*.html
+assets/og-template/template.html
+
+# ---> ADD THIS LINE <---
+*.toml
+
+# Generated files
+package-lock.json
+go.sum
+content/**/og.png
+content/**/temp-og.html
+static/favicon*
+static/apple-touch-icon.png
+static/logo.png
+hugo_stats.json
+.hugo_build.lock
+
+# Other common ignores
+.git/
+.DS_Store

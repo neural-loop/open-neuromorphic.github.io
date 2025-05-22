@@ -1,0 +1,102 @@
+{{/* themes/visioninit/layouts/services/single.html */}}
+{{ define "main" }}
+
+{{/* --- Section 1: Intro Content, Value Prop & Small CTA --- */}}
+<section class="section service-detail-intro pb-5"> {{/* Increased bottom padding */}}
+  <div class="container">
+    <div class="row">
+      {{/* Intro Paragraph(s) + Value Prop */}}
+      <div class="col-lg-8">
+        <div class="content service-description">
+          {{ .Content }} {{/* Ensure Value Delivered is part of this in markdown */}}
+        </div>
+      </div>
+      {{/* Small Sidebar CTA Box */}}
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="service-cta-box bg-light p-4 text-center rounded-0 d-flex flex-column mb-4"> {{/* Added flex for alignment */}}
+          <p class="mb-4">Let's discuss how this service can help achieve your specific goals.</p>
+          <a href="#schedule-consultation" class="btn btn-primary btn-sm mb-3"> {{/* Added mb-3 */}}
+            Schedule Consultation
+          </a>
+        </div>
+        <div class="service-cta-box bg-light p-4 text-center rounded-0 d-flex flex-column"> {{/* Added flex for alignment */}}
+          <p class="small mb-2">Need ongoing security support?</p>
+          <a href="{{ "/security-sidekick/" | relLangURL }}" class="btn btn-primary btn-sm mt-auto"> {{/* Use secondary outline, pushed down */}}
+          Learn About Subscriptions
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{/* --- REMOVED Ribbon Section --- */}}
+
+{{/* --- Section 2: Service Points & Portfolio (Inside container) --- */}}
+<section class="section service-detail-points-portfolio pt-0"> {{/* Changed padding */}}
+  <div class="container pb-4">
+    {{/* --- Render Service Points from Front Matter --- */}}
+    {{ with .Params.service_points }}
+    <div class="row mb-5">
+      <div class="col-lg-8"> {{/* Align with intro column width */}}
+        {{/* Optional: Add a heading before the list if desired */}}
+        {{/* <h3 class="mb-3">Key Service Features:</h3> */}}
+        <div class="content service-points-list">
+          <ul class="list-styled"> {{/* Use the theme's styled list */}}
+            {{ range . }}
+            <li class="icon-list-item">{{ partial "components/icon.html" (dict "style" "solid" "name" "angle-right" "class" "me-2 text-primary" "aria_hidden" true) }}{{ . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {{ end }} {{/* End service_points check */}}
+
+    {{/* --- Related Portfolio Projects Section --- */}}
+    {{ $serviceTag := .Params.service_tag }}
+    {{ if $serviceTag }}
+    {{/* ... existing portfolio logic ... */}}
+    {{ $currentServiceTagSlice := slice $serviceTag }}
+    {{ $allPortfolioData := site.Data.portfolio }}
+    {{ $relatedProjectsData := slice }}
+    {{ range $allPortfolioData }}
+    {{ if and .service_areas (intersect .service_areas $currentServiceTagSlice) }}
+    {{ $relatedProjectsData = $relatedProjectsData | append . }}
+    {{ end }}
+    {{ end }}
+
+    {{ if $relatedProjectsData }}
+    {{ $sortedRelatedProjects := sort $relatedProjectsData "date" "desc" }}
+    <div class="row">
+      <div class="col-12">
+        <p class="h3 mb-4 pt-4 pb-4">Showcasing specific contributions related to <strong class="text-dark">{{ .Title }}</strong>:</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      {{ range $sortedRelatedProjects }}
+      <div class="col-lg-12 mb-4 d-flex align-items-stretch portfolio-item-col">
+        {{ partial "components/portfolio-card-wide.html" (dict "projectData" . "currentServiceTag" $serviceTag) }}
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    {{/* ... existing 'no projects tagged' message ... */}}
+    <div class="row mt-5 pt-4">
+      <div class="col-lg-10 mx-auto text-center">
+        <p class="text-muted fst-italic mt-4">No specific portfolio projects tagged with the '<strong class="text-dark">{{ $serviceTag }}</strong>' service area yet.</p>
+      </div>
+    </div>
+    {{ end }}
+    {{ else }}
+    {{/* ... existing 'service_tag not defined' message ... */}}
+    <div class="row mt-5 pt-4">
+      <div class="col-lg-10 mx-auto text-center">
+        <p class="text-warning small mt-4">Warning: The `service_tag` parameter is not defined in this service page's front matter. Cannot find related projects.</p>
+      </div>
+    </div>
+    {{ end }} {{/* End serviceTag check */}}
+
+  </div> {{/* End container */}}
+</section>
+
+{{ end }} {{/* End define main */}}
