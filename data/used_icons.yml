@@ -1,67 +1,64 @@
-# List of Font Awesome SVG icons used on the site.
-# This will be used to generate an SVG sprite.
-#
-# Structure for each icon:
-# - style: solid | regular | brands (corresponds to the subfolder in static/plugins/font-awesome/svgs/)
-#   name: icon-name (without the 'fa-' prefix, e.g., 'check', 'user', 'github')
-
 fontawesome_svgs:
   - style: solid
     name: check
   - style: solid
-    name: house # Example, if you use a home icon
+    name: house
   - style: regular
-    name: user # Example
+    name: user
   - style: brands
-    name: github # Example
+    name: github
   - style: solid
-    name: chevron-down # Used in navigation dropdowns
+    name: chevron-down
   - style: solid
-    name: chevron-right # Used in breadcrumbs (if that's the icon)
-  - style: solid # Default for service cards
+    name: chevron-right
+  - style: solid
     name: gear
-  - style: solid # For AI Data Integration service
+  - style: solid
     name: brain
-  - style: solid # For Web Security service
+  - style: solid
     name: shield-halved
-  - style: solid # For Custom Web App
-    name: code
-  - style: solid # For SEO
+  - style: solid
+    name: code # Used by software card placeholder and explore section
+  - style: solid
     name: magnifying-glass-chart
-  - style: solid # For Cloud Infra
+  - style: solid
     name: cloud-arrow-up
-  - style: solid # For newsletter paper airplane
+  - style: solid
     name: paper-plane
-  - style: solid # For newsletter calendar
-    name: calendar-check
-  - style: solid # For footer email
+  - style: solid
+    name: calendar-check # Used by event card placeholder and get-involved
+  - style: solid
     name: envelope
-  - style: brands # For footer social
+  - style: brands
     name: linkedin
-  - style: brands # For footer social (X/Twitter)
+  - style: brands
     name: x-twitter
-  - style: brands # For OG Preview
+  - style: brands
     name: bluesky
-  - style: brands # For OG Preview (check SVG filename, could be facebook-f)
+  - style: brands
     name: facebook
-  - style: solid # For portfolio list item temporary test
+  - style: solid
     name: circle
-  - style: solid # For .content ul li ::before (service_points)
+  - style: solid
     name: angle-right
   - style: solid
     name: lightbulb
   - style: brands
     name: discord
   - style: solid
-    name: microchip
-  # Add other icons used in breadcrumbs, features lists, social links, etc.
-  # Examples from your subscription card:
-  # - style: solid
-  #   name: check # Already listed, but good to confirm
-  # Examples from your header social links (based on common usage):
-  # - style: brands
-  #   name: twitter # This would be for the old twitter bird, x-twitter is the X logo
-  # - style: brands
-  #   name: facebook-f
-  # - style: brands
-  #   name: linkedin-in # Note: Font Awesome often uses -in for LinkedIn, check your SVG filename
+    name: microchip # Used by hardware card placeholder and explore section
+  - style: solid # For new explore section on homepage
+    name: graduation-cap
+  - style: solid # For new explore section & blog card placeholder
+    name: feather-alt # Or 'feather' if 'feather-alt' is not available. Ensure the SVG file exists.
+  - style: solid # For new explore section on homepage
+    name: cubes
+  - style: regular # For event meta
+    name: clock
+  - style: regular # For event buttons
+    name: file-powerpoint
+  - style: regular # For event buttons
+    name: folder-open
+  - style: brands # For event buttons
+    name: youtube
+  # Add other icons as needed

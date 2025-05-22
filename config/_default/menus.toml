@@ -53,10 +53,3 @@ name = "Contact"
 url = "#schedule-consultation"
 weight = 3
 # --- Add this block ---
-[[footer]]
-name = "Style Guide (Dev)"
-url = "/dev/"
-weight = 99 # Place it last
-identifier = "styleguide" # Unique identifier
-[footer.params]
-developmentOnly = true # Custom parameter

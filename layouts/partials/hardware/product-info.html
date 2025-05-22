@@ -1,33 +1,57 @@
-{{ $product := .Params.product_name }}
+{{ $productName := .Params.product_name | default .Title }}
 {{ $image := .Params.image}}
 {{ with .Params.product }}
-  <div class="product-info mb-6 lg:grid grid-cols-1 grid-cols-3 gap-1">
-    <div class="pb-4 lg:pb-0">
-      {{ with .release_year }}<div><strong>Release Year:</strong> {{ . }}</div>{{ end }}
-      {{ with .status }}
-        <div>
-          <strong>Status:</strong>
-          {{ if .retired }} End Of Life{{ else if .released }} Released{{ else if .announced }} Announced{{ end }}
+<div class="product-info"> {{/* Removed mb-6 as parent div in single.html handles spacing */}}
+  <div class="row align-items-center">
+    {{/* Text Content Column (taking up more space) */}}
+    <div class="col-lg-8 col-md-7 mb-4 mb-md-0">
+      {{/* Details can be in a nested row for better organization if many items */}}
+      <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
+          {{ with .release_year }}<p class="mb-1"><strong>Release Year:</strong> {{ . }}</p>{{ end }}
+          {{ with .status }}
+          <p class="mb-1">
+            <strong>Status:</strong>
+            {{ if .retired }} End Of Life{{ else if .released }} Released{{ else if .announced }} Announced{{ end }}
+          </p>
+          {{ end }}
+          {{ if .chip_type }}<p class="mb-1"><strong>Chip Type:</strong> {{ .chip_type }}</p>{{ end }}
+          {{ if .interfaces }}<p class="mb-1"><strong>Interface:</strong> {{ .interfaces }}</p>{{ end }}
         </div>
-      {{ end }}
-      {{ if .chip_type }}<div><strong>Chip Type:</strong> {{ .chip_type }}</div>{{ end }}
-      {{ if .interfaces }}<div><strong>Interface:</strong> {{ .interfaces }}</div>{{ end }}
-      {{ if .software }}<div><strong>Software:</strong> {{ .software }}</div>{{ end }}
-      {{ if .applications }}<div><strong>Applications:</strong> {{ .applications }}</div>{{ end }}
+        <div class="col-md-6">
+          {{ if .software }}<p class="mb-1"><strong>Software:</strong> {{ .software }}</p>{{ end }}
+          {{ if .applications }}<p class="mb-1"><strong>Applications:</strong> {{ .applications }}</p>{{ end }}
+          {{ if .power }}<p class="mb-1"><strong>Power:</strong> {{ .power }}</p>{{ end }}
+        </div>
+      </div>
+      <hr class="my-3 d-md-none"> {{/* Visible separator on small screens when details stack */}}
+      <div class="row mt-md-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          {{ if .neurons }}<p class="mb-1"><strong>Neurons:</strong> {{ .neurons }}</p>{{ end }}
+          {{ if .synapses }}<p class="mb-1"><strong>Synapses:</strong> {{ .synapses }}</p>{{ end }}
+        </div>
+        <div class="col-md-6">
+          {{ if .weight_bits }}<p class="mb-1"><strong>Weight bits:</strong> {{ .weight_bits }}</p>{{ end }}
+          {{ if .activation_bits }}<p class="mb-1"><strong>Activation bits:</strong> {{ .activation_bits }}</p>{{ end }}
+          {{ if .on_chip_learning }}<p class="mb-1"><strong>On-Chip Learning:</strong> {{ .on_chip_learning }}</p>{{ end }}
+        </div>
+      </div>
     </div>
-    <div class="pb-4 lg:pb-0">
-      {{ if .neurons }}<div><strong>Neurons:</strong> {{ .neurons }}</div>{{ end }}
-      {{ if .synapses }}<div><strong>Synapses:</strong> {{ .synapses }}</div>{{ end }}
-      {{ if .weight_bits }}<div><strong>Weight bits:</strong> {{ .weight_bits }}</div>{{ end }}
-      {{ if .activation_bits }}<div><strong>Activation bits:</strong> {{ .activation_bits }}</div>{{ end }}
-      {{ if .on_chip_learning }}<div><strong>On-Chip Learning:</strong> {{ .on_chip_learning }}</div>{{ end }}
-      {{ if .power }}<div><strong>Power:</strong> {{ .power }}</div>{{ end }}
+
+    {{/* Image Column (aligned to the right on medium and larger screens) */}}
+    {{ if $image }}
+    <div class="col-lg-4 col-md-5 text-center text-md-end">
+      {{ partial "components/image.html" (dict
+      "Src" $image
+      "Context" $.Page
+      "Alt" (printf "%s product image" $productName)
+      "Class" "img-fluid bg-white rounded shadow-sm"
+      "Size" "x200"
+      "Command" "Resize"
+      )
+      }}
     </div>
-    <div class="flex justify-center items-center">
-        {{ if $image }}
-          {{ partial "image" (dict "Src" $image "Context" $.Page "Alt" .Title "Class" "bg-white rounded" "Size" "x200"
-          "Command" "Scale") }}
-        {{ end }}
-    </div>
+    {{ end }}
   </div>
+</div>
 {{ end }}

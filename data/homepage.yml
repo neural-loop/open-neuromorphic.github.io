@@ -1,65 +1,38 @@
-# ./data/en/homepage.yml
+# ./data/homepage.yml
 
-slider:
-  enable: true
-  bg_image: "/images/inference.svg" # Hero background image
-  slider_item:
-    - title: "Expert Digital Strategy & Technical Solutions"
-      content: 'With over 20+ years of full-stack expertise, Justin embeds security from inception to protect your digital assets and accelerate innovation.'
-      button:
-        enable: true
-        label: 'Schedule Consultation with Justin'
-        link: 'schedule'
-        style: 'btn-primary'
-      button2:
-        enable: true
-        label: 'Explore Services'
-        link: '#core-services'
-        style: 'btn-outline-primary'
-
-
-# --- UPDATED VIDEO FEATURE SECTION ---
-video_feature:
-  enable: false # <<< DISABLED FOR NOW - Enable and update src if you have a relevant video
-  title: 'Understanding Secure Development' # Placeholder title
-  description: 'A brief overview of our approach to integrating security throughout the development lifecycle.' # Placeholder description
-  video_src: 'videos/your-consultancy-video.mp4' # <<< UPDATE if you re-enable
-  video_width: '800'
-  video_height: 'auto'
-
-# --- UPDATED CTA SECTION ---
+# --- UPDATED CTA SECTION for Open Neuromorphic ---
 cta:
   enable: true
-  title: 'Ready to Build with Confidence?' # More engaging title
-  subtitle: 'Secure Your Digital Future'
-  content: "Partner with Justin Riddiough to create web applications that are not only functional and scalable but also fundamentally secure. Justin can address your specific technical and security challenges."
+  title: "Ready to Dive into Neuromorphic Computing?"
+  subtitle: "Connect with a global community of researchers, developers, and enthusiasts."
+  content: "Open Neuromorphic is your hub for collaboration, learning, and innovation. Explore projects, join discussions, or contribute to the future of brain-inspired AI."
   button:
-    enable: true
-    label: 'Schedule a Free Consultation with Justin' # Specific CTA
-    link: '{{< param scheduling_link >}}' # Use param shortcode hint (actual link in template)
+    enable: true # This being true means the data is available, but template must render it
+    label: "Get Involved with ONM"
+    link: "/getting-involved/" # Link to your 'Getting Involved' page
 
 get_involved_features:
-  enable: true # Add an enable flag if you want to toggle this section
-  title: "Ways to Get Involved:" # You can use this in index.html
+  enable: true
+  title: "Ways to Get Involved:"
   items:
     - name: "Share Knowledge"
       icon_style: "solid"
-      icon_name: "lightbulb" # Ensure 'lightbulb.svg' is in static/plugins/font-awesome/svgs/solid/
+      icon_name: "lightbulb"
       content: "Contribute blog posts, tutorials, or help with event summaries."
       link: "/getting-involved/#content"
     - name: "Host an Event"
       icon_style: "solid"
-      icon_name: "calendar-check" # This icon is in your used_icons.yml
+      icon_name: "calendar-check"
       content: "Propose and organize a workshop or journal club session."
       link: "/getting-involved/#workshop"
     - name: "Contribute Code"
       icon_style: "solid"
-      icon_name: "code" # This icon is in your used_icons.yml
+      icon_name: "code"
       content: "Help with ONM projects or host your own within our organization."
       link: "/getting-involved/#code"
     - name: "Join our Discord"
       icon_style: "brands"
-      icon_name: "discord" # Ensure 'discord.svg' is in static/plugins/font-awesome/svgs/brands/
+      icon_name: "discord"
       content: "Connect with our welcoming and collaborative community."
       link: "https://discord.gg/C9bzWgNmqk"
-      is_external: true # Add this flag for external links
+      is_external: true

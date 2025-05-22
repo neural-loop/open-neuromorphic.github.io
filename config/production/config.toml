@@ -1,8 +1,8 @@
-baseURL = "https://visioninit.dev/"
+baseURL = "https://open-neuromorphic.org/" # Updated baseURL
 enableRobotsTXT = true
 
-URL = "visioninit.dev"
+URL = "open-neuromorphic.org" # Updated URL
 
-[services]
-[services.googleAnalytics]
-ID = "G-JNVVVFY1DH"
+# [services]
+# [services.googleAnalytics]
+# ID = "G-YOUR_ONM_GA_ID" # Replace with ONM's Google Analytics ID

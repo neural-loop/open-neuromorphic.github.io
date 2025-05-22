@@ -60,4 +60,58 @@
     </div>
   </div>
 </section>
+
+<section class="section-sm bg-gray-100 dark:bg-gray-800">
+  <div class="container">
+    <div class="row mb-6">
+    </div>
+    <div class="row">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Workshops</h3>
+          <a href="{{ `/workshops/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Workshops</a>
+        </div>
+      </div>
+      {{ $pastWorkshops := where (where .Site.RegularPages "Section" "workshops") "Params.upcoming" "!=" true }}
+      {{ $sortedPastWorkshops := sort $pastWorkshops "Params.date" "desc" }}
+      {{ range first 3 $sortedPastWorkshops }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="row mt-8">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Journal Club Sessions</h3>
+          <a href="{{ `/journalclub/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Sessions</a>
+        </div>
+      </div>
+      {{ $pastJournalClub := where (where .Site.RegularPages "Section" "journalclub") "Params.upcoming" "!=" true }}
+      {{ $sortedPastJournalClub := sort $pastJournalClub "Params.date" "desc" }}
+      {{ range first 3 $sortedPastJournalClub }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="row mt-8">
+      <div class="col-12 pb-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-2xl font-semibold mb-0 me-3">Recent Blog Posts</h3>
+          <a href="{{ `/blog/` | relLangURL }}" class="btn btn-outline-primary btn-sm text-nowrap">Explore All Posts</a>
+        </div>
+      </div>
+      {{ $blogPosts := where .Site.RegularPages "Section" "blog" }}
+      {{ $sortedBlogPosts := sort $blogPosts "Params.date" "desc" }}
+      {{ range first 3 $sortedBlogPosts }}
+      <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+        {{ partial "components/item-card.html" (dict "context" .) }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
 {{ end }}

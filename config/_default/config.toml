@@ -1,12 +1,12 @@
 ######################## VisionInit Configuration ####################
 # Base URL MUST end with a slash
-title = "Justin Riddiough - Expert Digital Solutions & Web Development"
+title = "Open Neuromorphic - Advancing Brain-Inspired Computing"
 # Default time zone for time stamps
 timeZone = "America/New_York" # Adjust if needed
 # Pagination (can adjust later if needed)
-paginate = 6
+paginate = 30
 # Summary length for auto-generated excerpts
-summaryLength = 20
+summaryLength = 70
 
 disableKinds = ["taxonomy", "term"]
 
@@ -17,17 +17,17 @@ hasCJKLanguage = false # Keep false unless you use CJK languages
 logo = "/logo.png" # <<< NEW: Path to your consultancy logo (relative to static/)
 favicon = "/favicon.ico" # Path to your favicon (relative to static/)
 # Meta data
-description = "Justin Riddiough offers expert digital solutions: full-stack web development, cloud infrastructure, web security assessments, and strategic technical partnership."
-author = "Justin Riddiough"
+description = "Open Neuromorphic (ONM) is a collaborative open-source community dedicated to advancing the field of neuromorphic computing. Explore resources, software, hardware, and events."
+author = "The Open Neuromorphic Community"
 
 home = "Home" # Added from languages.toml
-copyright = "Copyright © 2025 Justin Riddiough (VisionInit Solutions)" # Added from languages.toml
+copyright = "Copyright © 2025 Open Neuromorphic"
+github_repo = "https://github.com/open-neuromorphic/open-neuromorphic.github.io" # Link to the site's repository
 
 # Contact Info (Optional, used in theme potentially)
 address = "" # Add if relevant
 # Contact form action (Update if you use a form service like Formspree, Netlify Forms, etc.)
 contact_form_action = "/contact/" # Example: point to a contact page
-scheduling_link = "https://cal.com/visioninit/30min"
 
 # Social Links (Used in header/footer - Update links)
 [[params.social]]
@@ -35,23 +35,34 @@ title = "LinkedIn"
 icon = "fa-brands fa-linkedin" # Font Awesome icon class
 icon_style = "brands"
 icon_name = "linkedin"
-link = "https://www.linkedin.com/in/riddiough"
+link = "https://www.linkedin.com/company/open-neuromorphic/"
 [[params.social]]
 title = "GitHub"
 icon = "fa-brands fa-github"
 icon_style = "brands"
 icon_name = "github"
-link = "https://github.com/neural-loop" # Your GitHub
+link = "https://github.com/open-neuromorphic"
 
-# Consultancy Specific Params (Optional, can be used in layouts)
-tagline = "Elevating Digital Communication Through Technology"
+[[params.social]]
+title = "X (formerly Twitter)"
+icon_style = "brands"
+icon_name = "x-twitter" # Assuming you use an 'x-twitter' SVG icon
+link = "https://x.com/OpenNeuromorphic" # Placeholder, update if different
+[[params.social]]
+title = "Discord"
+icon_style = "brands"
+icon_name = "discord"
+link = "https://discord.gg/C9bzWgNmqk"
+
+# ONM Specific Params (Optional, can be used in layouts)
+tagline = "Collaborate, Learn, and Innovate in Neuromorphic Computing."
 # Example Call to Action params
 [params.cta]
 enable = true # Used in index.html potentially
-title = "Ready to Elevate Your Technology?"
-subtitle = "Let's Discuss Your Project"
-button_label = "Schedule a Consultation"
-button_link = "/contact/" # Link to contact page or scheduling tool
+title = "Join the Neuromorphic Community"
+subtitle = "Connect with researchers, developers, and enthusiasts."
+button_label = "Get Involved"
+button_link = "/getting-involved/"
 
 # Top Header (Disable for cleaner look, was enabled in original)
 top_header = false
@@ -116,7 +127,7 @@ maxAge = "720h"
 changefreq = "weekly" # How frequently the content is likely to change (e.g., "always", "hourly", "daily", "weekly", "monthly", "yearly", "never")
 priority = 0.5        # Priority of this URL relative to other URLs on your site (0.0 to 1.0)
 filename = "sitemap.xml" # Default filename (usually no need to change)
-disableKinds = ['homepage']
+disableKinds = []
 
 [markup]
 [markup.goldmark]

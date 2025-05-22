@@ -1,17 +1,17 @@
-# Theme metadata for the VisionInit Consultancy Website Hugo setup
-name = "VisionInit Theme" # <<< CHANGED
-license = "MIT" # The code derived from Educenter retains its MIT license
-licenselink = "https://github.com/themefisher/educenter-hugo/blob/master/LICENSE" # Link to the original theme's license for attribution
-description = "A Hugo theme powering the VisionInit IT Services Consultancy website, based on the Educenter theme structure." # <<< CHANGED
-homepage = "https://visioninit.dev/" # <<< CHANGED
-tags = ["consultancy", "portfolio", "business", "services", "security", "development", "hugo", "bootstrap", "responsive", "lead generation"] # <<< CHANGED
-features = ["responsive", "services section", "contact form", "consultancy focused"] # <<< CHANGED
-min_version = "0.115.1" # Keep unless you need newer Hugo features
+# Theme metadata for the Open Neuromorphic Website Hugo setup
+name = "Open Neuromorphic Theme" # CHANGED
+license = "MIT"
+licenselink = "https://github.com/themefisher/educenter-hugo/blob/master/LICENSE"
+description = "A Hugo theme powering the Open Neuromorphic community website, based on the Educenter theme structure." # CHANGED
+homepage = "https://open-neuromorphic.org/" # CHANGED
+tags = ["neuromorphic", "community", "open source", "hardware", "software", "education", "research", "hugo", "bootstrap"] # CHANGED
+features = ["responsive", "resource directories", "event listings", "blog", "community focused"] # CHANGED
+min_version = "0.115.1"
 
-# Information about the modifier/current project maintainer
+# Information about the current project maintainer/collaborator
 [author]
-name = "Justin Riddiough / VisionInit" # <<< CHANGED
-homepage = "https://visioninit.dev/" # <<< CHANGED
+name = "The Open Neuromorphic Community & Justin Riddiough" # CHANGED
+homepage = "https://open-neuromorphic.org/" # CHANGED
 
 # Information about the original theme for attribution purposes
 [original]

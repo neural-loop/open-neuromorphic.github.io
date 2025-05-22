@@ -2,19 +2,4 @@
 {{/* Expects the page context '.' */}}
 <div class="offset-shadow-box bg-white p-4 mb-5">
   <h4 class="mb-4">{{ i18n "categories" }}</h4>
-  {{- if isset site.Taxonomies "categories" }}
-  {{- if not (eq (len site.Taxonomies.categories) 0) }}
-  <ul class="list-unstyled">
-    {{- range $name, $items := site.Taxonomies.categories }}
-    <li class="border-bottom">
-      <a href="{{ `categories/` | relLangURL }}{{ $name | urlize | lower }}/" class="d-block pb-3 mt-3">
-        {{ $name | title | humanize }} ({{ len $items }}) {{/* Optional: Show count */}}
-      </a>
-    </li>
-    {{- end }}
-  </ul>
-  {{- else }}
-  <p class="text-muted small">No categories found.</p>
-  {{- end }}
-  {{- end }}
 </div>

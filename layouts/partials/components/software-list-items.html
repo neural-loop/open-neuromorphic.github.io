@@ -1,0 +1,45 @@
+{{/* layouts/partials/components/software-list-items.html */}}
+{{ $pagesToList := .Scratch.Get "pages_to_list" }}
+
+{{ if $pagesToList }}
+<div class="software-items-list">
+  <ul class="list-unstyled">
+    {{ range $pagesToList }}
+    {{ $pageItem := . }} {{/* Store the current page context */}}
+    <li class="mb-4 bg-light rounded p-3 p-md-4 shadow-sm">
+      <div class="d-sm-flex align-items-start justify-content-between mb-2">
+        <h3 class="h5 mb-2 mb-sm-0">
+          <a href="{{ $pageItem.RelPermalink }}" class="text-decoration-none text-dark stretched-link">{{ $pageItem.Title }}</a>
+        </h3>
+        <div class="d-flex align-items-center flex-shrink-0 mt-2 mt-sm-0">
+          {{ with $pageItem.Params.version_widget_url }}
+          <img class="d-inline-block" style="height: 24px; margin-left: 0.5rem;" src="{{ . }}" alt="{{ $pageItem.Title }} Version Badge">
+          {{ end }}
+          {{ with $pageItem.Params.stars_widget_url }}
+          <img class="d-inline-block" style="height: 24px; margin-left: 0.5rem;" src="{{ . }}" alt="{{ $pageItem.Title }} GitHub Stars Badge">
+          {{ end }}
+        </div>
+      </div>
+      <p class="my-3 text-muted small">{{ $pageItem.Params.description | truncate 180 }}</p>
+      <ul class="list-unstyled ps-0 small mb-3">
+        {{ with $pageItem.Params.website }}<li class="mb-1"><strong>Website:</strong> <a href="{{ . }}" target="_blank" rel="noopener" class="text-primary">{{ . }}</a></li>{{ end }}
+        {{ with $pageItem.Params.source_code }}<li class="mb-1"><strong>Source Code:</strong> <a href="{{ . }}" target="_blank" rel="noopener" class="text-primary">{{ . }}</a></li>{{ end }}
+        {{ with $pageItem.Params.license }}<li class="mb-1"><strong>License:</strong> {{ . }}</li>{{ end }}
+      </ul>
+      <div class="d-lg-flex justify-content-between align-items-center">
+        <div class="mb-3 mb-lg-0">
+          {{ if $pageItem.Params.supports_NIR }}
+          <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle me-1 px-2 py-1 rounded-pill">NIR Support</span>
+          {{ end }}
+          {{ if $pageItem.Params.supports_hardware }}
+          <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle me-1 px-2 py-1 rounded-pill">Hardware Support</span>
+          {{ end }}
+        </div>
+      </div>
+    </li>
+    {{ end }}
+  </ul>
+</div>
+{{ else }}
+<p class="text-muted">No software items found in this section.</p>
+{{ end }}

@@ -1,4 +1,3 @@
-{{/* layouts/partials/components/item-card.html */}}
 {{ $item := .context }}
 {{ $class := .class | default "" }}
 
@@ -6,19 +5,41 @@
 
   {{ $imageSrc := "" }}
   {{ $altText := $item.Title | default "Item preview" }}
+  {{ $imgResource := "" }}
+
+  {{/* Image priority: 1. og.png in bundle, 2. .Params.image in bundle, 3. .Params.logo in bundle */}}
   {{ $ogImageResource := $item.Resources.GetMatch "og.png" }}
-  {{ $featuredImage := $item.Params.image }}
+  {{ $featuredImageResource := "" }}{{ with $item.Params.image }}{{ $featuredImageResource = $item.Resources.GetMatch . }}{{ end }}
+  {{ $logoResource := "" }}{{ with $item.Params.logo }}{{ $logoResource = $item.Resources.GetMatch . }}{{ end }}
 
   {{ if $ogImageResource }}
-    {{ $resized := $ogImageResource.Resize "600x q90" }}
+    {{ $imgResource = $ogImageResource }}
+  {{ else if $featuredImageResource }}
+    {{ $imgResource = $featuredImageResource }}
+  {{ else if $logoResource }}
+    {{ $imgResource = $logoResource }}
+  {{ end }}
+
+  {{ if $imgResource }}
+    {{/* Hugo resource processing */}}
+    {{ $resized := $imgResource.Fill "600x338 q85" }} {{/* Fill ensures aspect ratio for cards */}}
     {{ $imageSrc = $resized.RelPermalink }}
-  {{ else if $featuredImage }}
-    {{ $img := $item.Resources.GetMatch $featuredImage }}
-    {{ if $img }}
-      {{ $resized := $img.Resize "600x q90" }}
-      {{ $imageSrc = $resized.RelPermalink }}
-    {{ else }}
-      {{ $imageSrc = $featuredImage | absURL }}
+  {{ else }}
+    {{/* Fallback to static paths if no resource found */}}
+    {{ if $item.Params.image }}
+      {{ $imagePath := $item.Params.image }}
+      {{ if or (hasPrefix $imagePath "http") (fileExists (printf "static%s" (cond (hasPrefix $imagePath "/") "" "/" | printf "%s%s" $imagePath))) }}
+        {{ $imageSrc = $imagePath | absURL }}
+      {{ end }}
+    {{ else if $item.Params.logo }}
+      {{ $logoPath := $item.Params.logo }}
+      {{ if fileExists (printf "static/images/software/%s" $logoPath) }}
+        {{ $imageSrc = (printf "images/software/%s" $logoPath) | absURL }}
+      {{ else if fileExists (printf "static/images/hardware/%s" $logoPath) }}
+        {{ $imageSrc = (printf "images/hardware/%s" $logoPath) | absURL }}
+      {{ else if fileExists (printf "static/%s" $logoPath) }}
+         {{ $imageSrc = $logoPath | absURL }}
+      {{ end }}
     {{ end }}
   {{ end }}
 
@@ -26,21 +47,24 @@
     <img src="{{ $imageSrc }}" class="card-img-top campaign-card-image rounded-0" alt="{{ $altText }}">
   {{ else }}
     <div class="card-img-top campaign-card-image-placeholder rounded-0 bg-light d-flex align-items-center justify-content-center">
-      {{ partial "components/icon.html" (dict "style" "solid" "name" "gear" "class" "text-muted" "aria_hidden" true "label" "Default item icon") }}
+      {{ $iconName := "gear" }}
+      {{ if eq $item.Type "neuromorphic-software" }}{{ $iconName = "code" }}{{ end }}
+      {{ if eq $item.Type "neuromorphic-hardware" }}{{ $iconName = "microchip" }}{{ end }}
+      {{ if or (eq $item.Section "blog") (eq $item.Type "blog") }}{{ $iconName = "feather-alt" }}{{ end }}
+      {{ if or (eq $item.Section "workshops") (eq $item.Section "journalclub") }}{{ $iconName = "calendar-check" }}{{ end }}
+      {{ partial "components/icon.html" (dict "style" "solid" "name" $iconName "class" "text-muted display-6" "aria_hidden" true "label" (printf "%s icon" $item.Title)) }}
     </div>
   {{ end }}
 
   <div class="card-body d-flex flex-column">
     <h5 class="card-title mb-2">{{ $item.Title }}</h5>
-    {{/* --- MODIFIED SUMMARY LOGIC --- */}}
     {{ $summary := $item.Description | default ($item.Summary | default ($item.Params.product.summary | default "More details available.")) }}
     <p class="card-text small text-muted flex-grow-1">{{ $summary | plainify | truncate 120 }}</p>
-    {{/* --- END MODIFIED SUMMARY LOGIC --- */}}
 
     {{ with $item.Params.tags }}
     <div class="mb-3">
       {{ range first 4 . }}
-      <span class="badge badge-light me-1 mb-1 small p-2">{{ . }}</span>
+      <span class="badge bg-light text-dark border me-1 mb-1 small p-2">{{ . }}</span> {{/* Changed badge styling */}}
       {{ end }}
     </div>
     {{ end }}

@@ -1,0 +1,141 @@
+<section class="section pt-6">
+  <div class="container">
+    <div class="row">
+      {{/* Main Content Area - 8 Columns */}}
+      <div class="col-lg-8 order-lg-1">
+        <article class="mb-5">
+          {{/* Video or Image */}}
+          <div class="mb-4">
+            {{ $imageParam := .Params.image }}
+            {{ if .Params.video }}
+            {{ partial "components/youtube-embed.html" (dict "Id" .Params.video "Title" .Title) }}
+            {{ else if $imageParam }}
+            {{ partial "components/image.html" (dict "Src" $imageParam "Context" . "Alt" .Title "Class" "img-fluid w-100 rounded shadow-sm") }}
+            {{ else }}
+            {{ partial "components/image.html" (dict "Src" "/images/workshop-thumbnail-default.png" "Context" . "Alt" .Title "Class" "img-fluid w-100 rounded shadow-sm") }}
+            {{ end }}
+          </div>
+
+          {{/* Meta Information */}}
+          <ul class="mb-4 list-inline small text-muted">
+            <li class="list-inline-item me-3">
+              {{ partial "components/icon.html" (dict "style" "regular" "name" "user" "class" "me-1" "aria_hidden" true) }}
+              {{ if .Params.author }}
+                {{ if reflect.IsSlice .Params.author }}
+                  {{ delimit .Params.author ", " }}
+                {{ else }}
+                  {{ .Params.author }}
+                {{ end }}
+              {{ else }}
+                Anonymous
+              {{ end }}
+            </li>
+            <li class="list-inline-item">
+              {{ partial "components/icon.html" (dict "style" "regular" "name" "clock" "class" "me-1" "aria_hidden" true) }}
+              {{ .PublishDate.Format (site.Params.dateFormat | default "January 2, 2006") }}
+              {{ if .Params.upcoming }}
+              | {{ .Params.start_time }} - {{ .Params.end_time }} {{ .Params.time_zone }}
+              {{ end }}
+            </li>
+          </ul>
+
+          {{/* Action Buttons */}}
+          <div class="mb-4">
+            {{ with .Params.speaker_slides }}
+            <a href="{{ . | absURL }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary me-2 mb-2">
+              {{ partial "components/icon.html" (dict "style" "regular" "name" "file-powerpoint" "class" "me-1" "aria_hidden" true) }}Slides
+            </a>
+            {{ end }}
+            {{ with .Params.speaker_notebook }}
+            <a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary me-2 mb-2">
+              {{ partial "components/icon.html" (dict "style" "regular" "name" "folder-open" "class" "me-1" "aria_hidden" true) }}Notebook
+            </a>
+            {{ end }}
+            {{ with .Params.speaker_code }}
+            <a href="{{ . }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary me-2 mb-2">
+              {{ partial "components/icon.html" (dict "style" "brands" "name" "github" "class" "me-1" "aria_hidden" true) }}Code
+            </a>
+            {{ end }}
+            {{ if .Params.upcoming }}
+            {{ if .Params.upcoming_url }}
+            <a href="{{ .Params.upcoming_url }}" target="_blank" rel="noopener" class="btn btn-sm btn-primary me-2 mb-2">
+              {{ partial "components/icon.html" (dict "style" "regular" "name" "calendar-check" "class" "me-1" "aria_hidden" true) }}Event Link
+            </a>
+            {{ else }}
+            <a href="https://www.youtube.com/@openneuromorphic" target="_blank" rel="noopener" class="btn btn-sm btn-primary me-2 mb-2">
+              {{ partial "components/icon.html" (dict "style" "brands" "name" "youtube" "class" "me-1" "aria_hidden" true) }}Watch on YouTube
+            </a>
+            {{ end }}
+            {{ end }}
+          </div>
+
+          {{/* Main Workshop Content */}}
+          <div class="content">
+            {{ .Content }}
+          </div>
+        </article>
+
+        {{/* Speaker Information Section - Placed below main content, within the col-lg-8 */}}
+        {{ if or .Params.speaker_photo .Params.speaker_bio }}
+        <div class="row mt-5 pt-4 border-top">
+          {{ if .Params.speaker_photo }}
+          <div class="col-md-4 col-lg-3 text-center text-md-start mb-3 mb-md-0">
+            {{ partial "components/image.html" (dict "Src" .Params.speaker_photo "Context" . "Alt" (printf "Photo of %s" (delimit .Params.author ", ")) "Class" "img-fluid rounded-circle shadow mx-auto" "Size" "150x150" "Command" "Fill") }}
+          </div>
+          {{ end }}
+          {{ if .Params.speaker_bio }}
+          <div class="{{ if .Params.speaker_photo }}col-md-8 col-lg-9{{ else }}col-12{{ end }}">
+            <h3 class="h5 mb-2 text-dark">About the Speaker</h3>
+            <div class="content small">
+              <p>{{ .Params.speaker_bio | markdownify }}</p>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{/* Comments Section */}}
+        {{ if site.DisqusShortname }}
+        {{ end }}
+
+      </div>
+
+      {{/* Sidebar - 4 Columns */}}
+      <aside class="col-lg-4 order-lg-2">
+        <div class="sticky-top" style="top: 120px;"> {{/* Adjust 'top' value based on your sticky header height */}}
+          {{/*
+          <div class="pb-4 text-center">~ Share this Site ~
+            {{ partial "override-social-share" (dict "Context" . "Class" "share-icons" "Whatsapp" true "Telegram" false) }}
+          </div>
+          */}}
+          <div class="p-4 bg-light rounded shadow-sm">
+            <h3 class="h5 mb-3 text-dark">Upcoming Workshops</h3>
+            {{/* You'll need to create/adapt a partial to list upcoming workshops here */}}
+            {{/* Example: {{ partial "components/upcoming-events-sidebar.html" . }} */}}
+            <p class="small text-muted">List of upcoming events will appear here.</p>
+            <div class="text-center mt-3">
+              <a href="{{ `/getting-involved/` | relLangURL }}#workshop" class="btn btn-primary btn-sm">Host a Workshop</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {{/* Related Posts Section - Full width below main content and sidebar */}}
+    {{ $related := where (where site.RegularPages "Section" "workshops") "Permalink" "!=" .Permalink }}
+    {{ $filteredRelated := where $related "Params.upcoming" "!=" true | shuffle | first 3 }}
+    {{ if $filteredRelated }}
+    <div class="section pb-0 mt-5 pt-4 border-top">
+      <h3 class="h4 mb-4">Other Past Workshops</h3>
+      <div class="row">
+        {{ range $filteredRelated }}
+        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+          {{ partial "components/item-card.html" (dict "context" . ) }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+
+  </div>
+</section>

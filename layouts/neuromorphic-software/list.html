@@ -1,0 +1,65 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    {{ $isMainSoftwareHubPage := eq .RelPermalink (site.GetPage "neuromorphic-computing/software").RelPermalink }}
+
+    {{/* Page Title and Introduction */}}
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        <h2 class="h3 mb-3">{{ .Params.section_title | default .Title }}</h2>
+        {{ with (or .Params.section_description .Description) }}
+        <p class="lead text-muted">{{ . | markdownify }}</p>
+        {{ end }}
+        {{ if ne .Content "" }}
+        <div class="content mt-4 text-start">{{ .Content }}</div>
+        {{ end }}
+      </div>
+    </div>
+
+    {{/* --- START: Main content and sidebar row --- */}}
+    <div class="row">
+      {{/* Main Content Column (Featured Software or Subsection Software List) */}}
+      <div class="col-lg-8">
+        {{ if $isMainSoftwareHubPage }}
+        {{/* --- MAIN SOFTWARE HUB PAGE --- */}}
+        {{ $all_software_pages := where site.RegularPages "Type" "neuromorphic-software" }}
+        {{ $featured_software := sort $all_software_pages "Params.stars" "desc" | first 6 }}
+
+        {{ if $featured_software }}
+        <div class="featured-software-section mb-5">
+          <h3 class="h4 mb-4 text-center text-lg-start">Featured Software</h3>
+          {{ .Scratch.Set "pages_to_list" $featured_software }}
+          {{ partial "components/software-list-items.html" . }}
+          {{ .Scratch.Delete "pages_to_list" }}
+        </div>
+        {{ else }}
+        <p class="text-muted">No featured software to display at the moment.</p>
+        {{ end }}
+        {{ else }}
+        {{/* --- SUBSECTION PAGE (e.g., Data Tools, SNN Frameworks) --- */}}
+        {{ $paginator := .Paginate .RegularPages }}
+        {{ .Scratch.Set "pages_to_list" $paginator.Pages }}
+
+        {{ partial "components/software-list-items.html" . }}
+        {{ .Scratch.Delete "pages_to_list" }}
+
+        {{/* Pagination for the subsection list */}}
+        <div class="mt-4">
+          {{ template "_internal/pagination.html" . }}
+        </div>
+        {{ end }}
+      </div>
+
+      {{/* Sidebar Column (Software Categories) - Common for both hub and subsections */}}
+      <aside class="col-lg-4">
+        {{/* Adjust top offset based on your sticky header height + breadcrumbs */}}
+        <div class="sticky-top" style="top: 120px;">
+          {{ partial "components/software-categories-list.html" . }}
+        </div>
+      </aside>
+    </div>
+    {{/* --- END: Main content and sidebar row --- */}}
+
+  </div>
+</section>
+{{ end }}

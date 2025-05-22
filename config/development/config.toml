@@ -3,5 +3,5 @@ publishDir = "tmp/public"
 resourceDir = "tmp/resources"
 enableRobotsTXT = true
 
-URL = 'localhost'
-title = "Dev VisionInit - Professional IT Services & Solutions"
+URL = "localhost:1313" # Updated for clarity
+title = "Dev Open Neuromorphic" # Updated title

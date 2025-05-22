@@ -9,12 +9,11 @@
         {{ with .subtitle }}<h4 class="text-white font-secondary mb-3 h6">{{ . }}</h4>{{ end }}
         <p class="text-white mb-4">{{ .content | markdownify }}</p>
 
-        {{/* --- START: Placeholder Text --- */}}
-        <div class="text-center text-white py-4">
-          <p class="h5">Future communication options will be available here.</p>
-          <p class="small">(This section is currently under development)</p>
+        {{ if .button.enable }}
+        <div class="text-center">
+          <a href="{{ .button.link }}" class="btn btn-primary">{{ .button.label }}</a>
         </div>
-        {{/* --- END: Placeholder Text --- */}}
+        {{ end }}
 
         {{/*
         REMOVED: Button toggle container

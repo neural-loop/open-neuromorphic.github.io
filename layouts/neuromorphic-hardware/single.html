@@ -3,78 +3,80 @@
 <!-- Hardware Detail Section -->
 <section class="section-sm">
   <div class="container">
-    <div class="row">
 
+    {{/* --- START: Full-Width Product Info Section --- */}}
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="bg-light rounded p-4 p-md-5 shadow-sm">
+          {{ partial "hardware/product-info.html" . }}
+        </div>
+      </div>
+    </div>
+    {{/* --- END: Full-Width Product Info Section --- */}}
+
+    <div class="row">
       {{/* --- Table of Contents Sidebar (if content exists) --- */}}
-      {{ if and .TableOfContents (gt (len .TableOfContents) 80) }} {{/* Only show ToC if it has significant content */}}
-      <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0">
+      {{ $hasToc := false }}
+      {{ if .TableOfContents }}
+      {{ if gt (len .TableOfContents) 150 }}
+      {{ $hasToc = true }}
+      {{ end }}
+      {{ end }}
+
+      {{ if $hasToc }}
+      <aside class="col-lg-4 order-lg-2 mb-4 mb-lg-0">
         <nav id="toc" class="toc-sidebar card rounded-0 border-0 bg-light p-3">
           <h4 class="mb-3 toc-title">On This Page</h4>
           {{ .TableOfContents }}
         </nav>
-      </div>
+      </aside>
       {{ end }}
 
       {{/* --- Main Content Area --- */}}
-      {{ $contentColumnClass := "col-lg-12" }} {{/* Default: full width if no ToC or ToC is short */}}
-      {{ if and .TableOfContents (gt (len .TableOfContents) 80) }}
-        {{ $contentColumnClass = "col-lg-8 order-lg-1" }} {{/* Use 8 cols if ToC is present and long */}}
+      {{ $contentColumnClass := "col-lg-12" }}
+      {{ if $hasToc }}
+      {{ $contentColumnClass = "col-lg-8 order-lg-1" }}
       {{ end }}
       <div class="{{ $contentColumnClass }}">
         <article class="mb-5">
-          {{/* --- START: Hardware Specific Info Partials --- */}}
-          <div class="mb-5"> {{/* Add some bottom margin to separate from main content */}}
-            <div class="bg-theme-light dark:bg-darkmode-theme-light rounded p-4 p-md-5 mb-4">
-              {{ partial "hardware/product-info.html" . }}
-            </div>
-            <div class="bg-theme-light dark:bg-darkmode-theme-light rounded p-4 p-md-5">
+          {{/* Company Info - Placed within the main content column */}}
+          <div class="mb-5">
+            <div class="bg-light rounded p-4 p-md-5 shadow-sm">
               {{ partial "hardware/company-info.html" . }}
             </div>
           </div>
-          {{/* --- END: Hardware Specific Info Partials --- */}}
 
-          {{/* Page Title (if not already in page-header.html, or if you want it repeated) */}}
-          {{/* Usually, the title is prominent in page-header.html.
-               If you want it directly above the content here, uncomment:
-          <h1 class="h2 mb-4">{{ .Title }}</h1>
-          */}}
-
-          {{/* Meta Information (like _default/single.html) */}}
-          {{/* This assumes you might add Author/Categories/Tags to hardware front matter if desired */}}
-          {{ if or .Params.Author .Params.Categories .Params.Date }}
+          {{/* Meta Information */}}
+          {{ if or .Params.Author .Params.Categories .Params.Date .Params.tags }}
           <ul class="list-inline text-muted small mb-4">
             {{ with .Date }}
             <li class="list-inline-item me-3">
-              <i class="fas fa-calendar-alt fa-fw me-1"></i>
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "calendar-check" "class" "me-1" "aria_hidden" true) }}
               {{ .Format (site.Params.dateFormat | default "January 2, 2006") }}
-              {{ with $.Params.product.release_year }} (Release: {{.}}){{end}}
+              {{ with .Params.product.release_year }} (Release: {{.}}){{end}}
             </li>
             {{ end }}
             {{ with .Params.author }}
             <li class="list-inline-item me-3">
-              <i class="fas fa-user fa-fw me-1"></i>
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "user" "class" "me-1" "aria_hidden" true) }}
               {{ if reflect.IsSlice . }}
-                {{ range $index, $element := . }}
-                  {{ $authorPage := site.GetPage (printf "author/%s" ($element | urlize)) }}
-                  {{ if ne $index 0 }}, {{ end }}
-                  {{ if $authorPage }}<a href="{{ $authorPage.RelPermalink }}">{{ $element | title }}</a>{{ else }}{{ $element | title }}{{ end }}
-                {{ end }}
+              {{ delimit . ", " }}
               {{ else }}
-                {{ $authorPage := site.GetPage (printf "author/%s" (. | urlize)) }}
-                {{ if $authorPage }}<a href="{{ $authorPage.RelPermalink }}">{{ . | title }}</a>{{ else }}{{ . | title }}{{ end }}
+              {{ . }}
               {{ end }}
             </li>
             {{ end }}
             {{ with .Params.categories }}
             <li class="list-inline-item me-3">
-              <i class="fas fa-folder-open fa-fw me-1"></i>
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "folder-open" "class" "me-1" "aria_hidden" true) }}
               {{ range $index, $element := . }}
               <a href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}">{{ if ne $index 0 }}, {{ end }}{{ . | title }}</a>
               {{ end }}
             </li>
             {{ end }}
-             {{ with .Params.tags }}
-            <li class="list-inline-item"><i class="fas fa-tags fa-fw me-1"></i>
+            {{ with .Params.tags }}
+            <li class="list-inline-item">
+              {{ partial "components/icon.html" (dict "style" "solid" "name" "tags" "class" "me-1" "aria_hidden" true) }}
               {{ range $index, $tag := . }}
               <a href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}">{{ if gt $index 0 }}, {{ end }}{{ . | humanize }}</a>
               {{ end }}
@@ -84,40 +86,39 @@
           <hr class="mb-4">
           {{ end }}
 
+          {{/* Explicit Product Summary */}}
+          {{ with .Params.product.summary }}
+          <div class="alert alert-light border lead mb-4" role="alert">
+            {{ . | markdownify }}
+          </div>
+          {{ end }}
 
           {{/* Main Markdown Content */}}
           <div class="content">
             {{ .Content }}
           </div>
-        </article>
 
-        {{/* --- Related Blog Posts (Optional) --- */}}
-        {{/* This section can be adapted or removed if not relevant for hardware pages */}}
-        {{ $related := where (where site.RegularPages "Section" "blog") "Params.tags" "intersect" .Params.tags | shuffle | first 3 }}
-        {{ if $related }}
-        <div class="mt-5 pt-4 border-top">
-          <h3 class="h5 mb-4">Related Articles:</h3>
-          <div class="row">
-            {{ range $related }}
-              {{ if ne .Permalink $.Permalink }} {{/* Don't link to self */}}
-              <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
-                {{ partial "components/item-card.html" (dict "context" . "class" "related-item-card") }}
-              </div>
-              {{ end }}
-            {{ end }}
-          </div>
-        </div>
-        {{ end }}
-
-        {{/* Disqus comments (Optional) */}}
-        {{ if site.Config.Services.Disqus.Shortname }}
-        <div class="mt-5">
-          {{ template "_internal/disqus.html" . }}
-        </div>
-        {{ end }}
       </div> {{/* End Main Content Col */}}
 
-    </div> {{/* End row */}}
+    </div> {{/* End main content row */}}
+
+    {{/* Related Blog Posts */}}
+    {{ $related := where (where site.RegularPages "Section" "blog") "Params.tags" "intersect" .Params.tags | shuffle | first 3 }}
+    {{ if $related }}
+    <div class="mt-5 pt-5 border-top">
+      <h3 class="h4 mb-4">Related Articles:</h3>
+      <div class="row">
+        {{ range $related }}
+        {{ if ne .Permalink $.Permalink }}
+        <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+          {{ partial "components/item-card.html" (dict "context" . "class" "related-item-card") }}
+        </div>
+        {{ end }}
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+
   </div> {{/* End container */}}
 </section>
 <!-- /Hardware Detail Section -->
