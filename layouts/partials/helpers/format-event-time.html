@@ -1,0 +1,16 @@
+{{ $page := . }}
+{{ $startTime := "" }}
+{{ $endTime := "" }}
+
+{{ with $page.Params.start_datetime }}
+  {{ $startTime = time.AsTime . }}
+{{ end }}
+{{ with $page.Params.end_datetime }}
+  {{ $endTime = time.AsTime . }}
+{{ end }}
+
+{{ if $startTime }}
+  <span class="event-time" data-utc-start="{{ $startTime.UTC.Format "2006-01-02T15:04:05Z" }}" {{ if $endTime }}data-utc-end="{{ $endTime.UTC.Format "2006-01-02T15:04:05Z" }}"{{ end }}>
+    {{ $startTime.Format "15:04" }}{{ if $endTime }} - {{ $endTime.Format "15:04" }}{{ end }} {{ $page.Params.time_zone | default "UTC" }}
+  </span>
+{{ end }}

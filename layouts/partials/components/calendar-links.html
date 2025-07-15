@@ -1,0 +1,24 @@
+{{ $page := . }}
+{{ with $page.Params.start_datetime }}
+  {{ $startTime := time.AsTime . }}
+  {{ $endTime := $startTime }}
+  {{ with $page.Params.end_datetime }}
+    {{ $endTime = time.AsTime . }}
+  {{ end }}
+
+  {{ $utcFormat := "20060102T150405Z" }}
+  {{ $utcStart := $startTime.UTC.Format $utcFormat }}
+  {{ $utcEnd := $endTime.UTC.Format $utcFormat }}
+
+  {{ $title := $page.Title | urlquery }}
+  {{ $details := printf "%s\n\nFind more details at: %s" ($page.Description | plainify) $page.Permalink | urlquery }}
+
+  {{ $gCalLink := printf "https://www.google.com/calendar/render?action=TEMPLATE&text=%s&dates=%s/%s&details=%s" $title $utcStart $utcEnd $details }}
+  {{ $outlookLink := printf "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=%s&enddt=%s&subject=%s&body=%s" ($startTime.UTC.Format "2006-01-02T15:04:05") ($endTime.UTC.Format "2006-01-02T15:04:05") $title $details }}
+  
+  <div class="calendar-links-container mt-4">
+    <span class="text-sm font-semibold mr-2">Add to calendar:</span>
+    <a href="{{ $gCalLink }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary !py-1 !px-2 mr-1">Google</a>
+    <a href="{{ $outlookLink }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary !py-1 !px-2">Outlook</a>
+  </div>
+{{ end }}
