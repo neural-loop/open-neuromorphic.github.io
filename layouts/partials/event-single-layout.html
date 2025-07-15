@@ -18,7 +18,12 @@
           {{ end }}
         </div>
         {{ partial "components/metadata-bar.html" (dict "context" $page_context "type" "event") }}
-        <div class="content">
+
+        {{ if .Params.upcoming }}
+          {{ partial "components/calendar-links.html" . }}
+        {{ end }}
+
+        <div class="content mt-4">
           {{ $page_context.Content }}
         </div>
       </div>

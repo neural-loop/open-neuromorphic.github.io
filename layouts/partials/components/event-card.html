@@ -53,7 +53,8 @@
   {{ end }}
   {{ if $ctx.Params.upcoming }}
   <li class="{{ $base_class }}__meta-item inline-flex items-center">
-    {{ partial "icon.html" (dict "style" "regular" "name" "clock" "class" "mr-2") }}{{ $ctx.Params.start_time }} - {{ $ctx.Params.end_time }} {{ $ctx.Params.time_zone }}
+    {{ partial "icon.html" (dict "style" "regular" "name" "clock" "class" "mr-2") }}
+    {{ partial "helpers/format-event-time.html" $ctx }}
   </li>
   {{ end }}
 </ul>

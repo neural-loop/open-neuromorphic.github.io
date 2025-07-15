@@ -3,8 +3,8 @@ title: "Student Talk: Learning Long Sequences in Spiking Neural Networks with Ma
 author:
   - "Matei Stan"
 date: 2025-07-27
-start_time: "08:30"
-end_time: "09:45"
+start_datetime: "2025-07-27T08:30:00-05:00" # EST is UTC-5
+end_datetime: "2025-07-27T09:45:00-05:00"   # EST is UTC-5
 time_zone: "EST"
 description: "Explore how State Space Models (SSMs) combined with Spiking Neural Networks (SNNs) can outperform Transformers on long-sequence tasks, and learn about a novel feature mixing layer that challenges assumptions about binary activations."
 upcoming: true

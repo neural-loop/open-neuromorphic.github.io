@@ -26,13 +26,12 @@
       <span>
         {{- $ctx.Date.Format (site.Params.dateFormatSingle | default "January 2, 2006") -}}
 
-        {{- /* Show time for UPCOMING events */ -}}
-        {{- if and $ctx.Params.upcoming $ctx.Params.start_time -}}
+        {{- if $ctx.Params.upcoming -}}
           <span class="mx-1 text-gray-400">·</span>
-          {{- $ctx.Params.start_time }}{{ if $ctx.Params.end_time }} - {{ $ctx.Params.end_time }}{{ end }} {{ $ctx.Params.time_zone -}}
+          {{ partial "icon.html" (dict "style" "regular" "name" "clock" "class" "mr-1") }}
+          {{ partial "helpers/format-event-time.html" $ctx }}
         {{- end -}}
 
-        {{- /* Show 'Updated' for non-events (like blog posts) */ -}}
         {{- if and (ne $type "event") (ne $ctx.Lastmod $ctx.Date) -}}
           <span class="italic text-gray-500 ml-2">(Updated {{ $ctx.Lastmod.Format (site.Params.dateFormatSingle | default "January 2, 2006") }})</span>
         {{- end -}}

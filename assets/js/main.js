@@ -142,16 +142,48 @@
     });
   };
 
+  // --- Local Timezone Conversion ---
+  const convertEventTimes = () => {
+    const eventTimeElements = document.querySelectorAll('.event-time');
+    if (eventTimeElements.length === 0) return;
+
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const timeZoneAbbr = new Date().toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2];
+
+      eventTimeElements.forEach(el => {
+        const utcStartStr = el.dataset.utcStart;
+        const utcEndStr = el.dataset.utcEnd;
+
+        if (utcStartStr) {
+          const startDate = new Date(utcStartStr);
+          let timeString = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+          
+          if (utcEndStr) {
+            const endDate = new Date(utcEndStr);
+            timeString += ` - ${endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}`;
+          }
+
+          el.innerHTML = `${timeString} <span title="${userTimeZone}" class="cursor-help font-semibold">${timeZoneAbbr}</span>`;
+        }
+      });
+    } catch (e) {
+      console.warn("Could not convert event times to local timezone:", e);
+    }
+  };
+
   // Wait for the DOM to be fully loaded to initialize
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initCopyCodeButtons();
+        convertEventTimes();
         if (window.innerWidth > 768) { // Only run on larger screens
             initContributionBubbles();
         }
     });
   } else {
     initCopyCodeButtons();
+    convertEventTimes();
     if (window.innerWidth > 768) { // Only run on larger screens
         initContributionBubbles();
     }

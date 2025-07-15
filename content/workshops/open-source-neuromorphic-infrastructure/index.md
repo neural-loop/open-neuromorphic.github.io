@@ -11,9 +11,9 @@ author:
   - Terry Stewart
   - Marcel Stimberg
 date: 2025-07-30
-start_time: 17:00
-end_time: 18:30
-time_zone: CEST
+start_datetime: "2025-07-30T17:00:00+02:00" # CEST is UTC+2
+end_datetime: "2025-07-30T18:30:00+02:00"   # CEST is UTC+2
+time_zone: "CEST"
 show_author_bios: true
 description: "Join leading maintainers of neuromorphic software libraries for a panel discussion on building open-source infrastructure, sharing lessons learned, and shaping the future of the neuromorphic ecosystem."
 upcoming: true
