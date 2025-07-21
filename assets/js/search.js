@@ -14,10 +14,43 @@
   let fuse;
   let searchData;
   let isFuseInitialized = false;
+  let fuseScriptLoaded = false;
+
+  function loadFuseScript() {
+    return new Promise((resolve, reject) => {
+      // If script is already loaded (or if Fuse was somehow available already), resolve immediately.
+      if (fuseScriptLoaded || typeof Fuse !== 'undefined') {
+        fuseScriptLoaded = true;
+        return resolve();
+      }
+
+      // Check if the script source is provided
+      if (!window.fuseJSSrc) {
+        return reject(new Error('Fuse.js script source URL not provided via window.fuseJSSrc'));
+      }
+
+      const script = document.createElement('script');
+      script.src = window.fuseJSSrc;
+      script.onload = () => {
+        fuseScriptLoaded = true;
+        resolve();
+      };
+      script.onerror = () => {
+        reject(new Error(`Failed to load Fuse.js from ${window.fuseJSSrc}`));
+      };
+      document.body.appendChild(script);
+    });
+  }
 
   async function initFuse() {
     if (isFuseInitialized) return;
     try {
+      await loadFuseScript();
+      
+      if (typeof Fuse === 'undefined') {
+        throw new Error('Fuse is not defined after attempting to load the script.');
+      }
+      
       if (!window.searchIndexURL) {
         throw new Error('Search index URL not provided via window.searchIndexURL');
       }
@@ -36,7 +69,7 @@
         ],
         includeMatches: true,
         minMatchCharLength: 2,
-        threshold: 0.3, // Lowered from 0.4 to make search stricter
+        threshold: 0.3,
       };
       fuse = new Fuse(searchData, options);
       isFuseInitialized = true;
