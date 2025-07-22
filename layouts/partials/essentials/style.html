@@ -1,27 +1,27 @@
 {{- /* layouts/partials/essentials/style.html */ -}}
-<!-- plugins + stylesheet -->
-{{ $styles := slice }}
-{{ range site.Params.plugins.css }}
-{{ if findRE "^http" .link }}
-<link
-  crossorigin="anonymous"
-  media="all"
-  rel="stylesheet"
-  href="{{ .link | relURL }}"
-  {{ .attributes | safeHTMLAttr }} />
-{{ else }}
-{{ $styles = $styles | append (resources.Get .link) }}
-{{ end }}
-{{ end }}
-{{ $styles := $styles | append (resources.Get "scss/main.scss" | toCSS) }}
-{{ $styles := $styles | resources.Concat "css/style.css" }}
-{{ $styles = $styles | css.PostCSS }}
-{{ if hugo.IsProduction }}
-{{ $styles = $styles | resources.ExecuteAsTemplate "css/style.css" . | minify | fingerprint | resources.PostProcess }}
-{{ else }}
-{{ $styles = $styles | resources.ExecuteAsTemplate "css/style.css" . }}
-{{ end }}
-<link
-  href="{{ $styles.RelPermalink }}"
-  integrity="{{ $styles.Data.Integrity }}"
-  rel="stylesheet" />
+{{- /*
+  This partial now links to the CSS that was pre-processed and preloaded in head.html.
+  It also handles any external CSS files.
+*/ -}}
+
+{{- /* Link to external stylesheets first */ -}}
+{{- range site.Params.plugins.css -}}
+  {{- if findRE `^http` .link -}}
+    <link
+      crossorigin="anonymous"
+      media="all"
+      rel="stylesheet"
+      href="{{ .link | relURL }}"
+      {{ .attributes | safeHTMLAttr }} />
+  {{- end -}}
+{{- end -}}
+
+{{- /* Link to the main stylesheet generated in head.html */ -}}
+{{- with .Scratch.Get "main_css" -}}
+  <link
+    href="{{ .RelPermalink }}"
+    integrity="{{ .Data.Integrity }}"
+    rel="stylesheet" />
+{{- else -}}
+  {{- warnf "The 'main_css' resource was not found in .Scratch. The stylesheet might be missing. This can happen if head.html is not called before style.html in baseof.html." -}}
+{{- end -}}

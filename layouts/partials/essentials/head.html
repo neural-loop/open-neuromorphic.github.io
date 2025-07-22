@@ -71,6 +71,34 @@
   {{ end }}
 {{ end }}
 
+{{- /* --- Asset Preloading to optimize Critical Rendering Path --- */ -}}
+{{- /* 1. Generate main CSS resource and store it in Scratch */ -}}
+{{- $styles := slice -}}
+{{- range site.Params.plugins.css -}}
+  {{- if not (findRE `^http` .link) -}}
+    {{- $styles = $styles | append (resources.Get .link) -}}
+  {{- end -}}
+{{- end -}}
+{{- $styles = $styles | append (resources.Get "scss/main.scss" | toCSS) -}}
+{{- $styles = $styles | resources.Concat "css/style.css" -}}
+{{- $styles = $styles | css.PostCSS -}}
+{{- if hugo.IsProduction -}}
+  {{- $styles = $styles | resources.ExecuteAsTemplate "css/style.css" . | minify | fingerprint | resources.PostProcess -}}
+{{- else -}}
+  {{- $styles = $styles | resources.ExecuteAsTemplate "css/style.css" . -}}
+{{- end -}}
+{{- .Scratch.Set "main_css" $styles -}}
+
+{{- /* 2. Preload the main CSS file */ -}}
+<link rel="preload" href="{{ $styles.RelPermalink }}" as="style" />
+
+{{/* 3. Preload critical fonts to break the request chain */}}
+{{ range site.Data.fonts.files }}
+  {{ with resources.Get . }}
+    <link rel="preload" href="{{ .RelPermalink }}" as="font" type="font/woff2" crossorigin>
+  {{ end }}
+{{ end }}
+
 <!-- opengraph and twitter card -->
 {{ partial "components/base-seo.html" . }}
 
