@@ -1,3 +1,6 @@
+# The Foundational Collaboration Network consists of open-source projects that
+# are integral to the neuromorphic ecosystem.
+
 # Supporters of Open Neuromorphic
 # This file manages the list of projects and organizations that support our mission,
 # organized into tiers: Platinum, Gold, and Foundational.
@@ -16,9 +19,6 @@
 # website = "https://supporter.com"
 # dark_logo_invert = false
 
-
-# The Foundational Collaboration Network consists of open-source projects that
-# are integral to the neuromorphic ecosystem.
 [[foundational]]
 name = "AEStream"
 logo = "aestream.png"
@@ -47,6 +47,12 @@ dark_logo_invert = false
 name = "GeNN"
 logo = "genn.png" # No logo provided in the software page
 page_path = "neuromorphic-computing/software/snn-frameworks/genn/"
+dark_logo_invert = true
+
+[[foundational]]
+name = "Neuromorphic Drivers"
+logo = "neuromorphic-drivers.png"
+page_path = "neuromorphic-computing/software/data-tools/neuromorphic-drivers/"
 dark_logo_invert = true
 
 [[foundational]]
