@@ -177,6 +177,6 @@ completed_issues = [ ]
 [[projects]]
 name = "Neuromorphic Drivers"
 slug = "neuromorphic-drivers"
-repo = "https://github.com/neuromorphicsystems/neuromorphic-drivers"
+repo = "neuromorphicsystems/neuromorphic-drivers"
 description = "Python and Rust libraries to interact with event cameras in real-time."
 completed_issues = [ ]
