@@ -3,6 +3,9 @@ name: Deploy Hugo site to Pages
 on:
   push:
     branches: ["main", "staging"]
+  schedule:
+    # Run every 15 minutes on the staging branch for testing
+    - cron: '*/15 * * * *'
 
 # Standard permissions required for GitHub Pages deployment.
 permissions:
@@ -19,6 +22,8 @@ env:
 
 jobs:
   build:
+    # Only run scheduled builds on the staging branch.
+    if: github.event_name != 'schedule' || github.ref == 'refs/heads/staging'
     runs-on: ubuntu-24.04
     steps:
       # 1. Prepare the environment by checking out code and setting up tools.
