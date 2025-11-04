@@ -9,6 +9,13 @@ draft: true
 active_product: true # Set to false if the product is End-of-Life or retired
 type: "neuromorphic-hardware" # Do not change
 
+# --- NEW TAXONOMY ---
+# Use these lists to categorize the hardware.
+# These tags will be used for the interactive filters on the hardware guide.
+type_tags: ["Digital", "Analog", "Mixed-signal", "Event Camera"] # Technical nature and key capabilities
+application_tags: ["Research", "Robotics", "IoT"] # Industry or academic focus, e.g., "Robotics", "Medical", "Edge AI"
+
+
 organization:
   group_name: "Optional Research Group Name" # e.g., Brains in Silicon
   org_logo: "manufacturer-logo.png" # Manufacturer/Org logo.
@@ -22,7 +29,6 @@ organization:
 
 product:
   announced_date: "YYYY-MM-DD"
-  applications: "Primary applications (e.g., Research, Edge AI, Robotics, Smart Sensing)"
   chip_type: "Digital / Mixed-signal / Analog"
   neurons: "Number or Approx. (e.g., 1 million, 128k)"
   synapses: "Number or Approx. (e.g., 120 million max, 256 million)"

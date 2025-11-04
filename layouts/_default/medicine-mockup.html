@@ -1,0 +1,109 @@
+{{ define "main" }}
+{{ partial "page-header" . }}
+
+<section class="section pt-6">
+  <div class="container">
+    <div class="row lg:gx-8 lg:items-stretch">
+
+      <!-- Main Content Column -->
+      <article class="lg:col-8">
+        <div class="content mb-10">
+          {{ .Content }}
+        </div>
+
+        <!-- Featured Video Mockup (Moved Up) -->
+        {{ partial "components/featured-video-mockup.html" . }}
+
+        <!-- Community Digest Mockup -->
+        {{ partial "components/community-digest-mockup.html" . }}
+
+        <!-- Featured Blog Mockup -->
+        {{ partial "components/featured-blog-mockup.html" . }}
+
+        <!-- Curated Content Sections (Hardcoded for Mockup) -->
+        {{ $placeholder_hardware_1 := site.GetPage "neuromorphic-computing/hardware/snp-by-innatera" }}
+        {{ if $placeholder_hardware_1 }}
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold mb-4">Featured Hardware for Medical Applications</h2>
+          <ul class="list-none p-0 space-y-4">
+            <li>
+              {{ partial "components/hardware-card-wide.html" $placeholder_hardware_1 }}
+            </li>
+          </ul>
+        </div>
+        {{ end }}
+
+        {{ $placeholder_software_1 := site.GetPage "neuromorphic-computing/software/snn-frameworks/lava" }}
+        {{ if $placeholder_software_1 }}
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold mb-4">Relevant Software Frameworks</h2>
+          <ul class="list-none p-0 space-y-4">
+            {{ partial "components/software-list-item-mockup.html" (dict "page" $placeholder_software_1) }}
+          </ul>
+        </div>
+        {{ end }}
+
+      </article>
+
+      <!-- Sidebar Column -->
+      <aside class="lg:col-4">
+        <div class="sticky top-24 space-y-6">
+
+          <!-- Community Hub Card -->
+          <div class="p-6 rounded-lg bg-theme-light dark:bg-darkmode-theme-light shadow-lg text-center">
+            <h3 class="text-xl font-bold mb-2">Community Hub</h3>
+            <p class="text-4xl font-extrabold gradient-text">710</p>
+            <p class="text-gray-600 dark:text-gray-400 -mt-1 mb-4">members interested in Medicine</p>
+            <a href="https://discord.gg/hUygPUdD8E" target="_blank" rel="noopener" class="btn btn-new-primary w-full">
+              {{ partial "icon.html" (dict "style" "brands" "name" "discord" "class" "mr-2") }}
+              Join #app-medicine
+            </a>
+
+            <!-- Expertise Breakdown -->
+            <div class="border-t border-border dark:border-darkmode-border mt-4 pt-3 text-left">
+              <h4 class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-2 text-center">Community Expertise</h4>
+              <div class="flex justify-around text-sm gap-2">
+                <div class="text-center">
+                  <p class="font-bold text-lg text-dark dark:text-darkmode-dark">320</p>
+                  <p class="text-xs text-text dark:text-darkmode-text">Beginner</p>
+                </div>
+                <div class="text-center">
+                  <p class="font-bold text-lg text-dark dark:text-darkmode-dark">250</p>
+                  <p class="text-xs text-text dark:text-darkmode-text">Intermediate</p>
+                </div>
+                <div class="text-center">
+                  <p class="font-bold text-lg text-dark dark:text-darkmode-dark">140</p>
+                  <p class="text-xs text-text dark:text-darkmode-text">Advanced</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Special Interest Group (SIG) Card -->
+          <div class="p-6 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 text-center">
+            <h3 class="text-xl font-bold mb-2 text-indigo-800 dark:text-indigo-200">Form a Group!</h3>
+            <p class="text-sm text-indigo-700 dark:text-indigo-300 mb-4">
+              Passionate about neuromorphic applications in medicine? Start a Special Interest Group (SIG) to organize events, lead projects, and connect with peers.
+            </p>
+            <a href="/getting-involved/join-an-initiative/" class="btn btn-sm btn-new-outline">Learn How to Start a SIG</a>
+          </div>
+
+          <!-- Topic Experts Card -->
+          {{ $expert1 := site.GetPage "contributors/federico-corradi" }}
+          {{ $expert2 := site.GetPage "contributors/melika-payvand" }}
+          {{ if or $expert1 $expert2 }}
+          <div class="p-6 rounded-lg bg-theme-light dark:bg-darkmode-theme-light shadow-lg">
+            <h3 class="text-xl font-bold mb-4">Topic Experts</h3>
+            <div class="space-y-4">
+              {{ if $expert1 }}{{ partial "components/author-card-mini.html" $expert1 }}{{ end }}
+              {{ if $expert2 }}{{ partial "components/author-card-mini.html" $expert2 }}{{ end }}
+            </div>
+          </div>
+          {{ end }}
+
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{{ end }}

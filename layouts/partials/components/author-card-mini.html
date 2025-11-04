@@ -1,0 +1,16 @@
+{{ $person := . }}
+<a href="{{ $person.RelPermalink }}" class="group flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-darkmode-theme-dark">
+  {{ with $person.Params.image }}
+    {{ with $person.Resources.GetMatch . }}
+      <img src="{{ (.Fill "48x48").RelPermalink }}" alt="Photo of {{ $person.Title }}" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+    {{ end }}
+  {{ else }}
+    <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-darkmode-theme-dark flex items-center justify-center flex-shrink-0">
+      {{ partial "icon.html" (dict "style" "solid" "name" "user" "class" "text-xl text-gray-400") }}
+    </div>
+  {{ end }}
+  <div>
+    <h5 class="font-semibold text-dark dark:text-darkmode-dark group-hover:text-primary dark:group-hover:text-darkmode-primary leading-tight">{{ $person.Title }}</h5>
+    <p class="text-xs text-gray-500 dark:text-gray-400 leading-snug">{{ $person.Description | truncate 50 }}</p>
+  </div>
+</a>

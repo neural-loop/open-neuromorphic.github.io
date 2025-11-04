@@ -1,0 +1,37 @@
+<div class="featured-blog-section mb-12">
+  <h2 class="text-2xl font-bold mb-4">From the Blog</h2>
+  {{ $blog_page := site.GetPage "blog/northpole-ibm-neuromorphic-ai-hardware" }}
+  {{ if $blog_page }}
+  <div class="p-4 border border-border dark:border-darkmode-border rounded-lg bg-theme-light dark:bg-darkmode-theme-light">
+    <div class="flex flex-col sm:flex-row items-start gap-5">
+
+      <!-- Image on the left -->
+      <div class="flex-shrink-0 w-full sm:w-48">
+        <a href="{{ $blog_page.RelPermalink }}">
+          {{ with $blog_page.Params.image }}
+          {{ with $blog_page.Resources.GetMatch . }}
+          <img src="{{ (.Fill "400x225").RelPermalink }}" alt="Blog post image" class="w-full h-auto object-cover rounded-md">
+          {{ end }}
+          {{ end }}
+        </a>
+      </div>
+
+      <!-- Text content on the right -->
+      <div class="flex-grow">
+        <h3 class="text-xl font-bold mb-2">
+          <a href="{{ $blog_page.RelPermalink }}" class="styled-link">
+            Unique Challenges in Medical Device Certification for Neuromorphic Hardware
+          </a>
+        </h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+          By {{ partial "components/author-links.html" $blog_page }} on {{ $blog_page.Date.Format "January 2, 2006" }}
+        </p>
+        <p class="text-sm text-text dark:text-darkmode-text">
+          As neuromorphic chips move from research to real-world medical applications, they face a unique set of validation and certification hurdles. This article explores the challenges of testing asynchronous, event-driven hardware and proposes a new framework for ensuring reliability in clinical settings.
+        </p>
+      </div>
+
+    </div>
+  </div>
+  {{ end }}
+</div>

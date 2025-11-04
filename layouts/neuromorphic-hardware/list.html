@@ -1,81 +1,227 @@
 {{ define "main" }}
-  {{ partial "page-header" . }}
+{{ partial "page-header" . }}
 
-  <section class="section pt-8">
-    <div class="container">
-      <div class="prose dark:prose-invert max-w-none mx-auto text-center mb-12">
-        <p class="text-lg">
-          Welcome to the Open Neuromorphic Hardware Guide. This directory provides a comprehensive overview of neuromorphic hardware, from pioneering past projects to the latest commercial and research chips. Each entry includes key specifications, architectural details, and links to relevant publications.
-          For definitions of common terms, please see the <a href="#glossary">glossary</a> below.
-        </p>
-      </div>
+<section class="section pt-8">
+  <div class="container">
+    <div class="row lg:gx-8">
 
-      {{ $all_hardware := where .Site.RegularPages "Type" "neuromorphic-hardware" }}
-      {{ $grouped_by_year := $all_hardware.GroupByParam "product.release_year" }}
-      {{ $sorted_groups := sort $grouped_by_year "Key" "desc" }}
+      <!-- Main Content: Filterable Hardware List -->
+      <div class="lg:col-8">
+        <div class="prose dark:prose-invert max-w-none mb-8">
+          {{ .Content }}
+        </div>
 
-      <ul class="max-w-4xl mx-auto list-none p-0">
-        {{ range $sorted_groups }}
-          <li class="year-section mb-12 text-center">
-            <h2 class="text-3xl font-bold mb-6 pb-2 border-primary dark:border-darkmode-primary">{{ .Key }}</h2>
-            <ul class="text-left space-y-6 list-none p-0">
-              {{ $sorted_pages_in_year := sort .Pages "Title" "asc" }}
-              {{ range $sorted_pages_in_year }}
-                <li>
-                  {{ partial "components/hardware-card-wide.html" . }}
-                </li>
+        <!-- Filter & Sort Controls -->
+        <div class="filter-panel-glow sticky top-24 z-20 mb-8 p-4 bg-theme-light dark:bg-darkmode-theme-light rounded-lg border border-border dark:border-darkmode-border space-y-3">
+          <!-- Type Filter Bar -->
+          {{ $all_hardware := (where .Site.RegularPages "Type" "neuromorphic-hardware").ByTitle }}
+          {{ $type_tags := slice }}
+          {{ range $all_hardware }}
+          {{ with .Params.type_tags }}{{ $type_tags = $type_tags | append . }}{{ end }}
+          {{ if .Params.product.is_event_camera }}{{ $type_tags = $type_tags | append "Event Camera" }}{{ end }}
+          {{ end }}
+          {{ $type_tags = $type_tags | uniq | sort }}
+          <div class="filter-group">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-filter-group="type">
+              <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex-shrink-0">Filter by Type:</h4>
+              {{ range $type_tags }}
+              <span class="filter-tag cursor-pointer text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors" data-filter-value="{{ . | urlize }}">{{ . }}</span>
               {{ end }}
-            </ul>
-          </li>
-        {{ end }}
-      </ul>
-
-      <div class="max-w-4xl mx-auto mt-12 mb-16">
-        {{ partial "components/content-contribute-cta.html" (dict
-          "icon" "solid microchip"
-          "title" "Help Us <span class=\"gradient-text\">Improve this Guide</span>"
-          "description" "Our hardware guide is community-maintained. If you know of a chip we should add, see an error, or have updated information, please let us know by opening an issue on our GitHub repository."
-          "link" "https://github.com/open-neuromorphic/open-neuromorphic.github.io/issues/new/choose"
-          "link_text" "Suggest an Edit on GitHub"
-        ) }}
-      </div>
-
-      <div id="glossary" class="pt-12 max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-8">Glossary of Terms</h2>
-        <details class="bg-theme-light dark:bg-darkmode-theme-light rounded-lg shadow-md p-6 cursor-pointer">
-          <summary class="font-semibold text-xl text-dark dark:text-darkmode-dark list-none">
-            <span class="summary-title">Click to expand/collapse glossary</span>
-            <span class="float-right transition-transform duration-300 transform group-open:rotate-180">+</span>
-          </summary>
-          <div class="mt-4 grid md:grid-cols-2 gap-x-8 gap-y-4 prose dark:prose-invert max-w-none">
-            {{ with .Params.glossary }}
-              {{ range . }}
-                <div class="glossary-item">
-                  <p><strong>{{ .term }}:</strong> {{ .definition | markdownify }}</p>
-                </div>
-              {{ end }}
-            {{ end }}
+            </div>
           </div>
-        </details>
+          <!-- Sort Dropdown -->
+          <div class="flex items-center gap-x-4">
+            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 flex-shrink-0">Sort by:</h4>
+            <select id="sort-hardware-select" class="form-input !py-1 !px-3 !text-sm !w-auto">
+              <option value="title-asc">Alphabetical (A-Z)</option>
+              <option value="date-desc">Release Date (Newest)</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div id="hardware-list" class="space-y-6">
+          {{ range $all_hardware }}
+          {{ $product := .Params.product }}
+          {{ $type_slugs := slice }}{{ range .Params.type_tags }}{{ $type_slugs = $type_slugs | append (. | urlize) }}{{ end }}
+          {{ if .Params.product.is_event_camera }}{{ $type_slugs = $type_slugs | append "event-camera" }}{{ end }}
+
+          {{ $app_slugs := slice }}{{ range .Params.application_tags }}{{ $app_slugs = $app_slugs | append (. | urlize) }}{{ end }}
+
+          {{ $status_slug := "" }}
+          {{ with $product.status }}
+          {{ if .retired }}{{ $status_slug = "retired" }}{{ else if .released }}{{ $status_slug = "released" }}{{ else if .announced }}{{ $status_slug = "announced" }}{{ end }}
+          {{ end }}
+
+          <div class="hardware-item"
+               data-type="{{ delimit ($type_slugs | uniq) " " }}"
+          data-application="{{ delimit $app_slugs " " }}"
+          data-status="{{ $status_slug }}"
+          data-sort-title="{{ .Title | lower }}"
+          data-sort-date="{{ $product.release_date | default "1970-01-01" }}">
+          {{ partial "components/hardware-card-wide.html" . }}
+        </div>
+        {{ end }}
+      </div>
+      <div id="no-results-message" class="hidden text-center p-8 bg-theme-light dark:bg-darkmode-theme-light rounded-lg shadow-md">
+        <p class="text-xl font-semibold">No hardware matches your filters.</p>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">Try removing some filters to see more results.</p>
       </div>
     </div>
-  </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const details = document.querySelector('#glossary details');
-      const summary = details.querySelector('summary');
-      const icon = summary.querySelector('.float-right');
-      
-      details.addEventListener('toggle', function() {
-        if (details.open) {
-          icon.textContent = '−';
-          icon.style.transform = 'rotate(0deg)';
-        } else {
-          icon.textContent = '+';
-          icon.style.transform = 'rotate(0deg)';
-        }
+    <!-- Sidebar: Filters and Community Leads -->
+    <aside class="lg:col-4 hidden lg:block">
+      {{ partial "hardware/filter-sidebar.html" . }}
+    </aside>
+
+  </div>
+  </div>
+</section>
+
+<style>
+  .filter-tag.active {
+    @apply bg-indigo-600 text-white dark:bg-indigo-500 dark:text-white font-semibold;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterGroups = document.querySelectorAll('.filter-group');
+    const hardwareItems = document.querySelectorAll('.hardware-item');
+    const clearButton = document.getElementById('clear-filters-btn');
+    const noResultsMessage = document.getElementById('no-results-message');
+    const sortSelect = document.getElementById('sort-hardware-select');
+    const hardwareListContainer = document.getElementById('hardware-list');
+
+    const communityHubPromo = document.getElementById('community-hub-promo');
+    const topicNameSpan = document.getElementById('hub-topic-name');
+    const memberCountSpan = document.getElementById('hub-member-count');
+    const beginnerCountSpan = document.getElementById('hub-beginner-count');
+    const intermediateCountSpan = document.getElementById('hub-intermediate-count');
+    const advancedCountSpan = document.getElementById('hub-advanced-count');
+    const hubPageLink = document.getElementById('hub-page-link');
+    const hubDiscordLink = document.getElementById('hub-discord-link');
+
+    let activeFilters = {};
+
+    function generateMockData(topicName) {
+      const totalMembers = Math.floor(Math.random() * (500 - 300 + 1)) + 300;
+      let remaining = totalMembers;
+      const beginner = Math.floor(Math.random() * remaining * 0.6);
+      remaining -= beginner;
+      const intermediate = Math.floor(Math.random() * remaining * 0.7);
+      const advanced = remaining;
+      return { name: topicName, members: totalMembers, breakdown: { beginner, intermediate, advanced } };
+    }
+
+    function updateCommunityHub(tagElement) {
+      if (!tagElement) {
+        communityHubPromo.classList.add('hidden');
+        return;
+      }
+      const topicName = tagElement.textContent.trim();
+      const filterValue = tagElement.dataset.filterValue;
+      const data = generateMockData(topicName);
+
+      const hubPageUrl = `/neuromorphic-computing/applications/medicine/`; // Hardcoded for mockup
+      const discordChannelText = `or join the #${filterValue} channel`;
+
+      communityHubPromo.classList.remove('hidden');
+      topicNameSpan.textContent = data.name;
+      memberCountSpan.textContent = data.members;
+      beginnerCountSpan.textContent = data.breakdown.beginner;
+      intermediateCountSpan.textContent = data.breakdown.intermediate;
+      advancedCountSpan.textContent = data.breakdown.advanced;
+      hubPageLink.setAttribute('href', hubPageUrl);
+      hubDiscordLink.textContent = discordChannelText;
+    }
+
+    filterGroups.forEach(group => {
+      const groupName = group.dataset.filterGroup;
+      activeFilters[groupName] = new Set();
+
+      group.querySelectorAll('.filter-tag').forEach(tag => {
+        tag.addEventListener('click', () => {
+          const filterValue = tag.dataset.filterValue;
+          let isNowActive = false;
+
+          if (activeFilters[groupName].has(filterValue)) {
+            activeFilters[groupName].delete(filterValue);
+            tag.classList.remove('active');
+          } else {
+            if (groupName === 'type') { // Single-select for type filter
+              group.querySelectorAll('.filter-tag.active').forEach(t => t.classList.remove('active'));
+              activeFilters[groupName].clear();
+            }
+            activeFilters[groupName].add(filterValue);
+            tag.classList.add('active');
+            isNowActive = true;
+          }
+
+          const anyActiveTag = document.querySelector('.filter-tag.active');
+          updateCommunityHub(anyActiveTag);
+
+          applyFilters();
+        });
       });
     });
-  </script>
+
+    clearButton.addEventListener('click', () => {
+      for (const groupName in activeFilters) {
+        activeFilters[groupName].clear();
+      }
+      document.querySelectorAll('.filter-tag.active').forEach(tag => {
+        tag.classList.remove('active');
+      });
+      updateCommunityHub(null);
+      applyFilters();
+    });
+
+    sortSelect.addEventListener('change', applySort);
+
+    function applySort() {
+      const sortValue = sortSelect.value;
+      const items = Array.from(hardwareListContainer.children);
+      items.sort((a, b) => {
+        if (sortValue === 'title-asc') {
+          return a.dataset.sortTitle.localeCompare(b.dataset.sortTitle);
+        } else if (sortValue === 'date-desc') {
+          return b.dataset.sortDate.localeCompare(a.dataset.sortDate);
+        }
+        return 0;
+      });
+      items.forEach(item => hardwareListContainer.appendChild(item));
+    }
+
+    function applyFilters() {
+      let hasActiveFilters = false;
+      for (const group in activeFilters) {
+        if (activeFilters[group].size > 0) {
+          hasActiveFilters = true;
+          break;
+        }
+      }
+
+      let visibleCount = 0;
+      hardwareItems.forEach(item => {
+        let isVisible = true;
+        if (hasActiveFilters) {
+          isVisible = Math.random() > 0.5; // MOCKUP LOGIC
+        }
+
+        if (isVisible) {
+          item.style.display = 'block';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      clearButton.classList.toggle('hidden', !hasActiveFilters);
+      noResultsMessage.classList.toggle('hidden', visibleCount > 0 || !hasActiveFilters);
+    }
+
+    applySort();
+  });
+</script>
 {{ end }}

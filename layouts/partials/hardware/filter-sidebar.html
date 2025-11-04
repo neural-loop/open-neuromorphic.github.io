@@ -1,0 +1,91 @@
+{{ $all_hardware := where .Site.RegularPages "Type" "neuromorphic-hardware" }}
+
+{{/* --- Collect unique filter values and add "Medical" --- */}}
+{{ $application_tags := slice }}
+{{ range $all_hardware }}
+{{ with .Params.application_tags }}{{ $application_tags = $application_tags | append . }}{{ end }}
+{{ end }}
+{{ $application_tags = $application_tags | append "Medical" | uniq | sort }}
+
+{{ $statuses := slice "Released" "Announced" "Retired" }}
+
+<div class="sticky top-24 space-y-6">
+  <div class="filter-panel p-6 content-panel">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Filter Hardware</h3>
+      <button id="clear-filters-btn" class="hidden btn btn-sm btn-outline-primary !text-xs !py-0.5 !px-2">&times; Clear All</button>
+    </div>
+
+    <!-- Filter Group: Application -->
+    <div class="filter-group mb-4">
+      <h4 class="font-semibold mb-2 text-gray-700 dark:text-gray-300">Application</h4>
+      <div class="flex flex-wrap gap-1.5" data-filter-group="application">
+        {{ range $application_tags }}
+        <span class="filter-tag cursor-pointer text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors" data-filter-value="{{ . | urlize }}">{{ . }}</span>
+        {{ end }}
+      </div>
+    </div>
+
+    <!-- Filter Group: Status -->
+    <div class="filter-group">
+      <h4 class="font-semibold mb-2 text-gray-700 dark:text-gray-300">Status</h4>
+      <div class="flex flex-wrap gap-1.5" data-filter-group="status">
+        {{ range $statuses }}
+        <span class="filter-tag cursor-pointer text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors" data-filter-value="{{ . | urlize }}">{{ . }}</span>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Hub Promo (hidden by default) -->
+  <div id="community-hub-promo" class="p-4 content-panel text-center hidden">
+    <!-- Filtered State -->
+    <div id="community-hub-filtered">
+      <h3 class="text-lg font-bold mb-1">Visit the <span id="hub-topic-name"></span> Hub</h3>
+      <p class="text-3xl font-extrabold gradient-text" id="hub-member-count">0</p>
+      <p class="text-xs text-gray-600 dark:text-gray-400 -mt-1 mb-3">members interested</p>
+      <a href="#" id="hub-page-link" class="btn btn-new-primary btn-sm w-full mb-2">Visit Hub Page</a>
+      <a href="https://discord.gg/hUygPUdD8E" target="_blank" rel="noopener" id="hub-discord-link" class="text-xs text-primary dark:text-darkmode-primary hover:underline">or join the discussion</a>
+      <div class="border-t border-border dark:border-darkmode-border mt-3 pt-3 text-left">
+        <h4 class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-1 text-center">Expertise Breakdown</h4>
+        <div class="flex justify-around text-sm gap-2">
+          <div class="text-center"><p class="font-bold text-md text-dark dark:text-darkmode-dark" id="hub-beginner-count">0</p><p class="text-xs">Beginner</p></div>
+          <div class="text-center"><p class="font-bold text-md text-dark dark:text-darkmode-dark" id="hub-intermediate-count">0</p><p class="text-xs">Intermediate</p></div>
+          <div class="text-center"><p class="font-bold text-md text-dark dark:text-darkmode-dark" id="hub-advanced-count">0</p><p class="text-xs">Advanced</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Hardware Section Curators -->
+  <div class="p-6 content-panel">
+    <h3 class="text-xl font-bold mb-4">Hardware Section Curators</h3>
+    <div class="space-y-4">
+      {{ with site.GetPage "contributors/justin-riddiough" }}
+      {{ partial "components/person-card-mini.html" (dict "RelPermalink" .RelPermalink "Title" .Title "Params" .Params "Resources" .Resources "role" "Community Development") }}
+      {{ end }}
+      {{ with site.GetPage "contributors/erastus-toe" }}
+      {{ partial "components/person-card-mini.html" (dict "RelPermalink" .RelPermalink "Title" .Title "Params" .Params "Resources" .Resources "role" "Community Moderator") }}
+      {{ end }}
+      <!-- Hardcoded entry for Jose -->
+      <div class="group flex items-center gap-4 text-left p-2 rounded-md">
+        <div class="flex-shrink-0">
+          <div class="w-16 h-16 rounded-full bg-gray-200 dark:bg-darkmode-theme-dark flex items-center justify-center">
+            {{ partial "icon.html" (dict "style" "solid" "name" "user" "class" "text-2xl text-gray-400") }}
+          </div>
+        </div>
+        <div>
+          <h5 class="font-bold text-dark dark:text-darkmode-dark">Jose</h5>
+          <p class="text-xs text-text dark:text-darkmode-text">Community Lead</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .filter-tag.active {
+    @apply bg-indigo-600 text-white dark:bg-indigo-500 dark:text-white font-semibold;
+  }
+</style>
